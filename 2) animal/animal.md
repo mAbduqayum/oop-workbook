@@ -1,19 +1,34 @@
-# Python OOP Questions for Beginners
+# 🐾 Python OOP Practice - Lesson 2: Animal Class
 
-## 1. Question 1: Create an Animal Class
+## 📝 Exercise: Build an Animal Zoo
 
-Create an `Animal` class with `name` and `species` attributes. Create an animal object and print both attributes.
+Create an `Animal` class system that can represent different animals in a zoo. Your class should handle multiple attributes and behaviors.
 
-*This teaches: Multiple attributes, basic class structure.*
+**Your Complete Task:**
+1. Create an `Animal` class that takes `name` and `species` in the constructor
+2. Add a `make_sound()` method that prints "[name] makes a sound!"
+3. Create a mini zoo with 3 different animals (dog named "Buddy", cat named "Whiskers", bird named "Tweety")
+4. Print each animal's name and species
+5. Make each animal make their sound
 
-## 2. Question 2: Add Animal Behavior
+**What You'll Learn:**
+- Working with multiple attributes in a single class
+- Creating methods that use multiple pieces of object data
+- Managing multiple objects from the same class
+- Understanding that each object stores its own unique data
 
-Add a `make_sound()` method to your `Animal` class that prints "[name] makes a sound!". Create different animals and make them make sounds.
+**Expected Output:**
+```
+Name: Buddy, Species: Dog
+Name: Whiskers, Species: Cat
+Name: Tweety, Species: Bird
+Buddy makes a sound!
+Whiskers makes a sound!
+Tweety makes a sound!
+```
 
-*This teaches: Methods with attributes, basic behavior.*
-
-## 3. Question 3: Different Animal Types
-
-Create 3 different `Animal` objects representing a dog, cat, and bird. Make each animal make a sound to show they're independent objects.
-
-*This teaches: Object independence, same class different data.*
+**Success Criteria:**
+- ✅ Animal class with name and species attributes
+- ✅ make_sound() method uses the animal's name
+- ✅ Three animals created with correct data
+- ✅ All information printed as expected
