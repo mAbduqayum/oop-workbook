@@ -17,14 +17,22 @@ Create an `Animal` class system that can represent different animals in a zoo. Y
 - Managing multiple objects from the same class
 - Understanding that each object stores its own unique data
 
-**Expected Output:**
-```
-Name: Buddy, Species: Dog
-Name: Whiskers, Species: Cat
-Name: Tweety, Species: Bird
-Buddy makes a sound!
-Whiskers makes a sound!
-Tweety makes a sound!
+**Example Usage:**
+```python
+# Create a mini zoo with 3 different animals
+dog = Animal("Buddy", "Dog")
+cat = Animal("Whiskers", "Cat")
+bird = Animal("Tweety", "Bird")
+
+# Print each animal's information
+print(f"Name: {dog.name}, Species: {dog.species}")     # Name: Buddy, Species: Dog
+print(f"Name: {cat.name}, Species: {cat.species}")     # Name: Whiskers, Species: Cat
+print(f"Name: {bird.name}, Species: {bird.species}")   # Name: Tweety, Species: Bird
+
+# Make each animal make their sound
+dog.make_sound()   # Buddy makes a sound!
+cat.make_sound()   # Whiskers makes a sound!
+bird.make_sound()  # Tweety makes a sound!
 ```
 
 **Success Criteria:**

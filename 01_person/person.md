@@ -16,11 +16,17 @@ Create a complete `Person` class that demonstrates the fundamentals of Object-Or
 - Creating multiple objects from the same class
 - How each object maintains its own data
 
-**Expected Output:**
-```
-Hello, my name is Alice
-Hello, my name is Bob
-Hello, my name is Charlie
+**Example Usage:**
+```python
+# Create three different Person objects
+person1 = Person("Alice")
+person2 = Person("Bob")
+person3 = Person("Charlie")
+
+# Make each person say hello
+person1.say_hello()  # Hello, my name is Alice
+person2.say_hello()  # Hello, my name is Bob
+person3.say_hello()  # Hello, my name is Charlie
 ```
 
 **Success Criteria:**

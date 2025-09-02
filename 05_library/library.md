@@ -21,19 +21,27 @@ Create a library system using **composition** - where one class contains objects
 - Searching and filtering object collections
 - "Has-a" relationships vs "is-a" relationships
 
-**Expected Output:**
-```
-Books in City Library:
-The Great Gatsby by F. Scott Fitzgerald (ISBN: 978-0-7432-7356-5)
-To Kill a Mockingbird by Harper Lee (ISBN: 978-0-06-112008-4)
-1984 by George Orwell (ISBN: 978-0-452-28423-4)
+**Example Usage:**
+```python
+# Create a library and some books
+library = Library("City Library")
+book1 = Book("The Great Gatsby", "F. Scott Fitzgerald", "978-0-7432-7356-5")
+book2 = Book("To Kill a Mockingbird", "Harper Lee", "978-0-06-112008-4")
+book3 = Book("1984", "George Orwell", "978-0-452-28423-4")
 
-Found book: The Great Gatsby by F. Scott Fitzgerald (ISBN: 978-0-7432-7356-5)
-Removed: 1984 by George Orwell (ISBN: 978-0-452-28423-4)
+# Add books and list them
+library.add_book(book1)   # Added: The Great Gatsby by F. Scott Fitzgerald (ISBN: 978-0-7432-7356-5)
+library.add_book(book2)   # Added: To Kill a Mockingbird by Harper Lee (ISBN: 978-0-06-112008-4)
+library.add_book(book3)   # Added: 1984 by George Orwell (ISBN: 978-0-452-28423-4)
 
-Books in City Library:
-The Great Gatsby by F. Scott Fitzgerald (ISBN: 978-0-7432-7356-5)
-To Kill a Mockingbird by Harper Lee (ISBN: 978-0-06-112008-4)
+library.list_books()      # Books in City Library: [lists all books]
+
+# Find and remove books
+found = library.find_book("The Great Gatsby")
+print(f"Found book: {found.get_info()}")  # Found book: The Great Gatsby by...
+
+library.remove_book("978-0-452-28423-4")  # Removed: 1984 by George Orwell...
+library.list_books()                       # Books in City Library: [updated list]
 ```
 
 **Success Criteria:**

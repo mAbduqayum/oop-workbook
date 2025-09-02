@@ -28,26 +28,21 @@ Two clocks that represent the same time should be equal to each other.
 - **Data Validation:** Automatic time normalization
 - **Special Methods:** Magic methods that make objects behave naturally
 
-**Expected Output:**
-```
-11:30
-Clock(11, 30)
-True
-False
-12:30
-10:30
-```
-
 **Example Usage:**
 ```python
 clock1 = Clock(11, 30)
 clock2 = Clock(11, 30)
-print(str(clock1))      # "11:30"
-print(repr(clock1))     # "Clock(11, 30)"
+print(str(clock1))      # 11:30
+print(repr(clock1))     # Clock(11, 30)
 print(clock1 == clock2) # True
 
+clock3 = Clock(12, 0)
+print(clock1 == clock3) # False
+
 clock1.add_minutes(60)
-print(clock1)           # "12:30"
+print(clock1)           # 12:30
+clock1.subtract_minutes(120)
+print(clock1)           # 10:30
 ```
 
 **Success Criteria:**

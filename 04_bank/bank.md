@@ -21,16 +21,23 @@ Create a `BankAccount` class that manages money with safety checks and calculate
 - Real-world class design patterns
 - Error handling in object methods
 
-**Expected Output:**
-```
-Account holder: Alice, Balance: $0
-Deposited $100. New balance: $100
-Withdrew $30. New balance: $70
-Account holder: Alice, Balance: $70
-Account holder: Bob, Balance: $0
-Deposited $50. New balance: $50
-Insufficient funds! Current balance: $50
-Account holder: Bob, Balance: $50
+**Example Usage:**
+```python
+# Create 2 bank accounts
+account1 = BankAccount("Alice")
+account2 = BankAccount("Bob")
+
+# Test Alice's account
+account1.account_info()  # Account holder: Alice, Balance: $0
+account1.deposit(100)    # Deposited $100. New balance: $100
+account1.withdraw(30)    # Withdrew $30. New balance: $70
+account1.account_info()  # Account holder: Alice, Balance: $70
+
+# Test Bob's account
+account2.account_info()  # Account holder: Bob, Balance: $0
+account2.deposit(50)     # Deposited $50. New balance: $50
+account2.withdraw(75)    # Insufficient funds! Current balance: $50
+account2.account_info()  # Account holder: Bob, Balance: $50
 ```
 
 **Success Criteria:**

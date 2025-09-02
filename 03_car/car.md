@@ -18,14 +18,20 @@ Create a `Car` class that represents vehicles with properties and behaviors that
 - Conditional logic in methods
 - Object state changes over time
 
-**Expected Output:**
-```
-Toyota Camry engine started!
-Added 10 liters. Fuel now: 10
-Driving the Toyota Camry! Fuel remaining: 9
-Honda Civic engine started!
-Added 5 liters. Fuel now: 5
-Driving the Honda Civic! Fuel remaining: 4
+**Example Usage:**
+```python
+# Create 2 different cars
+car1 = Car("Toyota", "Camry")
+car2 = Car("Honda", "Civic")
+
+# Start engines and operate cars
+car1.start_engine()  # Toyota Camry engine started!
+car1.add_fuel(10)    # Added 10 liters. Fuel now: 10
+car1.drive()         # Driving the Toyota Camry! Fuel remaining: 9
+
+car2.start_engine()  # Honda Civic engine started!
+car2.add_fuel(5)     # Added 5 liters. Fuel now: 5
+car2.drive()         # Driving the Honda Civic! Fuel remaining: 4
 ```
 
 **Success Criteria:**

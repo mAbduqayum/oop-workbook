@@ -23,16 +23,24 @@ Create an employee hierarchy using inheritance. This introduces class relationsh
 - "Is-a" relationships (Manager IS-A Employee)
 - Code reuse through inheritance
 
-**Expected Output:**
-```
-Employee: John, Department: HR, Salary: $50000
-John's annual bonus: $5000.0
-Employee: Sarah, Department: Engineering, Salary: $80000
-Sarah's annual bonus: $16000.0
-Sarah is managing the Engineering team
-Employee: Mike, Department: Engineering, Salary: $70000
-Mike's annual bonus: $10500.0
-Mike is reviewing code
+**Example Usage:**
+```python
+# Create different types of employees
+employee = Employee("John", 50000, "HR")
+manager = Manager("Sarah", 80000, "Engineering")
+developer = Developer("Mike", 70000, "Engineering")
+
+# Show employee information and bonuses
+employee.get_info()   # Employee: John, Department: HR, Salary: $50000
+print(f"John's annual bonus: ${employee.get_annual_bonus()}")  # John's annual bonus: $5000.0
+
+manager.get_info()    # Employee: Sarah, Department: Engineering, Salary: $80000
+print(f"Sarah's annual bonus: ${manager.get_annual_bonus()}")  # Sarah's annual bonus: $16000.0
+manager.manage_team() # Sarah is managing the Engineering team
+
+developer.get_info()  # Employee: Mike, Department: Engineering, Salary: $70000
+print(f"Mike's annual bonus: ${developer.get_annual_bonus()}")  # Mike's annual bonus: $10500.0
+developer.code_review()  # Mike is reviewing code
 ```
 
 **Success Criteria:**
