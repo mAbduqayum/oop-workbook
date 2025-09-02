@@ -1,16 +1,59 @@
 # 💡 Hints for Clock Exercise
 
+## Understanding Special Methods (Dunder Methods)
+- `__str__()`: For human-readable display (what users see)
+- `__repr__()`: For debugging (what developers see)
+- `__eq__()`: For object comparison with == operator
+- These make your objects behave like built-in Python types
+
+## String Representation Methods
+```python
+def __str__(self):
+    return f"{self.hour:02d}:{self.minute:02d}"  # "11:30"
+
+def __repr__(self):
+    return f"Clock({self.hour}, {self.minute})"  # Clock(11, 30)
+```
+
+## Object Equality Implementation
+- Use `isinstance()` to check if other object is a Clock
+- Compare all relevant attributes for equality
+- Return `False` if not the same type
+```python
+def __eq__(self, other):
+    if isinstance(other, Clock):
+        return self.hour == other.hour and self.minute == other.minute
+    return False
+```
+
 ## Time Normalization Logic
 - Minutes >= 60 should add to hours: `hour += 1, minute -= 60`
 - Negative minutes should subtract from hours: `hour -= 1, minute += 60`
 - Hours should wrap around 24: use `hour % 24`
 - Create a helper method to handle this logic
 
-## The `__str__` Special Method
-- This method runs automatically when you `print()` an object
-- Must `return` a string (not print!)
-- Format: `f"{self.hour:02d}:{self.minute:02d}"`
-- `:02d` means "2 digits with leading zeros"
+## Why `isinstance()` is Important
+- Prevents errors when comparing Clock with other types
+- `Clock(11, 30) == "11:30"` should return `False`, not crash
+- Always check type before comparing attributes
+
+## The Difference Between `__str__` and `__repr__`
+- `__str__()`: "11:30" - what end users want to see
+- `__repr__()`: "Clock(11, 30)" - what developers need for debugging
+- `repr()` should return valid Python code when possible
+- If you only implement one, choose `__repr__()`
+
+## Testing Your Special Methods
+```python
+clock = Clock(11, 30)
+print(str(clock))    # Calls __str__() → "11:30"
+print(repr(clock))   # Calls __repr__() → "Clock(11, 30)"
+print(clock)         # Calls __str__() → "11:30"
+
+clock1 = Clock(11, 30)
+clock2 = Clock(11, 30)
+print(clock1 == clock2)  # Calls __eq__() → True
+```
 
 ## Time Arithmetic
 - Adding minutes might cause hour overflow
@@ -40,17 +83,12 @@ def _normalize_time(self):
 - Test Clock(25, 0) → should become 01:00
 - Test Clock(0, -30) → should become 23:30
 - Test Clock(23, 59) then add 2 minutes → should become 00:01
-- Test normal times like Clock(8, 30) → should stay 08:30
-
-## Method Call Flow
-1. Constructor calls `_normalize_time()`
-2. `add_minutes()` changes minute, calls `_normalize_time()`
-3. `subtract_minutes()` changes minute, calls `_normalize_time()`
-4. `print()` automatically calls `__str__()`
+- Test equality: Clock(11, 30) == Clock(11, 30) → True
 
 ## Common Mistakes
-- Forgetting to normalize time after operations
-- Using `print()` instead of `return` in `__str__()`
+- Forgetting `isinstance()` check in `__eq__()`
+- Using `print()` instead of `return` in special methods
 - Not handling negative minutes correctly
+- Mixing up `__str__` and `__repr__` purposes
+- Not normalizing time after operations
 - Forgetting leading zeros in time format
-- Not using modulo (%) for 24-hour wraparound
