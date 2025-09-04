@@ -1,4 +1,4 @@
-@# 💡 Hints for Bank Account Exercise
+# 💡 Hints for Bank Account Exercise
 
 ## Setting Up the Class
 - Constructor takes only `owner_name` as parameter
