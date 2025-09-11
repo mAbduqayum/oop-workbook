@@ -9,8 +9,6 @@ This is a structured collection of Python programming exercises designed for lea
   - `1**` class inheritance
 - Exercise directories contain:
   - `*.md` file with problem description, examples, and formulas.
-  - `*_hint.md` file with the hint to the question, but is given when is really necessary!
-  - `*.py` file with the solution implementation. Don't solve the questions unless asked!
 - Reference materials are in `x0_*/` directories
 
 ## Exercise Categories
