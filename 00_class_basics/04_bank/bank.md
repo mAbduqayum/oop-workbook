@@ -40,10 +40,3 @@ account2.withdraw(75)    # Insufficient funds! Current balance: $50
 account2.account_info()  # Account holder: Bob, Balance: $50
 ```
 
-**Success Criteria:**
-- ✅ BankAccount class with owner_name and balance
-- ✅ deposit() method increases balance safely
-- ✅ withdraw() method checks funds before allowing withdrawal
-- ✅ get_balance() method returns current balance
-- ✅ account_info() method displays formatted account details
-- ✅ Two accounts created and tested with various operations

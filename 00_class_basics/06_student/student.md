@@ -52,12 +52,3 @@ student1.change_major("Data Science")
 print(f"Alice's new major: {student1.major}")          # Alice's new major: Data Science
 ```
 
-**Success Criteria:**
-- ✅ Student class with name, student_id, grades list, and major attributes
-- ✅ add_grade() method adds grades to the list
-- ✅ calculate_gpa() converts grades to 4.0 scale and returns average
-- ✅ change_major() method updates the major attribute
-- ✅ Three student objects created with different information
-- ✅ Multiple grades added to each student
-- ✅ GPAs calculated and displayed correctly
-- ✅ Major change demonstrated and confirmed

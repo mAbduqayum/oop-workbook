@@ -34,9 +34,3 @@ car2.add_fuel(5)     # Added 5 liters. Fuel now: 5
 car2.drive()         # Driving the Honda Civic! Fuel remaining: 4
 ```
 
-**Success Criteria:**
-- ✅ Car class with brand, model, and fuel attributes
-- ✅ start_engine() method uses brand and model
-- ✅ add_fuel() method modifies fuel attribute
-- ✅ drive() method checks fuel and decreases it
-- ✅ Two cars created and operated successfully

@@ -45,11 +45,3 @@ clock1.subtract_minutes(120)
 print(clock1)           # 10:30
 ```
 
-**Success Criteria:**
-- ✅ Clock class handles hour and minute with automatic normalization
-- ✅ `__str__()` returns "HH:MM" format for display
-- ✅ `__repr__()` returns "Clock(hour, minute)" for debugging
-- ✅ `__eq__()` allows clock comparison with == operator
-- ✅ add_minutes() and subtract_minutes() work with overflow/underflow
-- ✅ Two clocks with same time are equal
-- ✅ Time normalization handles edge cases (25:70 → 02:10)

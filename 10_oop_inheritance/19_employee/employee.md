@@ -43,10 +43,3 @@ print(f"Mike's annual bonus: ${developer.get_annual_bonus()}")  # Mike's annual 
 developer.code_review()  # Mike is reviewing code
 ```
 
-**Success Criteria:**
-- ✅ Employee base class with name, salary, department
-- ✅ get_info() and get_annual_bonus() methods in base class
-- ✅ Manager class inherits from Employee and overrides bonus calculation
-- ✅ Developer class inherits from Employee and overrides bonus calculation
-- ✅ Manager has manage_team() method, Developer has code_review() method
-- ✅ All objects created and methods working correctly

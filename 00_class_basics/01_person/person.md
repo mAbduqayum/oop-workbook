@@ -29,8 +29,3 @@ person2.say_hello()  # Hello, my name is Bob
 person3.say_hello()  # Hello, my name is Charlie
 ```
 
-**Success Criteria:**
-- ✅ Class defined with proper syntax
-- ✅ Constructor takes and stores name
-- ✅ Method uses self to access attributes
-- ✅ Three different objects created and working independently

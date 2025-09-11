@@ -71,10 +71,3 @@ print(matrix.rows)       # [[9, 8, 7], [5, 3, 2], [6, 6, 7]]
 print(matrix.columns)    # [[9, 5, 6], [8, 3, 6], [7, 2, 7]]
 ```
 
-**Success Criteria:**
-- ✅ Matrix class parses string input correctly
-- ✅ row(index) returns correct row using 1-based indexing
-- ✅ column(index) returns correct column using 1-based indexing
-- ✅ rows property returns all rows as list of lists
-- ✅ columns property returns all columns as list of lists
-- ✅ Handles the example matrix (9 8 7 / 5 3 2 / 6 6 7) correctly

@@ -44,11 +44,3 @@ library.remove_book("978-0-452-28423-4")  # Removed: 1984 by George Orwell...
 library.list_books()                       # Books in City Library: [updated list]
 ```
 
-**Success Criteria:**
-- ✅ Book class with title, author, isbn attributes and get_info() method
-- ✅ Library class with name and books list attributes
-- ✅ add_book() method successfully adds Book objects to collection
-- ✅ remove_book() method finds and removes books by ISBN
-- ✅ find_book() method searches and returns Book objects
-- ✅ list_books() method displays all books in collection
-- ✅ Demonstration of adding, listing, finding, and removing books

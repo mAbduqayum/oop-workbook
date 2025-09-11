@@ -35,8 +35,3 @@ cat.make_sound()   # Whiskers makes a sound!
 bird.make_sound()  # Tweety makes a sound!
 ```
 
-**Success Criteria:**
-- ✅ Animal class with name and species attributes
-- ✅ make_sound() method uses the animal's name
-- ✅ Three animals created with correct data
-- ✅ All information printed as expected
