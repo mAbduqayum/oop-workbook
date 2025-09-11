@@ -17,36 +17,32 @@ Imagine you're designing a system for different types of vehicles:
 
 Instead of writing separate classes with duplicate code, inheritance lets us create a base `Vehicle` class and have specific vehicle types inherit from it.
 
-## Basic Inheritance Syntax
+## Basic Inheritance Concept
 
-```python
-# Parent class (Base class / Superclass)
-class Vehicle:
-    def __init__(self, brand, model, year):
-        self.brand = brand
-        self.model = model
-        self.year = year
+```mermaid
+classDiagram
+    class Vehicle {
+        +string brand
+        +string model
+        +int year
+        +start()
+        +stop()
+        +honk()
+    }
     
-    def start(self):
-        return f"{self.brand} {self.model} is starting..."
+    class Car {
+        +int doors
+        +open_trunk()
+        +lock_doors()
+    }
     
-    def stop(self):
-        return f"{self.brand} {self.model} has stopped."
-
-# Child class (Derived class / Subclass)
-class Car(Vehicle):  # Car inherits from Vehicle
-    def __init__(self, brand, model, year, doors):
-        super().__init__(brand, model, year)  # Call parent constructor
-        self.doors = doors
-    
-    def open_trunk(self):
-        return f"Opening {self.brand} {self.model}'s trunk"
-
-# Usage
-my_car = Car("Toyota", "Camry", 2023, 4)
-print(my_car.start())  # Inherited method
-print(my_car.open_trunk())  # Car-specific method
+    Vehicle <|-- Car
 ```
+
+The arrow `<|--` shows inheritance relationship: Car inherits from Vehicle.
+- Car gets all properties and methods from Vehicle
+- Car adds its own specific properties and methods
+- Car can override Vehicle methods if needed
 
 ## Types of Inheritance
 
@@ -54,295 +50,447 @@ print(my_car.open_trunk())  # Car-specific method
 
 One child class inherits from one parent class.
 
-```python
-# Real-life example: Animal hierarchy
-class Animal:
-    def __init__(self, name, species):
-        self.name = name
-        self.species = species
-    
-    def eat(self):
-        return f"{self.name} is eating"
-    
-    def sleep(self):
-        return f"{self.name} is sleeping"
+**Real-life example: Animal hierarchy**
 
-class Dog(Animal):  # Single inheritance
-    def __init__(self, name, breed):
-        super().__init__(name, "Canine")
-        self.breed = breed
+```mermaid
+classDiagram
+    class Animal {
+        +string name
+        +string species
+        +eat()
+        +sleep()
+        +move()
+    }
     
-    def bark(self):
-        return f"{self.name} says Woof!"
+    class Dog {
+        +string breed
+        +bark()
+        +fetch()
+        +wag_tail()
+    }
     
-    def fetch(self):
-        return f"{self.name} is fetching the ball"
-
-# Usage
-buddy = Dog("Buddy", "Golden Retriever")
-print(buddy.eat())    # Inherited from Animal
-print(buddy.bark())   # Dog-specific method
+    class Cat {
+        +string coat_color
+        +meow()
+        +purr()
+        +climb()
+    }
+    
+    class Bird {
+        +float wingspan
+        +fly()
+        +sing()
+        +build_nest()
+    }
+    
+    Animal <|-- Dog
+    Animal <|-- Cat
+    Animal <|-- Bird
 ```
 
 ### 2. Multiple Inheritance
 
 One child class inherits from multiple parent classes.
 
-```python
-# Real-life example: Modern devices
-class Phone:
-    def __init__(self, phone_number):
-        self.phone_number = phone_number
-    
-    def make_call(self, number):
-        return f"Calling {number} from {self.phone_number}"
-    
-    def receive_call(self):
-        return "Answering incoming call"
+**Real-life example: Modern devices**
 
-class Camera:
-    def __init__(self, megapixels):
-        self.megapixels = megapixels
+```mermaid
+classDiagram
+    class Phone {
+        +string phone_number
+        +make_call()
+        +receive_call()
+        +send_sms()
+    }
     
-    def take_photo(self):
-        return f"Taking photo with {self.megapixels}MP camera"
+    class Camera {
+        +int megapixels
+        +take_photo()
+        +record_video()
+        +zoom()
+    }
     
-    def record_video(self):
-        return "Recording video"
-
-class Computer:
-    def __init__(self, processor):
-        self.processor = processor
+    class Computer {
+        +string processor
+        +string os
+        +run_app()
+        +browse_internet()
+        +store_data()
+    }
     
-    def run_app(self, app_name):
-        return f"Running {app_name} on {self.processor} processor"
-
-# Multiple inheritance
-class Smartphone(Phone, Camera, Computer):
-    def __init__(self, phone_number, megapixels, processor, brand):
-        Phone.__init__(self, phone_number)
-        Camera.__init__(self, megapixels)
-        Computer.__init__(self, processor)
-        self.brand = brand
+    class Smartphone {
+        +string brand
+        +string model
+        +multitask()
+        +install_app()
+        +sync_data()
+    }
     
-    def multitask(self):
-        return f"{self.brand} smartphone multitasking"
-
-# Usage
-iphone = Smartphone("555-1234", 48, "A17 Pro", "iPhone")
-print(iphone.make_call("555-5678"))  # From Phone
-print(iphone.take_photo())           # From Camera
-print(iphone.run_app("Instagram"))   # From Computer
-print(iphone.multitask())            # Smartphone-specific
+    Phone <|-- Smartphone
+    Camera <|-- Smartphone
+    Computer <|-- Smartphone
 ```
 
 ### 3. Multilevel Inheritance
 
 A chain of inheritance where a class inherits from another class, which itself inherits from another class.
 
-```python
-# Real-life example: Academic hierarchy
-class Person:
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
-    
-    def introduce(self):
-        return f"Hi, I'm {self.name}, {self.age} years old"
+**Real-life example: Academic hierarchy**
 
-class Student(Person):  # Student inherits from Person
-    def __init__(self, name, age, student_id):
-        super().__init__(name, age)
-        self.student_id = student_id
-        self.courses = []
+```mermaid
+classDiagram
+    class Person {
+        +string name
+        +int age
+        +string address
+        +introduce()
+        +walk()
+        +talk()
+    }
     
-    def enroll(self, course):
-        self.courses.append(course)
-        return f"{self.name} enrolled in {course}"
-
-class GraduateStudent(Student):  # GraduateStudent inherits from Student
-    def __init__(self, name, age, student_id, research_area):
-        super().__init__(name, age, student_id)
-        self.research_area = research_area
-        self.thesis_topic = None
+    class Student {
+        +string student_id
+        +list courses
+        +float gpa
+        +enroll()
+        +study()
+        +take_exam()
+    }
     
-    def choose_thesis(self, topic):
-        self.thesis_topic = topic
-        return f"{self.name} chose thesis topic: {topic}"
+    class GraduateStudent {
+        +string research_area
+        +string thesis_topic
+        +string advisor
+        +choose_thesis()
+        +publish_paper()
+        +defend_thesis()
+    }
     
-    def publish_paper(self, title):
-        return f"{self.name} published: {title}"
-
-# Usage
-grad_student = GraduateStudent("Alice", 25, "GS001", "Machine Learning")
-print(grad_student.introduce())        # From Person
-print(grad_student.enroll("Deep Learning"))  # From Student
-print(grad_student.choose_thesis("Neural Networks"))  # GraduateStudent-specific
+    class PhDStudent {
+        +string dissertation_topic
+        +int years_enrolled
+        +write_dissertation()
+        +teach_undergrads()
+        +conduct_research()
+    }
+    
+    Person <|-- Student
+    Student <|-- GraduateStudent
+    GraduateStudent <|-- PhDStudent
 ```
 
 ### 4. Hierarchical Inheritance
 
 Multiple child classes inherit from the same parent class.
 
-```python
-# Real-life example: Employee types in a company
-class Employee:
-    def __init__(self, name, employee_id, salary):
-        self.name = name
-        self.employee_id = employee_id
-        self.salary = salary
-    
-    def work(self):
-        return f"{self.name} is working"
-    
-    def get_salary(self):
-        return f"{self.name}'s salary: ${self.salary}"
+**Real-life example: Employee types in a company**
 
-class Developer(Employee):  # Inherits from Employee
-    def __init__(self, name, employee_id, salary, programming_language):
-        super().__init__(name, employee_id, salary)
-        self.programming_language = programming_language
+```mermaid
+classDiagram
+    class Employee {
+        +string name
+        +string employee_id
+        +float salary
+        +string department
+        +work()
+        +get_salary()
+        +take_break()
+    }
     
-    def code(self):
-        return f"{self.name} is coding in {self.programming_language}"
+    class Developer {
+        +string programming_language
+        +list projects
+        +code()
+        +debug()
+        +code_review()
+    }
     
-    def debug(self):
-        return f"{self.name} is debugging code"
-
-class Designer(Employee):  # Also inherits from Employee
-    def __init__(self, name, employee_id, salary, design_tool):
-        super().__init__(name, employee_id, salary)
-        self.design_tool = design_tool
+    class Designer {
+        +string design_tool
+        +string specialty
+        +design()
+        +create_mockup()
+        +user_research()
+    }
     
-    def design(self):
-        return f"{self.name} is designing using {self.design_tool}"
+    class Manager {
+        +int team_size
+        +list direct_reports
+        +manage_team()
+        +schedule_meeting()
+        +performance_review()
+    }
     
-    def create_mockup(self):
-        return f"{self.name} created a new mockup"
-
-class Manager(Employee):  # Also inherits from Employee
-    def __init__(self, name, employee_id, salary, team_size):
-        super().__init__(name, employee_id, salary)
-        self.team_size = team_size
+    class SalesRep {
+        +float sales_target
+        +list clients
+        +make_sale()
+        +follow_up()
+        +generate_leads()
+    }
     
-    def manage_team(self):
-        return f"{self.name} is managing a team of {self.team_size}"
-    
-    def schedule_meeting(self, topic):
-        return f"{self.name} scheduled meeting about {topic}"
-
-# Usage
-dev = Developer("John", "DEV001", 75000, "Python")
-designer = Designer("Sarah", "DES001", 65000, "Figma")
-manager = Manager("Mike", "MGR001", 85000, 8)
-
-print(dev.work())              # Inherited from Employee
-print(dev.code())              # Developer-specific
-print(designer.design())       # Designer-specific
-print(manager.manage_team())   # Manager-specific
+    Employee <|-- Developer
+    Employee <|-- Designer
+    Employee <|-- Manager
+    Employee <|-- SalesRep
 ```
 
 ### 5. Hybrid Inheritance
 
 A combination of multiple inheritance types.
 
-```python
-# Real-life example: Academic and administrative roles
-class Person:
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
+**Real-life example: Academic and administrative roles**
 
-class Employee:
-    def __init__(self, employee_id, salary):
-        self.employee_id = employee_id
-        self.salary = salary
+```mermaid
+classDiagram
+    class Person {
+        +string name
+        +int age
+        +string address
+        +introduce()
+        +sleep()
+    }
     
-    def get_payroll(self):
-        return f"Employee {self.employee_id}: ${self.salary}"
-
-class Teacher(Person, Employee):  # Multiple inheritance
-    def __init__(self, name, age, employee_id, salary, subject):
-        Person.__init__(self, name, age)
-        Employee.__init__(self, employee_id, salary)
-        self.subject = subject
+    class Employee {
+        +string employee_id
+        +float salary
+        +string department
+        +work()
+        +get_payroll()
+    }
     
-    def teach(self):
-        return f"{self.name} is teaching {self.subject}"
-
-class Principal(Teacher):  # Multilevel inheritance
-    def __init__(self, name, age, employee_id, salary, subject, school_name):
-        super().__init__(name, age, employee_id, salary, subject)
-        self.school_name = school_name
+    class Teacher {
+        +string subject
+        +list classes
+        +int experience_years
+        +teach()
+        +grade_papers()
+        +parent_conference()
+    }
     
-    def manage_school(self):
-        return f"{self.name} is managing {self.school_name}"
-
-# Usage
-principal = Principal("Dr. Smith", 45, "EMP123", 90000, "Mathematics", "Lincoln High")
-print(principal.teach())         # From Teacher
-print(principal.get_payroll())   # From Employee
-print(principal.manage_school()) # Principal-specific
+    class Administrator {
+        +string office_location
+        +list responsibilities
+        +manage_staff()
+        +handle_budget()
+        +policy_making()
+    }
+    
+    class Principal {
+        +string school_name
+        +int student_count
+        +manage_school()
+        +evaluate_teachers()
+        +community_outreach()
+    }
+    
+    class Dean {
+        +string college_name
+        +list departments
+        +academic_oversight()
+        +faculty_hiring()
+        +curriculum_planning()
+    }
+    
+    Person <|-- Employee
+    Person <|-- Teacher
+    Employee <|-- Administrator
+    Teacher <|-- Principal
+    Administrator <|-- Principal
+    Teacher <|-- Dean
+    Administrator <|-- Dean
 ```
 
-## Key Concepts
+## Inheritance Relationships in Real World
+
+### Transportation System
+
+```mermaid
+classDiagram
+    class Vehicle {
+        +string brand
+        +string model
+        +int year
+        +start()
+        +stop()
+        +get_info()
+    }
+    
+    class LandVehicle {
+        +int wheels
+        +string fuel_type
+        +drive()
+        +park()
+    }
+    
+    class WaterVehicle {
+        +float displacement
+        +string hull_material
+        +sail()
+        +anchor()
+    }
+    
+    class AirVehicle {
+        +float max_altitude
+        +string engine_type
+        +fly()
+        +land()
+    }
+    
+    class Car {
+        +int doors
+        +string transmission
+        +open_trunk()
+        +honk()
+    }
+    
+    class Motorcycle {
+        +string bike_type
+        +boolean has_sidecar
+        +wheelie()
+        +lean()
+    }
+    
+    class Boat {
+        +int passenger_capacity
+        +string propulsion
+        +drop_anchor()
+        +navigate()
+    }
+    
+    class Airplane {
+        +int passenger_capacity
+        +string airline
+        +takeoff()
+        +cruise()
+    }
+    
+    Vehicle <|-- LandVehicle
+    Vehicle <|-- WaterVehicle
+    Vehicle <|-- AirVehicle
+    LandVehicle <|-- Car
+    LandVehicle <|-- Motorcycle
+    WaterVehicle <|-- Boat
+    AirVehicle <|-- Airplane
+```
+
+### Banking System
+
+```mermaid
+classDiagram
+    class Account {
+        +string account_number
+        +string account_holder
+        +float balance
+        +deposit()
+        +withdraw()
+        +get_balance()
+    }
+    
+    class SavingsAccount {
+        +float interest_rate
+        +int min_balance
+        +calculate_interest()
+        +apply_penalty()
+    }
+    
+    class CheckingAccount {
+        +int check_number
+        +float overdraft_limit
+        +write_check()
+        +overdraft_protection()
+    }
+    
+    class BusinessAccount {
+        +string business_name
+        +float transaction_limit
+        +bulk_transfer()
+        +generate_statement()
+    }
+    
+    class CreditAccount {
+        +float credit_limit
+        +float apr
+        +make_payment()
+        +calculate_interest()
+    }
+    
+    Account <|-- SavingsAccount
+    Account <|-- CheckingAccount
+    Account <|-- BusinessAccount
+    Account <|-- CreditAccount
+```
+
+## Key Concepts to Implement
 
 ### Method Overriding
-
 Child classes can override parent methods to provide specific implementations.
 
-```python
-class Animal:
-    def make_sound(self):
-        return "Some generic animal sound"
-
-class Dog(Animal):
-    def make_sound(self):  # Override parent method
-        return "Woof! Woof!"
-
-class Cat(Animal):
-    def make_sound(self):  # Override parent method
-        return "Meow! Meow!"
-
-# Usage
-animals = [Dog(), Cat(), Animal()]
-for animal in animals:
-    print(animal.make_sound())
-# Output:
-# Woof! Woof!
-# Meow! Meow!
-# Some generic animal sound
+```mermaid
+classDiagram
+    class Animal {
+        +make_sound()
+        +move()
+    }
+    
+    class Dog {
+        +make_sound() "Woof! Woof!"
+        +move() "Running on four legs"
+    }
+    
+    class Bird {
+        +make_sound() "Tweet! Tweet!"
+        +move() "Flying with wings"
+    }
+    
+    class Fish {
+        +make_sound() "Blub! Blub!"
+        +move() "Swimming with fins"
+    }
+    
+    Animal <|-- Dog
+    Animal <|-- Bird
+    Animal <|-- Fish
 ```
 
-### super() Function
+### Abstract Base Classes
+Some classes are meant to be inherited from, not instantiated directly.
 
-The `super()` function allows you to call methods from the parent class.
-
-```python
-class Rectangle:
-    def __init__(self, width, height):
-        self.width = width
-        self.height = height
+```mermaid
+classDiagram
+    class Shape {
+        <<abstract>>
+        +float area
+        +float perimeter
+        +calculate_area()*
+        +calculate_perimeter()*
+        +display_info()
+    }
     
-    def area(self):
-        return self.width * self.height
+    class Rectangle {
+        +float width
+        +float height
+        +calculate_area()
+        +calculate_perimeter()
+    }
     
-    def perimeter(self):
-        return 2 * (self.width + self.height)
-
-class Square(Rectangle):
-    def __init__(self, side):
-        super().__init__(side, side)  # Call parent constructor
-        self.side = side
+    class Circle {
+        +float radius
+        +calculate_area()
+        +calculate_perimeter()
+    }
     
-    def diagonal(self):
-        return (self.side * 2) ** 0.5
-
-# Usage
-square = Square(5)
-print(f"Area: {square.area()}")        # Inherited method
-print(f"Perimeter: {square.perimeter()}")  # Inherited method
-print(f"Diagonal: {square.diagonal()}")    # Square-specific method
+    class Triangle {
+        +float side1
+        +float side2
+        +float side3
+        +calculate_area()
+        +calculate_perimeter()
+    }
+    
+    Shape <|-- Rectangle
+    Shape <|-- Circle
+    Shape <|-- Triangle
 ```
 
 ## Benefits of Inheritance
@@ -351,28 +499,23 @@ print(f"Diagonal: {square.diagonal()}")    # Square-specific method
 2. **Maintainability**: Changes to common functionality only need to be made in one place
 3. **Extensibility**: Easy to add new types without modifying existing code
 4. **Polymorphism**: Different objects can be treated uniformly through their common interface
+5. **Hierarchical Organization**: Natural way to organize related classes
 
 ## Best Practices
 
 1. **Use inheritance for "is-a" relationships**: A car "is-a" vehicle, a dog "is-an" animal
-2. **Keep inheritance hierarchies shallow**: Avoid deep inheritance chains
+2. **Keep inheritance hierarchies shallow**: Avoid deep inheritance chains (3-4 levels max)
 3. **Use composition for "has-a" relationships**: A car "has-a" engine (don't inherit from engine)
 4. **Override methods meaningfully**: Only override when you need different behavior
-5. **Use super() when calling parent methods**: Maintains the inheritance chain properly
+5. **Follow the Liskov Substitution Principle**: Child objects should be replaceable with parent objects
+6. **Use abstract base classes when appropriate**: For classes that shouldn't be instantiated directly
 
-## Common Pitfalls
+## Common Pitfalls to Avoid
 
 1. **Diamond Problem**: In multiple inheritance, be careful about method resolution order
 2. **Tight Coupling**: Don't create overly dependent relationships between classes
 3. **Inappropriate Inheritance**: Not every relationship should use inheritance
 4. **Deep Hierarchies**: Too many levels make code hard to understand and maintain
+5. **Overusing Inheritance**: Sometimes composition or interfaces are better choices
 
-## Practice Exercise
-
-Try creating an inheritance hierarchy for a library system:
-- Base class: `LibraryItem` (title, author, item_id)
-- Derived classes: `Book`, `Magazine`, `DVD`
-- Each should have specific properties and methods
-- Implement method overriding for a `get_info()` method
-
-Remember: Inheritance is a powerful tool, but use it wisely. Always ask yourself: "Does this relationship make sense? Is there a simpler way to achieve this?"
+Remember: Inheritance is a powerful tool, but use it wisely. Always ask yourself: "Does this relationship make sense? Is there a simpler way to achieve this?" Focus on creating logical, maintainable hierarchies that reflect real-world relationships.
