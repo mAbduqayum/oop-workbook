@@ -1,4 +1,4 @@
-# 🐍 Python OOP Practice - Lesson 1: Person Class
+# 🐍 Python OOP Practice - Lesson: Person Class
 
 ## 📝 Exercise: Create a Person Class System
 

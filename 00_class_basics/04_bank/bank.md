@@ -1,4 +1,4 @@
-# 🏦 Python OOP Practice - Lesson 4: Bank Account Class
+# 🏦 Python OOP Practice - Lesson: Bank Account Class
 
 ## 📝 Exercise: Create a Banking System
 

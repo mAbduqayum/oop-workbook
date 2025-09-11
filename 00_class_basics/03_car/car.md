@@ -1,4 +1,4 @@
-# 🚗 Python OOP Practice - Lesson 3: Car Class
+# 🚗 Python OOP Practice - Lesson: Car Class
 
 ## 📝 Exercise: Build a Car Garage
 

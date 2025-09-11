@@ -1,4 +1,4 @@
-# 👔 Python OOP Practice - Lesson 5: Employee Inheritance
+# 👔 Python OOP Practice - Lesson: Employee Inheritance
 
 ## 📝 Exercise: Build a Company Employee System
 

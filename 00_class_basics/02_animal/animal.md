@@ -1,4 +1,4 @@
-# 🐾 Python OOP Practice - Lesson 2: Animal Class
+# 🐾 Python OOP Practice - Lesson: Animal Class
 
 ## 📝 Exercise: Build an Animal Zoo
 

@@ -1,4 +1,4 @@
-# 📚 Python OOP Practice - Lesson 5: Library System
+# 📚 Python OOP Practice - Lesson: Library System
 
 ## 📝 Exercise: Build a Library Management System
 

@@ -1,4 +1,4 @@
-# 🎓 Python OOP Practice - Lesson 6: Student Class
+# 🎓 Python OOP Practice - Lesson: Student Class
 
 ## 📝 Exercise: Build a Student Grade Tracking System
 
