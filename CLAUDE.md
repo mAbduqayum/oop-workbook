@@ -29,21 +29,11 @@ This is a structured collection of Python programming exercises designed for lea
 
 - Manually verify outputs match the examples in the `.md` files
 - Test edge cases and boundary conditions
-- Ensure mathematical calculations are accurate to specified precision
-- Use Python REPL or scripts to validate formulas and expected outputs
-
-## Mathematical Accuracy
-
-- Double-check all mathematical formulas using Python calculations
-- Use proper mathematical constants (e.g., `math.pi`, `math.e`)
-- Verify trigonometric calculations use correct units (radians vs degrees)
-- Test complex formulas (Heron's formula, great circle distance, etc.) thoroughly
 
 ## Exercise Workflow
 
 1. Read the `.md` file to understand requirements
-2. Never create `.py` files unless told
-3. Verify outputs match examples exactly
-4. Test mathematical formulas independently
-5. Fix any calculation or formatting errors
-6. Ensure all examples produce correct results
+2. Verify outputs match examples exactly
+3. Test mathematical formulas independently
+4. Fix any calculation or formatting errors
+5. Ensure all examples produce correct results
