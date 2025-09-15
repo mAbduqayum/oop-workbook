@@ -5,7 +5,7 @@ This is a structured collection of Python programming exercises designed for lea
 ## Project Structure
 
 - Each exercise is in a numbered directory
-  - `0*` class basics
+  - `0**` class basics
   - `1**` class inheritance
 - Exercise directories contain:
   - `*.md` file with problem description, examples, and formulas.
