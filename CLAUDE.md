@@ -31,7 +31,8 @@ This is a structured collection of Python programming exercises designed for lea
 ## Exercise Workflow
 
 1. Read the `.md` file to understand requirements
-2. Verify outputs match examples exactly
-3. Test mathematical formulas independently
-4. Fix any calculation or formatting errors
-5. Ensure all examples produce correct results
+2. Create `.py` and solve the question 
+3. Verify outputs match examples exactly
+4. Test mathematical formulas independently
+5. Fix any calculation or formatting errors
+6. Ensure all examples produce correct results
