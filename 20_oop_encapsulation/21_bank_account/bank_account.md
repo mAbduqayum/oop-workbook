@@ -16,8 +16,8 @@ This exercise demonstrates why encapsulation is essential for protecting critica
    - `account_holder` (string): Name of the account holder
    - `initial_balance` (float): Starting balance (default 0.0, must be non-negative)
 2. Store balance privately with underscore prefix (`_balance`)
-3. Add `account_holder` property (read-only after creation)
-4. Add `balance` property (read-only) that returns current balance
+3. Add `get_account_holder()` method (read-only after creation)
+4. Add `get_balance()` method (read-only) that returns current balance
 5. Add `deposit(amount)` method that adds money to the account
 6. Add `withdraw(amount)` method that removes money if sufficient funds available
 7. Add `transfer(amount, target_account)` method that transfers money to another account
@@ -31,7 +31,7 @@ This exercise demonstrates why encapsulation is essential for protecting critica
 - **Data Protection:** Preventing direct modification of critical data
 - **Business Rules:** Enforcing banking constraints and validation
 - **Transaction Safety:** Ensuring operations maintain data integrity
-- **Read-Only Properties:** Exposing data without allowing modification
+- **Read-Only Methods:** Exposing data without allowing modification
 - **Method Validation:** Comprehensive input checking and error handling
 
 **Business Rules:**
@@ -47,20 +47,20 @@ alice_account = BankAccount("Alice", 1000.0)
 bob_account = BankAccount("Bob", 500.0)
 
 print(alice_account)  # "Account holder: Alice, Balance: $1000.00"
-print(alice_account.balance)  # 1000.0
+print(alice_account.get_balance())  # 1000.0
 
 # Deposit money
 alice_account.deposit(250.0)
-print(alice_account.balance)  # 1250.0
+print(alice_account.get_balance())  # 1250.0
 
 # Withdraw money
 alice_account.withdraw(100.0)
-print(alice_account.balance)  # 1150.0
+print(alice_account.get_balance())  # 1150.0
 
 # Transfer money
 alice_account.transfer(200.0, bob_account)
-print(alice_account.balance)  # 950.0
-print(bob_account.balance)    # 700.0
+print(alice_account.get_balance())  # 950.0
+print(bob_account.get_balance())    # 700.0
 
 # Invalid operations (should raise ValueError)
 try:
@@ -89,4 +89,4 @@ except ValueError as e:
 - **Private Data:** `_balance` is protected from direct access
 - **Controlled Access:** Balance can only be modified through safe methods
 - **Data Integrity:** Business rules prevent invalid states
-- **Read-Only Interface:** Balance and account holder are read-only properties
+- **Read-Only Interface:** Balance and account holder are read-only getter methods

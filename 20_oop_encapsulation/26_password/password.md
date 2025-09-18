@@ -20,7 +20,7 @@ Password strength should be automatically calculated based on multiple criteria.
    - Contains at least one lowercase letter
    - Contains at least one digit
    - Contains at least one special character (!@#$%^&*)
-4. Add a `strength` property that returns "Weak", "Medium", or "Strong" based on criteria
+4. Add a `get_strength()` method that returns "Weak", "Medium", or "Strong" based on criteria
 5. Add a `check_password(input_password)` method that returns True if input matches stored password
 6. Add a `change_password(old_password, new_password)` method that validates old password before changing
 7. Raise `ValueError` for invalid passwords with descriptive messages
@@ -29,7 +29,7 @@ Password strength should be automatically calculated based on multiple criteria.
 **What You'll Learn:**
 - **Security Encapsulation:** Protecting sensitive data from direct access
 - **Input Validation:** Comprehensive password requirement checking
-- **Property Decorators:** Computing values based on private data
+- **Getter Methods:** Computing values based on private data
 - **Error Handling:** Using exceptions for invalid input
 - **Authentication Patterns:** Secure password verification methods
 
@@ -41,7 +41,7 @@ Password strength should be automatically calculated based on multiple criteria.
 ```python
 # Valid password creation
 password = Password("MyP@ssw0rd123")
-print(password.strength)  # "Strong"
+print(password.get_strength())  # "Strong"
 
 # Check password
 print(password.check_password("MyP@ssw0rd123"))  # True

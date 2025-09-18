@@ -47,13 +47,13 @@ In this exercise you're going to create a class. Don't worry, it's not as compli
 2. Parse the string into a 2D structure (rows separated by newlines, numbers by spaces)
 3. Add a `row(index)` method that returns the specified row as a list (1-indexed)
 4. Add a `column(index)` method that returns the specified column as a list (1-indexed)
-5. Add a `rows` property that returns all rows as a list of lists
-6. Add a `columns` property that returns all columns as a list of lists
+5. Add a `get_rows()` method that returns all rows as a list of lists
+6. Add a `get_columns()` method that returns all columns as a list of lists
 
 **What You'll Learn:**
 - **String Parsing:** Converting text input into structured data
 - **2D Data Structures:** Working with lists of lists
-- **Properties:** Using `@property` decorator for computed attributes
+- **Getter Methods:** Using methods for computed data access
 - **Index Conversion:** Handling 1-based vs 0-based indexing
 - **Data Access Patterns:** Different ways to slice and access 2D data
 
@@ -67,7 +67,7 @@ print(matrix.row(1))     # [9, 8, 7]
 print(matrix.column(2))  # [8, 3, 6]
 
 # Access all rows and columns
-print(matrix.rows)       # [[9, 8, 7], [5, 3, 2], [6, 6, 7]]
-print(matrix.columns)    # [[9, 5, 6], [8, 3, 6], [7, 2, 7]]
+print(matrix.get_rows())       # [[9, 8, 7], [5, 3, 2], [6, 6, 7]]
+print(matrix.get_columns())    # [[9, 5, 6], [8, 3, 6], [7, 2, 7]]
 ```
 

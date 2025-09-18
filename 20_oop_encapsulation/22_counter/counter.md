@@ -18,9 +18,9 @@ You should be able to configure the bounds and get information about the counter
 4. Add `increment(step=1)` method that increases count by step amount
 5. Add `decrement(step=1)` method that decreases count by step amount
 6. Add `reset()` method that sets count back to minimum value
-7. Add `value` property that returns current count (read-only)
-8. Add `is_at_min` property that returns True if counter is at minimum
-9. Add `is_at_max` property that returns True if counter is at maximum
+7. Add `get_value()` method that returns current count (read-only)
+8. Add `get_is_at_min()` method that returns True if counter is at minimum
+9. Add `get_is_at_max()` method that returns True if counter is at maximum
 10. Prevent incrementing beyond max_value and decrementing below min_value
 11. Raise `ValueError` if trying to create counter with min_value >= max_value
 12. Add `__str__()` method that returns "Counter: count/max (min-max)"
@@ -28,7 +28,7 @@ You should be able to configure the bounds and get information about the counter
 **What You'll Learn:**
 - **State Management:** Tracking and validating object state changes
 - **Boundary Validation:** Preventing invalid state transitions
-- **Read-Only Properties:** Exposing data without allowing direct modification
+- **Read-Only Methods:** Exposing data without allowing direct modification
 - **Default Parameters:** Flexible constructor design
 - **Constraint Enforcement:** Maintaining object invariants
 
@@ -37,36 +37,36 @@ You should be able to configure the bounds and get information about the counter
 # Create counter with default bounds (0-100)
 counter = Counter()
 print(counter)              # "Counter: 0/100 (0-100)"
-print(counter.value)        # 0
-print(counter.is_at_min)    # True
-print(counter.is_at_max)    # False
+print(counter.get_value())        # 0
+print(counter.get_is_at_min())    # True
+print(counter.get_is_at_max())    # False
 
 # Increment operations
-counter.increment()         # +1
-print(counter.value)        # 1
-counter.increment(5)        # +5
-print(counter.value)        # 6
+counter.increment()                # +1
+print(counter.get_value())         # 1
+counter.increment(5)               # +5
+print(counter.get_value())         # 6
 
 # Decrement operations
-counter.decrement()         # -1
-print(counter.value)        # 5
-counter.decrement(3)        # -3
-print(counter.value)        # 2
+counter.decrement()                # -1
+print(counter.get_value())         # 5
+counter.decrement(3)               # -3
+print(counter.get_value())         # 2
 
 # Reset counter
 counter.reset()
-print(counter.value)        # 0
+print(counter.get_value())         # 0
 
 # Custom bounds
 game_counter = Counter(min_value=1, max_value=10)
-print(game_counter.value)   # 1
-game_counter.increment(15)  # Should not exceed max
-print(game_counter.value)   # 10 (capped at maximum)
-print(game_counter.is_at_max)  # True
+print(game_counter.get_value())    # 1
+game_counter.increment(15)         # Should not exceed max
+print(game_counter.get_value())    # 10 (capped at maximum)
+print(game_counter.get_is_at_max()) # True
 
 # Boundary testing
-game_counter.decrement(20)  # Should not go below min
-print(game_counter.value)   # 1 (capped at minimum)
+game_counter.decrement(20)         # Should not go below min
+print(game_counter.get_value())    # 1 (capped at minimum)
 
 # Invalid counter creation
 try:
