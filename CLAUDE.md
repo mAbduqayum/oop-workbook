@@ -36,3 +36,7 @@ This is a structured collection of Python programming exercises designed for lea
 4. Test mathematical formulas independently
 5. Fix any calculation or formatting errors
 6. Ensure all examples produce correct results
+
+## Commands
+- `uv run`
+- `git mv` to reorder files. don't use temp dirs, the dirs are unique even without enumeration
