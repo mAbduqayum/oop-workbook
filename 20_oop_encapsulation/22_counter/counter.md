@@ -23,7 +23,7 @@ You should be able to configure the bounds and get information about the counter
 9. Add `is_at_max` property that returns True if counter is at maximum
 10. Prevent incrementing beyond max_value and decrementing below min_value
 11. Raise `ValueError` if trying to create counter with min_value >= max_value
-12. Add `__str__()` method that returns "Counter: X/Y (min-max)"
+12. Add `__str__()` method that returns "Counter: count/max (min-max)"
 
 **What You'll Learn:**
 - **State Management:** Tracking and validating object state changes
