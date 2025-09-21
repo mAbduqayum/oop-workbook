@@ -1,9 +1,9 @@
 import unittest
+
 from animal import Animal
 
 
 class TestAnimal(unittest.TestCase):
-
     def test_animal_attributes(self):
         dog = Animal("Buddy", "Dog")
         self.assertEqual(dog.name, "Buddy")
@@ -18,5 +18,5 @@ class TestAnimal(unittest.TestCase):
         bird.make_sound()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
