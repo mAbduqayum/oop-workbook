@@ -12,11 +12,12 @@ Key Characteristics:
 - Relationship can change at runtime
 """
 
+
 # Independent classes that can exist on their own
 class Student:
     """Student can exist independently of any university"""
 
-    def __init__(self, student_id, name, major, gpa=3.0):
+    def __init__(self, student_id, name, major, gpa=3.0) -> None:
         self.student_id = student_id
         self.name = name
         self.major = major
@@ -55,17 +56,19 @@ class Student:
         unis = [uni.name for uni in self.universities]
         courses = [course.name for course in self.courses]
         status = "Graduate" if self.graduation_year else "Current Student"
-        return (f"Student: {self.name} (ID: {self.student_id})\n"
-                f"Major: {self.major}, GPA: {self.gpa}\n"
-                f"Status: {status}\n"
-                f"Universities: {unis}\n"
-                f"Courses: {courses}")
+        return (
+            f"Student: {self.name} (ID: {self.student_id})\n"
+            f"Major: {self.major}, GPA: {self.gpa}\n"
+            f"Status: {status}\n"
+            f"Universities: {unis}\n"
+            f"Courses: {courses}"
+        )
 
 
 class Professor:
     """Professor can exist independently and work at multiple universities"""
 
-    def __init__(self, employee_id, name, department, specialization):
+    def __init__(self, employee_id, name, department, specialization) -> None:
         self.employee_id = employee_id
         self.name = name
         self.department = department
@@ -105,18 +108,20 @@ class Professor:
     def get_info(self):
         unis = [uni.name for uni in self.universities]
         courses = [course.name for course in self.courses_teaching]
-        return (f"Professor: {self.name} (ID: {self.employee_id})\n"
-                f"Department: {self.department}\n"
-                f"Specialization: {self.specialization}\n"
-                f"Universities: {unis}\n"
-                f"Teaching: {courses}\n"
-                f"Research Projects: {self.research_projects}")
+        return (
+            f"Professor: {self.name} (ID: {self.employee_id})\n"
+            f"Department: {self.department}\n"
+            f"Specialization: {self.specialization}\n"
+            f"Universities: {unis}\n"
+            f"Teaching: {courses}\n"
+            f"Research Projects: {self.research_projects}"
+        )
 
 
 class Course:
     """Course can exist independently and be offered by multiple universities"""
 
-    def __init__(self, course_code, name, credits, description):
+    def __init__(self, course_code, name, credits, description) -> None:
         self.course_code = course_code
         self.name = name
         self.credits = credits
@@ -150,21 +155,23 @@ class Course:
         unis = [uni.name for uni in self.universities]
         students = [s.name for s in self.enrolled_students]
         instructors = [p.name for p in self.instructors]
-        return (f"Course: {self.name} ({self.course_code})\n"
-                f"Credits: {self.credits}\n"
-                f"Offered at: {unis}\n"
-                f"Students: {len(students)} enrolled\n"
-                f"Instructors: {instructors}")
+        return (
+            f"Course: {self.name} ({self.course_code})\n"
+            f"Credits: {self.credits}\n"
+            f"Offered at: {unis}\n"
+            f"Students: {len(students)} enrolled\n"
+            f"Instructors: {instructors}"
+        )
 
 
 class Department:
     """Department aggregates professors and courses"""
 
-    def __init__(self, name, university):
+    def __init__(self, name, university) -> None:
         self.name = name
         self.university = university
         self.professors = []  # Aggregation - professors exist independently
-        self.courses = []     # Aggregation - courses exist independently
+        self.courses = []  # Aggregation - courses exist independently
         self.head = None
 
     def add_professor(self, professor):
@@ -201,11 +208,13 @@ class Department:
         prof_names = [p.name for p in self.professors]
         course_names = [c.name for c in self.courses]
         head_name = self.head.name if self.head else "None"
-        return (f"Department: {self.name}\n"
-                f"University: {self.university.name}\n"
-                f"Head: {head_name}\n"
-                f"Professors: {prof_names}\n"
-                f"Courses: {course_names}")
+        return (
+            f"Department: {self.name}\n"
+            f"University: {self.university.name}\n"
+            f"Head: {head_name}\n"
+            f"Professors: {prof_names}\n"
+            f"Courses: {course_names}"
+        )
 
 
 # Container class that uses aggregation
@@ -216,16 +225,16 @@ class University:
     or exist without any university affiliation.
     """
 
-    def __init__(self, name, location, founded_year):
+    def __init__(self, name, location, founded_year) -> None:
         self.name = name
         self.location = location
         self.founded_year = founded_year
 
         # AGGREGATION: University aggregates existing independent objects
-        self.students = []      # Students exist independently
-        self.professors = []    # Professors exist independently
-        self.courses = []       # Courses exist independently
-        self.departments = []   # Departments are part of university structure
+        self.students = []  # Students exist independently
+        self.professors = []  # Professors exist independently
+        self.courses = []  # Courses exist independently
+        self.departments = []  # Departments are part of university structure
 
         print(f"University established: {self.name} ({self.founded_year})")
 
@@ -278,18 +287,20 @@ class University:
 
     def get_statistics(self):
         """Get university statistics"""
-        return (f"\n{self.name} Statistics:\n"
-                f"Location: {self.location}\n"
-                f"Founded: {self.founded_year}\n"
-                f"Students: {len(self.students)}\n"
-                f"Professors: {len(self.professors)}\n"
-                f"Courses: {len(self.courses)}\n"
-                f"Departments: {len(self.departments)}")
+        return (
+            f"\n{self.name} Statistics:\n"
+            f"Location: {self.location}\n"
+            f"Founded: {self.founded_year}\n"
+            f"Students: {len(self.students)}\n"
+            f"Professors: {len(self.professors)}\n"
+            f"Courses: {len(self.courses)}\n"
+            f"Departments: {len(self.departments)}"
+        )
 
     def get_detailed_info(self):
         """Get detailed information about all aggregated objects"""
         info = f"\n{self.name} Detailed Information:"
-        info += f"\n{'='*50}"
+        info += f"\n{'=' * 50}"
 
         if self.students:
             info += f"\nSTUDENTS ({len(self.students)}):"
@@ -308,7 +319,7 @@ class University:
 
         return info
 
-    def __del__(self):
+    def __del__(self) -> None:
         """When university closes, aggregated objects continue to exist"""
         print(f"University closed: {self.name}")
         print("Students, professors, and courses continue to exist independently.")
@@ -332,7 +343,9 @@ def demonstrate_aggregation():
     prof_davis = Professor("P001", "Dr. Davis", "Computer Science", "Machine Learning")
     prof_wilson = Professor("P002", "Dr. Wilson", "Mathematics", "Statistics")
 
-    cs101 = Course("CS101", "Introduction to Programming", 3, "Basic programming concepts")
+    cs101 = Course(
+        "CS101", "Introduction to Programming", 3, "Basic programming concepts"
+    )
     math201 = Course("MATH201", "Calculus II", 4, "Advanced calculus")
 
     print("   Students, professors, and courses created independently")

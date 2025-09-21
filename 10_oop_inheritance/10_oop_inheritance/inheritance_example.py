@@ -12,11 +12,12 @@ Key Characteristics:
 - Polymorphism support
 """
 
+
 # Parent class (Base class)
 class Animal:
     """Base class representing a generic animal"""
 
-    def __init__(self, name, species):
+    def __init__(self, name, species) -> None:
         self.name = name
         self.species = species
         self.is_alive = True
@@ -41,7 +42,7 @@ class Animal:
 class Dog(Animal):
     """Dog IS-A Animal"""
 
-    def __init__(self, name, breed):
+    def __init__(self, name, breed) -> None:
         # Call parent constructor
         super().__init__(name, "Canine")
         self.breed = breed
@@ -71,7 +72,7 @@ class Dog(Animal):
 class Cat(Animal):
     """Cat IS-A Animal"""
 
-    def __init__(self, name, coat_color):
+    def __init__(self, name, coat_color) -> None:
         super().__init__(name, "Feline")
         self.coat_color = coat_color
         self.independence = 95
@@ -102,7 +103,7 @@ class Cat(Animal):
 class Bird(Animal):
     """Bird IS-A Animal"""
 
-    def __init__(self, name, wingspan):
+    def __init__(self, name, wingspan) -> None:
         super().__init__(name, "Avian")
         self.wingspan = wingspan
         self.can_fly = True
@@ -150,7 +151,7 @@ def demonstrate_inheritance():
         Cat("Whiskers", "Orange Tabby"),
         Bird("Robin", 25),
         Dog("Max", "German Shepherd"),
-        Cat("Luna", "Black")
+        Cat("Luna", "Black"),
     ]
 
     print("\n1. POLYMORPHISM - Same method, different behavior:")

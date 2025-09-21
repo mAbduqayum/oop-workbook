@@ -15,16 +15,19 @@ print("=" * 80)
 print("\n1. INHERITANCE - 'IS-A' Relationship")
 print("-" * 40)
 
+
 class Animal:
-    def __init__(self, name):
+    def __init__(self, name) -> None:
         self.name = name
 
     def make_sound(self):
         return f"{self.name} makes a sound"
 
+
 class Dog(Animal):  # Dog IS-A Animal
     def make_sound(self):
         return f"{self.name} barks: Woof!"
+
 
 # Demonstration
 dog = Dog("Buddy")
@@ -39,8 +42,9 @@ print("Key: Child inherits from parent, shares identity")
 print("\n2. COMPOSITION - 'HAS-A' Relationship (Strong)")
 print("-" * 40)
 
+
 class Engine:
-    def __init__(self, type):
+    def __init__(self, type) -> None:
         self.type = type
         self.running = False
 
@@ -48,13 +52,15 @@ class Engine:
         self.running = True
         return f"{self.type} engine started"
 
+
 class Car:  # Car HAS-A Engine (owns it exclusively)
-    def __init__(self, model):
+    def __init__(self, model) -> None:
         self.model = model
         self.engine = Engine("V6")  # Car creates and owns engine
 
     def start(self):
         return f"{self.model}: {self.engine.start()}"
+
 
 # Demonstration
 car = Car("Toyota")
@@ -68,22 +74,25 @@ print("Key: Car owns engine exclusively, engine can't exist without car")
 print("\n3. AGGREGATION - 'HAS-A' Relationship (Weak)")
 print("-" * 40)
 
+
 class Player:
-    def __init__(self, name):
+    def __init__(self, name) -> None:
         self.name = name
         self.teams = []
 
     def join_team(self, team):
         self.teams.append(team)
 
+
 class Team:  # Team HAS Players (but players exist independently)
-    def __init__(self, name):
+    def __init__(self, name) -> None:
         self.name = name
         self.players = []
 
     def add_player(self, player):
         self.players.append(player)
         player.join_team(self)
+
 
 # Demonstration
 player1 = Player("Alice")  # Player exists independently
@@ -108,7 +117,9 @@ print(f"{'Relationship':<20} {'IS-A':<20} {'HAS-A (Strong)':<20} {'HAS-A (Weak)'
 print(f"{'Coupling':<20} {'Tight':<20} {'Tight':<20} {'Loose':<20}")
 print(f"{'Lifecycle':<20} {'Shared':<20} {'Dependent':<20} {'Independent':<20}")
 print(f"{'Ownership':<20} {'N/A':<20} {'Exclusive':<20} {'Shared':<20}")
-print(f"{'Example':<20} {'Dog IS Animal':<20} {'Car HAS Engine':<20} {'Team HAS Players':<20}")
+print(
+    f"{'Example':<20} {'Dog IS Animal':<20} {'Car HAS Engine':<20} {'Team HAS Players':<20}"
+)
 
 # ============================================================================
 # PRACTICAL DECISION GUIDE

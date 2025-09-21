@@ -1,12 +1,13 @@
 # Class Template
 class ClassName:
-    def __init__(self, param1, param2):
+    def __init__(self, param1, param2) -> None:
         self.attribute1 = param1
         self.attribute2 = param2
 
     def method_name(self):
         # Method logic here
         pass
+
 
 value1, value2 = 0, 0
 # Object Creation
