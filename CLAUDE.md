@@ -1,12 +1,14 @@
 # Python Workbook Project
 
-This is a structured collection of Python programming exercises designed for learning and practice.
+This is a structured collection of Python programming exercises,
+designed for learning and practice.
 
 ## Project Structure
 
 - Each exercise is in a numbered directory
   - `0**` class basics
-  - `1**` class inheritance
+  - `1**` oop inheritance
+  - `2**` oop encapsulation
 - Exercise directories contain:
   - `*.md` file with problem description, examples, and formulas.
 - Reference materials are in `x0_*/` directories
@@ -23,19 +25,12 @@ This is a structured collection of Python programming exercises designed for lea
 - **Time/Date**: Time conversions, date calculations
 - **Utilities**: Sorting, string manipulation, unit conversions
 
-## Testing and Validation
-
-- Manually verify outputs match the examples in the `.md` files
-- Test edge cases and boundary conditions
-
 ## Exercise Workflow
 
 1. Read the `.md` file to understand requirements
-2. Create `.py` and solve the question 
-3. Verify outputs match examples exactly
-4. Test mathematical formulas independently
-5. Fix any calculation or formatting errors
-6. Ensure all examples produce correct results
+2. Create `*.py` and solve the question 
+3. Create `test_*.py` and unit test the solution
+4. Don't write comments/docs in solutions/tests.
 
 ## Commands
 - `uv run`

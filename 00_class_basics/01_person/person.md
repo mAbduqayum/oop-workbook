@@ -1,31 +1,18 @@
-# 🐍 Python OOP Practice - Lesson: Person Class
+## Exercise: Person Class
 
-## 📝 Exercise: Create a Person Class System
+Create a `Person` class that demonstrates the fundamentals of Object-Oriented Programming.
 
-Create a complete `Person` class that demonstrates the fundamentals of Object-Oriented Programming.
-
-**Your Task:**
+### Your Task:
 1. Create a `Person` class with a `name` attribute
-2. Add a `say_hello()` method that prints "Hello, my name is [name]"
-3. Create 3 different `Person` objects with different names
-4. Make each person say hello to demonstrate they're independent objects
+2. Add a `say_hello()` method that prints `f"Hello, my name is {name}"`
 
-**What You'll Learn:**
-- Basic class syntax and `__init__` constructor
-- Instance methods and the `self` parameter
-- Creating multiple objects from the same class
-- How each object maintains its own data
-
-**Example Usage:**
+### Example Usage:
 ```python
-# Create three different Person objects
 person1 = Person("Alice")
-person2 = Person("Bob")
-person3 = Person("Charlie")
-
-# Make each person say hello
 person1.say_hello()  # Hello, my name is Alice
-person2.say_hello()  # Hello, my name is Bob
-person3.say_hello()  # Hello, my name is Charlie
 ```
 
+
+### What You'll Learn:
+- Basic class syntax and `__init__` constructor
+- Instance methods and the `self` parameter
