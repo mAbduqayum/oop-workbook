@@ -11,8 +11,3 @@ Create a `Person` class that demonstrates the fundamentals of Object-Oriented Pr
 person1 = Person("Alice")
 person1.say_hello()  # Hello, my name is Alice
 ```
-
-
-### What You'll Learn:
-- Basic class syntax and `__init__` constructor
-- Instance methods and the `self` parameter

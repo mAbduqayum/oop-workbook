@@ -3,7 +3,8 @@ class BankAccountB:
     This solution uses the Pythonic @property decorator to
     achieve encapsulation with a cleaner syntax and provides safe transfer methods.
     """
-    def __init__(self, account_holder, balance):
+
+    def __init__(self, account_holder, balance) -> None:
         self.account_holder = account_holder
         # "Private" attribute for internal use
         self._balance = balance
@@ -27,7 +28,9 @@ class BankAccountB:
         if isinstance(amount, (int, float)) and amount > 0:
             old_balance = self._balance
             self._balance += amount
-            print(f"✅ Deposited ${amount:.2f}. Balance: ${old_balance:.2f} → ${self._balance:.2f}")
+            print(
+                f"✅ Deposited ${amount:.2f}. Balance: ${old_balance:.2f} → ${self._balance:.2f}"
+            )
             return True
         else:
             print("❌ Error: Invalid deposit amount.")
@@ -39,7 +42,9 @@ class BankAccountB:
             if self._balance >= amount:
                 old_balance = self._balance
                 self._balance -= amount
-                print(f"✅ Withdrew ${amount:.2f}. Balance: ${old_balance:.2f} → ${self._balance:.2f}")
+                print(
+                    f"✅ Withdrew ${amount:.2f}. Balance: ${old_balance:.2f} → ${self._balance:.2f}"
+                )
                 return True
             else:
                 print(f"❌ Error: Insufficient funds. Balance: ${self._balance:.2f}")
@@ -63,16 +68,25 @@ class BankAccountB:
                 # Both operations must succeed
                 self._balance -= amount
                 recipient_account._balance += amount
-                print(f"✅ Transferred ${amount:.2f} from {self.account_holder} to {recipient_account.account_holder}")
-                print(f"   {self.account_holder}: ${self.balance:.2f}")  # Using property getter
-                print(f"   {recipient_account.account_holder}: ${recipient_account.balance:.2f}")  # Using property getter
+                print(
+                    f"✅ Transferred ${amount:.2f} from {self.account_holder} to {recipient_account.account_holder}"
+                )
+                print(
+                    f"   {self.account_holder}: ${self.balance:.2f}"
+                )  # Using property getter
+                print(
+                    f"   {recipient_account.account_holder}: ${recipient_account.balance:.2f}"
+                )  # Using property getter
                 return True
             else:
-                print(f"❌ Error: Insufficient funds for transfer. Balance: ${self.balance:.2f}")
+                print(
+                    f"❌ Error: Insufficient funds for transfer. Balance: ${self.balance:.2f}"
+                )
                 return False
         else:
             print("❌ Error: Invalid transfer amount.")
             return False
+
 
 # --- Usage Example ---
 
@@ -82,9 +96,9 @@ bob_account = BankAccountB("Bob Smith", 500.0)
 charlie_account = BankAccountB("Charlie Brown", 750.0)
 
 print("=== Initial Account States (Using Properties) ===")
-print(f"Alice: ${alice_account.balance:.2f}")    # Clean property access
-print(f"Bob: ${bob_account.balance:.2f}")        # Clean property access
-print(f"Charlie: ${charlie_account.balance:.2f}") # Clean property access
+print(f"Alice: ${alice_account.balance:.2f}")  # Clean property access
+print(f"Bob: ${bob_account.balance:.2f}")  # Clean property access
+print(f"Charlie: ${charlie_account.balance:.2f}")  # Clean property access
 print()
 
 # === Transaction 1: Alice transfers $200 to Bob ===

@@ -3,9 +3,11 @@ class BankAccount:
     A BankAccount class with no encapsulation.
     The balance can be changed by anyone, to anything.
     """
-    def __init__(self, account_holder, balance):
+
+    def __init__(self, account_holder, balance) -> None:
         self.account_holder = account_holder
         self.balance = balance
+
 
 # --- Usage Example ---
 

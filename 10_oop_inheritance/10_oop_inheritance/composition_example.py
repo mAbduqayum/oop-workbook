@@ -12,11 +12,12 @@ Key Characteristics:
 - Components are integral parts of the whole
 """
 
+
 # Component classes - these will be "composed" into larger objects
 class Engine:
     """Engine component - cannot exist independently in this context"""
 
-    def __init__(self, engine_type, horsepower, fuel_type):
+    def __init__(self, engine_type, horsepower, fuel_type) -> None:
         self.engine_type = engine_type
         self.horsepower = horsepower
         self.fuel_type = fuel_type
@@ -50,7 +51,7 @@ class Engine:
 class Transmission:
     """Transmission component"""
 
-    def __init__(self, transmission_type, num_gears):
+    def __init__(self, transmission_type, num_gears) -> None:
         self.transmission_type = transmission_type
         self.num_gears = num_gears
         self.current_gear = 0  # 0 = Park, 1-6 = gears
@@ -72,7 +73,7 @@ class Transmission:
 class Wheel:
     """Wheel component"""
 
-    def __init__(self, size, tire_type):
+    def __init__(self, size, tire_type) -> None:
         self.size = size  # in inches
         self.tire_type = tire_type
         self.pressure = 32  # PSI
@@ -80,11 +81,11 @@ class Wheel:
 
     def rotate(self):
         self.wear_level += 0.1
-        return f"{self.size}\" wheel rotating"
+        return f'{self.size}" wheel rotating'
 
     def brake(self):
         self.wear_level += 0.2
-        return f"{self.size}\" wheel braking"
+        return f'{self.size}" wheel braking'
 
     def check_pressure(self):
         if self.pressure < 25:
@@ -95,13 +96,13 @@ class Wheel:
             return f"Normal pressure: {self.pressure} PSI"
 
     def get_status(self):
-        return f"{self.size}\" {self.tire_type} - {self.pressure} PSI - Wear: {self.wear_level:.1f}%"
+        return f'{self.size}" {self.tire_type} - {self.pressure} PSI - Wear: {self.wear_level:.1f}%'
 
 
 class FuelTank:
     """Fuel tank component"""
 
-    def __init__(self, capacity):
+    def __init__(self, capacity) -> None:
         self.capacity = capacity  # in liters
         self.current_fuel = capacity * 0.8  # Start with 80% fuel
         self.fuel_type = "Gasoline"
@@ -136,7 +137,7 @@ class Car:
     Components cannot exist independently - they are integral parts of the car.
     """
 
-    def __init__(self, make, model, year):
+    def __init__(self, make, model, year) -> None:
         self.make = make
         self.model = model
         self.year = year
@@ -153,7 +154,7 @@ class Car:
             Wheel(17, "All-Season"),
             Wheel(17, "All-Season"),
             Wheel(17, "All-Season"),
-            Wheel(17, "All-Season")
+            Wheel(17, "All-Season"),
         ]
 
         print(f"Car manufactured: {self.year} {self.make} {self.model}")
@@ -231,10 +232,12 @@ class Car:
 
         return "Maintenance Check:\n" + "\n".join(results)
 
-    def __del__(self):
+    def __del__(self) -> None:
         """When car is destroyed, all components are destroyed too"""
         print(f"Car demolished: {self.year} {self.make} {self.model}")
-        print("All components (engine, transmission, wheels, fuel tank) destroyed with the car.")
+        print(
+            "All components (engine, transmission, wheels, fuel tank) destroyed with the car."
+        )
 
 
 # Demonstration of Composition

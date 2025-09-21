@@ -1,9 +1,9 @@
 import unittest
+
 from person import Person
 
 
 class TestPerson(unittest.TestCase):
-
     def test_person_name(self):
         person = Person("Alice")
         self.assertEqual(person.name, "Alice")
@@ -13,5 +13,5 @@ class TestPerson(unittest.TestCase):
         person.say_hello()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

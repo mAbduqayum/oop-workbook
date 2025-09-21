@@ -3,7 +3,8 @@ class BankAccountA:
     This solution uses explicit 'getter' and 'setter' methods
     to protect the _balance attribute and provides safe transfer methods.
     """
-    def __init__(self, account_holder, balance):
+
+    def __init__(self, account_holder, balance) -> None:
         self.account_holder = account_holder
         # "Private" attribute for internal use
         self._balance = balance
@@ -58,16 +59,23 @@ class BankAccountA:
                 # Both operations must succeed
                 self._balance -= amount
                 recipient_account._balance += amount
-                print(f"✅ Transferred ${amount:.2f} from {self.account_holder} to {recipient_account.account_holder}")
+                print(
+                    f"✅ Transferred ${amount:.2f} from {self.account_holder} to {recipient_account.account_holder}"
+                )
                 print(f"   {self.account_holder}: ${self._balance:.2f}")
-                print(f"   {recipient_account.account_holder}: ${recipient_account._balance:.2f}")
+                print(
+                    f"   {recipient_account.account_holder}: ${recipient_account._balance:.2f}"
+                )
                 return True
             else:
-                print(f"❌ Error: Insufficient funds for transfer. Balance: ${self._balance:.2f}")
+                print(
+                    f"❌ Error: Insufficient funds for transfer. Balance: ${self._balance:.2f}"
+                )
                 return False
         else:
             print("❌ Error: Invalid transfer amount.")
             return False
+
 
 # --- Usage Example ---
 
