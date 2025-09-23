@@ -48,4 +48,6 @@ class TestTriangle:
     def test_is_similar(self):
         triangle1 = Triangle(3, 4, 5)
         triangle2 = triangle1.scale(2)
+        triangle3 = Triangle(5, 12, 13)
         assert triangle1.is_similar(triangle2)
+        assert not triangle1.is_similar(triangle3)
