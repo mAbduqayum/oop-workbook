@@ -18,3 +18,8 @@ class TestCar:
         car.add_fuel(5)
         car.drive()
         assert car.fuel == 4
+
+    def test_drive_without_fuel(self):
+        car = Car("BMW", "X3")
+        car.drive()
+        assert car.fuel == 0
