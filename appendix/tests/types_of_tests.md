@@ -1,5 +1,9 @@
 # Types of Tests
 
+## Overview
+
+Software testing can be categorized in multiple ways based on different criteria such as scope, approach, and execution method. This guide covers the most common types of tests used in modern software development.
+
 ## Test Pyramid
 
 ```mermaid
@@ -30,11 +34,12 @@ graph TD
 - Test database connections, API calls
 - More complex setup than unit tests
 
-### Functional Tests
-- Test complete features end-to-end
-- Verify business requirements
-- User-focused scenarios
-- Often use real data and systems
+### End-to-End (E2E) Tests
+- **Purpose**: Test complete user workflows
+- **Scope**: Entire application flow
+- **Speed**: Slow
+- **Maintenance**: High
+- **Example**: Testing user registration and login flow
 
 ## Testing Strategies
 
@@ -55,24 +60,106 @@ flowchart LR
     style G fill:#B8860B,color:#FFFFFF
 ```
 
-## Test Categories by Scope
+## Classification by Approach
 
 ```mermaid
 graph LR
-    A[Tests] --> B[Static Analysis]
-    A --> C[Dynamic Testing]
+    A[Testing Approaches] --> B[Black Box]
+    A --> C[White Box]
+    A --> D[Gray Box]
 
-    B --> D[Type Checking]
-    B --> E[Linting]
-    B --> F[Code Review]
+    B --> E[No knowledge of internals]
+    C --> F[Full knowledge of code]
+    D --> G[Partial knowledge]
+```
 
-    C --> G[White Box]
-    C --> H[Black Box]
-    C --> I[Gray Box]
+### Black Box Testing
+Tests functionality without knowing internal implementation
 
-    G --> J[Unit Tests]
-    H --> K[Acceptance Tests]
-    I --> L[Integration Tests]
+### White Box Testing
+Tests with full knowledge of code structure and logic
+
+### Gray Box Testing
+Combines both approaches with partial knowledge
+
+## Classification by Execution
+
+```mermaid
+flowchart TB
+    A[Test Execution] --> B[Manual Testing]
+    A --> C[Automated Testing]
+
+    B --> D[Exploratory]
+    B --> E[Scripted]
+
+    C --> F[Continuous Integration]
+    C --> G[Scheduled]
+    C --> H[On-Demand]
+```
+
+## Functional vs Non-Functional
+
+### Functional Tests
+- **Unit Tests**
+- **Integration Tests**
+- **System Tests**
+- **Acceptance Tests**
+- **Smoke Tests**
+- **Sanity Tests**
+- **Regression Tests**
+
+### Non-Functional Tests
+- **Performance Tests**
+    - Load Testing
+    - Stress Testing
+    - Spike Testing
+- **Security Tests**
+- **Usability Tests**
+- **Compatibility Tests**
+- **Accessibility Tests**
+
+## Test Lifecycle
+
+```mermaid
+stateDiagram-v2
+    [*] --> Planning
+    Planning --> Design
+    Design --> Development
+    Development --> Execution
+    Execution --> Evaluation
+    Evaluation --> Maintenance
+    Maintenance --> Planning
+    Evaluation --> [*]
+```
+
+## Specialized Test Types
+
+### Smoke Tests
+Quick tests to verify basic functionality works after deployment
+
+### Regression Tests
+Ensure new changes don't break existing functionality
+
+### Mutation Tests
+Test the quality of test suite by introducing bugs deliberately
+
+### Property-Based Tests
+Generate random inputs to test properties and invariants
+
+### Contract Tests
+Verify agreements between services in microservices architecture
+
+## Testing Strategy Matrix
+
+```mermaid
+quadrantChart
+    title Testing Strategy by Speed vs Coverage
+    x-axis Low Speed --> High Speed
+    y-axis Low Coverage --> High Coverage
+    quadrant-1 Unit Tests
+    quadrant-2 Integration Tests
+    quadrant-3 Manual Exploration
+    quadrant-4 E2E Tests
 ```
 
 ## Python Testing Framework Ecosystem
@@ -131,12 +218,22 @@ def test_bank_withdrawal():
 
 ## Best Practices
 
-1. **Test Naming**: Use descriptive names that explain what is being tested
-2. **Independence**: Tests should not depend on each other
-3. **Repeatability**: The same input should always produce the same result
-4. **Fast Feedback**: Unit tests should execute quickly
-5. **One Assertion**: Focus each test on a single behavior
-6. **Test Data**: Use meaningful, realistic test data
+1. **Follow the Test Pyramid**: More unit tests, fewer E2E tests
+2. **Automate Repetitive Tests**: Save manual testing for exploratory work
+3. **Test Early and Often**: Shift-left testing approach
+4. **Maintain Test Independence**: Tests shouldn't depend on each other
+5. **Keep Tests Simple**: One assertion per test when possible
+6. **Use Meaningful Names**: Test names should describe what they verify
+
+## Quick Reference
+
+| Test Type   | Speed | Isolation | Reliability | Maintenance |
+|-------------|-------|-----------|-------------|-------------|
+| Unit        | ⚡⚡⚡   | High      | High        | Low         |
+| Integration | ⚡⚡    | Medium    | Medium      | Medium      |
+| E2E         | ⚡     | Low       | Low         | High        |
+| Performance | ⚡⚡    | Medium    | Medium      | Medium      |
+| Security    | ⚡     | Low       | High        | High        |
 
 ## Common Anti-Patterns
 
@@ -145,3 +242,7 @@ def test_bank_withdrawal():
 - **Slow Tests**: Tests that take too long to execute
 - **Unclear Tests**: Tests that don't clearly express intent
 - **Testing Implementation**: Testing how instead of what
+
+## Conclusion
+
+Choosing the right mix of test types depends on your project's needs, team size, and quality requirements. A balanced testing strategy typically includes multiple types of tests at different levels of the application stack.
