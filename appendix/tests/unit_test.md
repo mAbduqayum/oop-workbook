@@ -1,0 +1,424 @@
+# Unit Testing
+
+## What is Unit Testing?
+
+Unit testing is the practice of testing individual units of code (functions, methods, classes) in isolation to ensure they work as expected.
+
+## Why Unit Testing?
+
+- **Catch bugs early** - Find issues before they reach production
+- **Documentation** - Tests show how code should be used
+- **Refactoring safety** - Ensure changes don't break existing functionality
+- **Design feedback** - Hard-to-test code often indicates design issues
+
+## Core Principles
+
+```mermaid
+flowchart TD
+    A[Unit Test] --> B[Fast]
+    A --> C[Isolated]
+    A --> D[Repeatable]
+    A --> E[Self-Validating]
+    A --> F[Timely]
+
+    style A fill:#1B4332,color:#FFFFFF
+    style B fill:#2E5266,color:#FFFFFF
+    style C fill:#2E5266,color:#FFFFFF
+    style D fill:#2E5266,color:#FFFFFF
+    style E fill:#2E5266,color:#FFFFFF
+    style F fill:#2E5266,color:#FFFFFF
+```
+
+## Testing Structure
+
+### Arrange-Act-Assert (AAA) Pattern
+
+A unit test typically follows the **AAA pattern**:
+- **Arrange** - Set up test data
+- **Act** - Execute the function
+- **Assert** - Check the result
+
+#### Simple Example
+
+```python
+# calculator.py
+def add(a, b):
+    return a + b
+
+def divide(a, b):
+    if b == 0:
+        raise ValueError("Cannot divide by zero")
+    return a / b
+
+def is_even(n):
+    return n % 2 == 0
+```
+
+```python
+# test_calculator.py
+import unittest
+from calculator import add, divide, is_even
+
+class TestCalculator(unittest.TestCase):
+
+    def test_add(self):
+        # Arrange
+        a, b = 2, 3
+
+        # Act
+        result = add(a, b)
+
+        # Assert
+        self.assertEqual(result, 5)
+
+    def test_divide(self):
+        self.assertEqual(divide(10, 2), 5)
+        self.assertEqual(divide(9, 3), 3)
+
+    def test_divide_by_zero(self):
+        with self.assertRaises(ValueError):
+            divide(10, 0)
+
+    def test_is_even(self):
+        self.assertTrue(is_even(4))
+        self.assertFalse(is_even(5))
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+### Given-When-Then (BDD Style)
+
+```python
+def test_password_validation():
+    # Given a password validator
+    validator = PasswordValidator()
+
+    # When validating a weak password
+    result = validator.validate("123")
+
+    # Then it should be rejected
+    assert result.is_valid == False
+    assert "too short" in result.errors
+```
+
+## Python Unit Testing Frameworks
+
+### pytest (Recommended)
+
+```python
+import pytest
+from calculator import Calculator
+
+class TestCalculator:
+    def setup_method(self):
+        self.calc = Calculator()
+
+    def test_addition(self):
+        assert self.calc.add(2, 3) == 5
+
+    def test_division_by_zero(self):
+        with pytest.raises(ZeroDivisionError):
+            self.calc.divide(10, 0)
+
+    @pytest.mark.parametrize("a,b,expected", [
+        (2, 3, 5),
+        (-1, 1, 0),
+        (0, 0, 0)
+    ])
+    def test_addition_parametrized(self, a, b, expected):
+        assert self.calc.add(a, b) == expected
+```
+
+### unittest (Built-in)
+
+```python
+import unittest
+from calculator import Calculator
+
+class TestCalculator(unittest.TestCase):
+    def setUp(self):
+        self.calc = Calculator()
+
+    def test_addition(self):
+        self.assertEqual(self.calc.add(2, 3), 5)
+
+    def test_division_by_zero(self):
+        with self.assertRaises(ZeroDivisionError):
+            self.calc.divide(10, 0)
+
+    def tearDown(self):
+        del self.calc
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+## Test Doubles
+
+```mermaid
+graph LR
+    A[Test Doubles] --> B[Dummy]
+    A --> C[Fake]
+    A --> D[Stub]
+    A --> E[Spy]
+    A --> F[Mock]
+
+    B --> B1[Objects passed around<br/>but never used]
+    C --> C1[Working implementation<br/>with shortcuts]
+    D --> D1[Provides canned answers<br/>to calls]
+    E --> E1[Records information<br/>about calls]
+    F --> F1[Pre-programmed with<br/>expectations]
+```
+
+### Mock Examples
+
+```python
+from unittest.mock import Mock, patch
+import requests
+
+# Mock object
+def test_api_call_with_mock():
+    mock_response = Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {"data": "test"}
+
+    with patch('requests.get', return_value=mock_response):
+        result = fetch_user_data(123)
+        assert result["data"] == "test"
+
+# Mock method
+def test_database_save():
+    user = User("john@example.com")
+    user.database = Mock()
+
+    user.save()
+
+    user.database.insert.assert_called_once_with(user.data)
+```
+
+## Test Organization
+
+### Test Discovery
+
+```
+project/
+├── src/
+│   ├── calculator.py
+│   └── user.py
+└── tests/
+    ├── test_calculator.py
+    ├── test_user.py
+    └── conftest.py  # pytest fixtures
+```
+
+### Naming Conventions
+
+| Element | Convention | Example |
+|---------|------------|---------|
+| Test files | `test_*.py` or `*_test.py` | `test_calculator.py` |
+| Test classes | `Test*` | `TestCalculator` |
+| Test methods | `test_*` | `test_addition_positive_numbers` |
+
+## Common Testing Patterns
+
+### Fixtures (pytest)
+
+```python
+import pytest
+
+@pytest.fixture
+def sample_user():
+    return User("test@example.com", "Test User")
+
+@pytest.fixture
+def database():
+    db = Database(":memory:")
+    db.create_tables()
+    yield db
+    db.close()
+
+def test_user_creation(sample_user):
+    assert sample_user.email == "test@example.com"
+
+def test_user_save(sample_user, database):
+    sample_user.save(database)
+    assert database.count_users() == 1
+```
+
+### Property-Based Testing
+
+```python
+from hypothesis import given, strategies as st
+
+@given(st.integers(), st.integers())
+def test_addition_commutative(a, b):
+    calc = Calculator()
+    assert calc.add(a, b) == calc.add(b, a)
+
+@given(st.text(min_size=1))
+def test_string_reverse_twice(s):
+    assert reverse(reverse(s)) == s
+```
+
+## Testing Edge Cases
+
+### Boundary Value Testing
+
+```python
+def test_age_validation():
+    validator = AgeValidator()
+
+    # Boundary values
+    assert validator.is_valid(0) == False    # Lower bound
+    assert validator.is_valid(1) == True     # Just above lower
+    assert validator.is_valid(120) == True   # Just below upper
+    assert validator.is_valid(121) == False  # Upper bound
+
+    # Typical values
+    assert validator.is_valid(25) == True
+    assert validator.is_valid(-1) == False
+```
+
+### Exception Testing
+
+```python
+def test_file_operations():
+    # Test expected exceptions
+    with pytest.raises(FileNotFoundError):
+        read_file("nonexistent.txt")
+
+    # Test exception messages
+    with pytest.raises(ValueError, match="Invalid format"):
+        parse_date("not-a-date")
+
+    # Test exception attributes
+    with pytest.raises(CustomError) as exc_info:
+        risky_operation()
+
+    assert exc_info.value.error_code == 404
+```
+
+## Test Coverage
+
+### Measuring Coverage
+
+```bash
+# Install coverage
+pip install coverage
+
+# Run tests with coverage
+coverage run -m pytest
+
+# Generate report
+coverage report
+coverage html  # HTML report
+```
+
+### Coverage Configuration
+
+```ini
+# .coveragerc
+[run]
+source = src/
+omit =
+    */tests/*
+    */venv/*
+    */__pycache__/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise AssertionError
+    raise NotImplementedError
+```
+
+## Best Practices
+
+### Do's
+- **One concept per test** - Test one thing at a time
+- **Descriptive names** - Test name should explain what is being tested
+- **Fast execution** - Unit tests should run in milliseconds
+- **Independent tests** - Tests should not depend on each other
+- **Use test doubles** - Mock external dependencies
+
+### Don'ts
+- **Don't test framework code** - Focus on your business logic
+- **Don't test private methods directly** - Test through public interface
+- **Don't ignore failing tests** - Fix or remove broken tests
+- **Don't test multiple concerns** - Keep tests focused
+- **Don't use random data** - Use predictable test data
+
+## Example: Complete Test Suite
+
+```python
+import pytest
+from unittest.mock import Mock, patch
+from banking.account import BankAccount
+from banking.exceptions import InsufficientFundsError
+
+class TestBankAccount:
+
+    @pytest.fixture
+    def account(self):
+        return BankAccount("123456", 1000)
+
+    def test_account_creation(self):
+        account = BankAccount("123456", 500)
+        assert account.account_number == "123456"
+        assert account.balance == 500
+
+    def test_deposit_positive_amount(self, account):
+        account.deposit(200)
+        assert account.balance == 1200
+
+    def test_deposit_zero_amount(self, account):
+        with pytest.raises(ValueError, match="Amount must be positive"):
+            account.deposit(0)
+
+    def test_withdraw_sufficient_funds(self, account):
+        result = account.withdraw(300)
+        assert result == True
+        assert account.balance == 700
+
+    def test_withdraw_insufficient_funds(self, account):
+        with pytest.raises(InsufficientFundsError):
+            account.withdraw(1500)
+
+    @patch('banking.notification.send_email')
+    def test_large_withdrawal_notification(self, mock_send_email, account):
+        account.withdraw(800)  # Large withdrawal
+        mock_send_email.assert_called_once()
+
+    @pytest.mark.parametrize("amount,expected_balance", [
+        (100, 900),
+        (500, 500),
+        (999, 1),
+    ])
+    def test_withdraw_various_amounts(self, account, amount, expected_balance):
+        account.withdraw(amount)
+        assert account.balance == expected_balance
+```
+
+## Running Tests
+
+```bash
+# Run all tests
+pytest
+
+# Run specific test file
+pytest tests/test_calculator.py
+
+# Run with coverage
+pytest --cov=src tests/
+
+# Run with verbose output
+pytest -v
+
+# Run tests matching pattern
+pytest -k "test_withdraw"
+
+# Run tests with markers
+pytest -m "slow"
+```
