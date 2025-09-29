@@ -5,6 +5,11 @@ on:
     branches-ignore:
       - "main"
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Sync to Solutions"]
+    types:
+      - completed
+    branches: [solutions]
 
 
 jobs:
