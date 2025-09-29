@@ -3,7 +3,7 @@ name: Grade Calculator
 on:
   push:
     branches-ignore:
-      - main
+      - "main"
   workflow_run:
     workflows: [ "Sync Questions to Solutions Branch" ]
     types:
