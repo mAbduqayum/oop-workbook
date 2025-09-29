@@ -33,6 +33,10 @@ jobs:
         run: |
           uv run pytest 00_class_basics
 
-      - name: Run tests for 10_oop_inheritance
+      - name: Run tests for 10_oop_encapsulation
         run: |
-          uv run pytest 10_oop_inheritance
+          uv run pytest 10_oop_encapsulation
+
+      - name: Run tests for 20_oop_inheritance
+        run: |
+          uv run pytest 20_oop_inheritance
