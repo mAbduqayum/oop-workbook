@@ -46,8 +46,10 @@ class TestTriangle:
         assert scaled.c == 10
 
     def test_is_similar(self):
-        triangle1 = Triangle(3, 4, 5)
-        triangle2 = triangle1.scale(1.5)
-        triangle3 = Triangle(5, 12, 13)
-        assert triangle1.is_similar(triangle2)
-        assert not triangle1.is_similar(triangle3)
+        t = Triangle(3, 4, 5)
+        rotated_t = Triangle(4, 5, 3)
+        scaled_t = t.scale(1.5)
+        un_similar = Triangle(5, 12, 13)
+        assert t.is_similar(scaled_t)
+        assert t.is_similar(rotated_t)
+        assert not t.is_similar(un_similar)
