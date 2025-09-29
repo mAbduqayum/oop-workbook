@@ -29,10 +29,10 @@ jobs:
         run: |
           uv sync
 
-      - name: Run tests for 000_intro
+      - name: Run tests for 00_class_basics
         run: |
-          uv run pytest 000_intro
+          uv run pytest 00_class_basics
 
-      - name: Run tests for 100_conditionals
+      - name: Run tests for 10_oop_inheritance
         run: |
-          uv run pytest 100_conditionals
+          uv run pytest 10_oop_inheritance
