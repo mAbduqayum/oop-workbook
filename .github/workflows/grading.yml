@@ -4,7 +4,7 @@ on:
   push:
     branches: [ solutions ]
   workflow_run:
-    workflows: ["Sync Questions to Solutions Branch"]
+    workflows: [ "Sync Questions to Solutions Branch" ]
     types:
       - completed
   workflow_dispatch:
