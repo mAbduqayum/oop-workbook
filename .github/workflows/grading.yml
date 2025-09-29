@@ -4,12 +4,6 @@ on:
   push:
     branches-ignore:
       - "main"
-  workflow_run:
-    workflows: [ "Sync Questions to Solutions Branch" ]
-    types:
-      - completed
-    branches-ignore:
-      - "main"
   workflow_dispatch:
 
 
