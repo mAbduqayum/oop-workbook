@@ -48,7 +48,7 @@ class Triangle:
     def scale(self, factor):
         return Triangle(self.a * factor, self.b * factor, self.c * factor)
 
-    def is_similar(self, other_triangle):
+    def is_similar(self, other_triangle: "Triangle") -> bool:
         self_sides = sorted([self.a, self.b, self.c])
         other_sides = sorted([other_triangle.a, other_triangle.b, other_triangle.c])
 
