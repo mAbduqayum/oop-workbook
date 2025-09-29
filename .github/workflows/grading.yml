@@ -15,6 +15,12 @@ on:
 jobs:
   calculate-grade:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        test-module:
+          - 00_class_basics
+          - 10_oop_encapsulation
+          - 20_oop_inheritance
 
     steps:
       - name: Checkout repository
@@ -29,14 +35,6 @@ jobs:
         run: |
           uv sync
 
-      - name: Run tests for 00_class_basics
+      - name: Run tests for ${{ matrix.test-module }}
         run: |
-          uv run pytest 00_class_basics
-
-      - name: Run tests for 10_oop_encapsulation
-        run: |
-          uv run pytest 10_oop_encapsulation
-
-      - name: Run tests for 20_oop_inheritance
-        run: |
-          uv run pytest 20_oop_inheritance
+          uv run pytest ${{ matrix.test-module }}
