@@ -2,9 +2,7 @@ name: Grade Calculator
 
 on:
   push:
-    branches: [ main, solutions ]
-  pull_request:
-    branches: [ main ]
+    branches-ignore: [ main ]
   workflow_run:
     workflows: ["Sync Questions to Solutions Branch"]
     types:
