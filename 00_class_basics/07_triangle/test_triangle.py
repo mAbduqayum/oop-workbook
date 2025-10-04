@@ -1,5 +1,4 @@
 import pytest
-
 from triangle import Triangle
 
 

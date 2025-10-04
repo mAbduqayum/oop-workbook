@@ -4,38 +4,39 @@ Tests for File Parser - Polymorphism Exercise
 Run tests with: pytest test_file_parser.py -v
 """
 
-import pytest
+import json
 import os
 import tempfile
-import json
 from abc import ABC, abstractmethod
 
+import pytest
 
 # Import student's solution
 try:
     from file_parser import (
-        FileParser,
         CSVParser,
-        JSONParser,
+        FileParser,
         FileProcessor,
+        JSONParser,
         create_parser,
     )
 except ImportError:
     # Placeholder classes if student hasn't implemented yet
     class FileParser(ABC):
-        def __init__(self, file_path):
+        @abstractmethod
+        def __init__(self, file_path) -> None:
             raise NotImplementedError("Implement FileParser class")
 
     class CSVParser:
-        def __init__(self, file_path):
+        def __init__(self, file_path) -> None:
             raise NotImplementedError("Implement CSVParser class")
 
     class JSONParser:
-        def __init__(self, file_path):
+        def __init__(self, file_path) -> None:
             raise NotImplementedError("Implement JSONParser class")
 
     class FileProcessor:
-        def __init__(self):
+        def __init__(self) -> None:
             raise NotImplementedError("Implement FileProcessor class")
 
     def create_parser(file_path):
@@ -65,8 +66,6 @@ def temp_json_file():
         temp_path = f.name
     yield temp_path
     os.unlink(temp_path)
-
-
 
 
 @pytest.fixture
@@ -237,9 +236,7 @@ class TestPolymorphism:
             assert hasattr(parser, "get_file_size")
             assert hasattr(parser, "get_extension")
 
-    def test_process_mixed_formats_polymorphically(
-        self, temp_csv_file, temp_json_file
-    ):
+    def test_process_mixed_formats_polymorphically(self, temp_csv_file, temp_json_file):
         """Processor should work with any parser type"""
         processor = FileProcessor()
         parsers = [
@@ -257,7 +254,7 @@ class TestPolymorphism:
 
         # Simulate adding a new parser type
         class TextParser(FileParser):
-            def __init__(self, file_path):
+            def __init__(self, file_path) -> None:
                 self.file_path = file_path
 
             def parse(self):
@@ -287,9 +284,7 @@ class TestPolymorphism:
         finally:
             os.unlink(temp_txt)
 
-    def test_no_type_checking_in_processor(
-        self, temp_csv_file, temp_json_file
-    ):
+    def test_no_type_checking_in_processor(self, temp_csv_file, temp_json_file):
         """Processor should use duck typing, not isinstance checks"""
         processor = FileProcessor()
         parsers = [

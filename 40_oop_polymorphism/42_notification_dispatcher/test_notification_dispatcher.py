@@ -4,16 +4,17 @@ Tests for Notification Dispatcher - Polymorphism Exercise
 Run tests with: pytest test_notification_dispatcher.py -v
 """
 
-import pytest
 from abc import ABC, abstractmethod
 from datetime import datetime
+
+import pytest
 
 
 # Students should implement these classes (or import from abstraction chapter)
 class NotificationService(ABC):
     """Abstract base class for all notification services"""
 
-    def __init__(self, service_name):
+    def __init__(self, service_name) -> None:
         self.service_name = service_name
         self.sent_count = 0
 
@@ -43,7 +44,7 @@ class NotificationService(ABC):
 class EmailNotification(NotificationService):
     """Email notification service"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("Email Service")
 
     def validate_recipient(self, recipient):
@@ -64,7 +65,7 @@ class EmailNotification(NotificationService):
 class SMSNotification(NotificationService):
     """SMS notification service"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("SMS Service")
 
     def validate_recipient(self, recipient):
@@ -85,7 +86,7 @@ class SMSNotification(NotificationService):
 class PushNotification(NotificationService):
     """Push notification service"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("Push Notification Service")
 
     def validate_recipient(self, recipient):
@@ -107,14 +108,14 @@ class PushNotification(NotificationService):
 try:
     from notification_dispatcher import (
         NotificationDispatcher,
-        send_multi_channel,
-        find_cheapest_service,
         batch_send,
+        find_cheapest_service,
+        send_multi_channel,
     )
 except ImportError:
     # Placeholder if student hasn't implemented yet
     class NotificationDispatcher:
-        def __init__(self, services):
+        def __init__(self, services) -> None:
             raise NotImplementedError("Implement NotificationDispatcher class")
 
     def send_multi_channel(services, recipient_map, message):
@@ -147,7 +148,9 @@ class TestNotificationDispatcher:
         assert hasattr(dispatcher, "services") or hasattr(dispatcher, "_services")
 
     def test_add_service(self, dispatcher):
-        initial_count = len(dispatcher.services) if hasattr(dispatcher, "services") else 3
+        initial_count = (
+            len(dispatcher.services) if hasattr(dispatcher, "services") else 3
+        )
         new_service = EmailNotification()
         dispatcher.add_service(new_service)
         # Check service was added (implementation dependent)
@@ -172,17 +175,13 @@ class TestNotificationDispatcher:
         # Should only send to valid recipients for each service
 
     def test_total_sent_property(self, dispatcher):
-        dispatcher.broadcast(
-            ["user@test.com", "+1234567890", "device_abc123"], "Test"
-        )
+        dispatcher.broadcast(["user@test.com", "+1234567890", "device_abc123"], "Test")
         total = dispatcher.total_sent
         assert isinstance(total, int)
         assert total >= 0
 
     def test_total_cost_property(self, dispatcher):
-        dispatcher.broadcast(
-            ["user@test.com", "+1234567890", "device_abc123"], "Test"
-        )
+        dispatcher.broadcast(["user@test.com", "+1234567890", "device_abc123"], "Test")
         total_cost = dispatcher.total_cost
         assert isinstance(total_cost, (int, float))
         assert total_cost >= 0
@@ -211,9 +210,7 @@ class TestSendMultiChannel:
             sms: "1234567890",  # missing +
             push: "short",
         }
-        success_count = send_multi_channel(
-            notification_services, recipient_map, "Test"
-        )
+        success_count = send_multi_channel(notification_services, recipient_map, "Test")
         assert success_count == 0
 
     def test_send_mixed_valid_invalid(self, notification_services):
@@ -223,9 +220,7 @@ class TestSendMultiChannel:
             sms: "invalid",
             push: "device_valid123",
         }
-        success_count = send_multi_channel(
-            notification_services, recipient_map, "Test"
-        )
+        success_count = send_multi_channel(notification_services, recipient_map, "Test")
         assert success_count > 0
 
 
@@ -287,7 +282,7 @@ class TestPolymorphism:
         """Dispatcher should work with any NotificationService subclass"""
 
         class SlackNotification(NotificationService):
-            def __init__(self):
+            def __init__(self) -> None:
                 super().__init__("Slack Service")
 
             def validate_recipient(self, recipient):
@@ -320,7 +315,7 @@ class TestPolymorphism:
         """Adding new service types shouldn't break existing code"""
 
         class CustomNotification(NotificationService):
-            def __init__(self):
+            def __init__(self) -> None:
                 super().__init__("Custom Service")
 
             def validate_recipient(self, recipient):

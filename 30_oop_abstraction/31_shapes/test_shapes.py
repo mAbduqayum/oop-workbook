@@ -1,6 +1,7 @@
 import math
+
 import pytest
-from shapes import Shape, Rectangle, Circle, Triangle
+from shapes import Circle, Rectangle, Shape, Triangle
 
 
 class TestShape:

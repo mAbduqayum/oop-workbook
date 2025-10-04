@@ -4,16 +4,17 @@ Tests for Shape Calculator - Polymorphism Exercise
 Run tests with: pytest test_shape_calculator.py -v
 """
 
-import pytest
 import math
 from abc import ABC, abstractmethod
+
+import pytest
 
 
 # Students should implement these classes (or import from abstraction chapter)
 class Shape(ABC):
     """Abstract base class for all shapes"""
 
-    def __init__(self, color):
+    def __init__(self, color) -> None:
         self.color = color
 
     @abstractmethod
@@ -30,7 +31,7 @@ class Shape(ABC):
 class Rectangle(Shape):
     """Rectangle shape"""
 
-    def __init__(self, color, width, height):
+    def __init__(self, color, width, height) -> None:
         super().__init__(color)
         self.width = width
         self.height = height
@@ -45,7 +46,7 @@ class Rectangle(Shape):
 class Circle(Shape):
     """Circle shape"""
 
-    def __init__(self, color, radius):
+    def __init__(self, color, radius) -> None:
         super().__init__(color)
         self.radius = radius
 
@@ -59,7 +60,7 @@ class Circle(Shape):
 class Triangle(Shape):
     """Triangle shape"""
 
-    def __init__(self, color, side1, side2, side3):
+    def __init__(self, color, side1, side2, side3) -> None:
         super().__init__(color)
         self.side1 = side1
         self.side2 = side2
@@ -78,9 +79,9 @@ class Triangle(Shape):
 try:
     from shape_calculator import (
         calculate_total_area,
+        filter_by_area,
         find_largest_shape,
         print_shape_report,
-        filter_by_area,
         sort_shapes_by_area,
     )
 except ImportError:
@@ -245,7 +246,7 @@ class TestPolymorphism:
         """Functions should work with any shape that implements the interface"""
 
         class Square(Shape):
-            def __init__(self, color, side):
+            def __init__(self, color, side) -> None:
                 super().__init__(color)
                 self.side = side
 

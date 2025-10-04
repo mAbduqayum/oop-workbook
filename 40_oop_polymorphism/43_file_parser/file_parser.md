@@ -99,16 +99,15 @@ print(f"Processed data: {data}")
 
 # Process batch of files polymorphically
 print("\n=== Batch Processing ===")
-all_parsers = [csv_parser, json_parser, xml_parser]
+all_parsers = [csv_parser, json_parser]
 results = processor.process_batch(all_parsers)
 print(f"Processed {len(results)} files")
 for file_path, data in results.items():
     print(f"  {file_path}: {type(data).__name__}")
 # Output:
-# Processed 3 files
+# Processed 2 files
 #   data/users.csv: list
 #   data/config.json: dict
-#   data/settings.xml: dict
 
 # Get summary statistics
 print("\n=== Processing Summary ===")
@@ -117,19 +116,17 @@ print(f"Total files: {summary['total']}")
 print(f"Total size: {summary['total_size']} bytes")
 print(f"Formats: {summary['formats']}")
 # Output:
-# Total files: 3
-# Total size: 512 bytes
-# Formats: ['csv', 'json', 'xml']
+# Total files: 2
+# Total size: 256 bytes
+# Formats: ['csv', 'json']
 
 # Auto-detect parser type
 print("\n=== Auto-Detection ===")
 parser1 = create_parser("data/users.csv")
 parser2 = create_parser("data/config.json")
-parser3 = create_parser("data/settings.xml")
 
 print(f"Auto-detected: {type(parser1).__name__}")  # CSVParser
 print(f"Auto-detected: {type(parser2).__name__}")  # JSONParser
-print(f"Auto-detected: {type(parser3).__name__}")  # XMLParser
 
 # Error handling
 try:
@@ -162,18 +159,8 @@ Charlie,35,Chicago
 }
 ```
 
-**settings.xml:**
-```xml
-<?xml version="1.0"?>
-<config>
-  <app>MyApp</app>
-  <version>1.0</version>
-  <timeout>30</timeout>
-</config>
-```
-
 **Key Polymorphism Concepts:**
-- **Format independence:** Same interface works for CSV, JSON, XML
+- **Format independence:** Same interface works for CSV, JSON
 - **Transparent processing:** FileProcessor doesn't care about format
 - **Easy extension:** Add YAML, TOML, INI parsers without changing existing code
 - **Factory method:** Auto-create correct parser based on file extension
