@@ -1,9 +1,9 @@
 import pytest
 from notification_service import (
-    NotificationService,
     EmailNotification,
-    SMSNotification,
+    NotificationService,
     PushNotification,
+    SMSNotification,
 )
 
 
@@ -125,7 +125,10 @@ class TestPushNotification:
         assert push.sent_count == 1
 
         captured = capsys.readouterr()
-        assert "Sending push notification to device device_abc123: Test push" in captured.out
+        assert (
+            "Sending push notification to device device_abc123: Test push"
+            in captured.out
+        )
         assert "SUCCESS" in captured.out
 
     def test_push_send_failure(self, capsys):
@@ -166,7 +169,9 @@ class TestPolymorphism:
     def test_polymorphic_function(self):
         """Test that a function can work with any notification service"""
 
-        def get_total_cost(service: NotificationService, num_notifications: int) -> float:
+        def get_total_cost(
+            service: NotificationService, num_notifications: int
+        ) -> float:
             return service.get_cost() * num_notifications
 
         email = EmailNotification()
@@ -191,7 +196,7 @@ class TestPolymorphism:
             "device_abc123",
         ]
 
-        for service, recipient in zip(services, recipients):
+        for service, recipient in zip(services, recipients, strict=False):
             assert service.sent_count == 0
             service.send(recipient, "Test")
             assert service.sent_count == 1

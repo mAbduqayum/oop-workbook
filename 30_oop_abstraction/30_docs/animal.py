@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 class Animal(ABC):
     """Abstract base class - cannot be instantiated directly"""
 
-    def __init__(self, name, age):
+    def __init__(self, name, age) -> None:
         self.name = name
         self.age = age
 
@@ -46,6 +46,6 @@ class Bird(Animal):
 dog = Dog("Buddy", 3)
 bird = Bird("Tweety", 1)
 
-print(dog.make_sound())   # Buddy says: Woof!
-print(bird.move())        # Tweety flies through the air
-print(dog.eat())          # Buddy is eating (inherited)
+print(dog.make_sound())  # Buddy says: Woof!
+print(bird.move())  # Tweety flies through the air
+print(dog.eat())  # Buddy is eating (inherited)
