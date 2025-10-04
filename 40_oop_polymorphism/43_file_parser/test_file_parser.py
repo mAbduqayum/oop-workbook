@@ -23,6 +23,7 @@ try:
 except ImportError:
     # Placeholder classes if student hasn't implemented yet
     class FileParser(ABC):
+        @abstractmethod
         def __init__(self, file_path) -> None:
             raise NotImplementedError("Implement FileParser class")
 
