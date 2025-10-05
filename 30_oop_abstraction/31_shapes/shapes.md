@@ -23,8 +23,8 @@ This exercise demonstrates how abstraction creates clear contracts that all impl
    - Implement `area()` to return `π * radius²`
    - Implement `perimeter()` to return `2 * π * radius`
 7. Create `Triangle` class that inherits from `Shape`:
-   - Constructor parameters: `color`, `base`, `height`, `side1`, `side2`, `side3`
-   - Implement `area()` to return `0.5 * base * height`
+   - Constructor parameters: `color`, `side1`, `side2`, `side3`
+   - Implement `area()` using Heron's formula: `sqrt(s * (s - side1) * (s - side2) * (s - side3))` where `s = (side1 + side2 + side3) / 2`
    - Implement `perimeter()` to return `side1 + side2 + side3`
 
 **What You'll Learn:**
@@ -47,7 +47,7 @@ except TypeError as e:
 # Create concrete shapes
 rectangle = Rectangle("red", 10, 5)
 circle = Circle("blue", 7)
-triangle = Triangle("green", 6, 4, 5, 5, 6)
+triangle = Triangle("green", 5, 5, 6)
 
 # All shapes have area() and perimeter()
 print(f"Rectangle area: {rectangle.area():.2f}")        # 50.00
