@@ -6,7 +6,6 @@ from shapes import Circle, Rectangle, Shape, Triangle
 
 class TestShape:
     def test_cannot_instantiate_abstract_shape(self):
-        """Test that abstract Shape class cannot be instantiated"""
         with pytest.raises(TypeError):
             Shape("red")
 
@@ -77,7 +76,6 @@ class TestTriangle:
 
 class TestPolymorphism:
     def test_all_shapes_have_area_method(self):
-        """Test that all shapes implement area() method"""
         shapes = [
             Rectangle("red", 10, 5),
             Circle("blue", 7),
@@ -89,7 +87,6 @@ class TestPolymorphism:
             assert isinstance(shape.area(), (int, float))
 
     def test_all_shapes_have_perimeter_method(self):
-        """Test that all shapes implement perimeter() method"""
         shapes = [
             Rectangle("red", 10, 5),
             Circle("blue", 7),
@@ -101,8 +98,6 @@ class TestPolymorphism:
             assert isinstance(shape.perimeter(), (int, float))
 
     def test_polymorphic_function(self):
-        """Test that a function can work with any shape"""
-
         def get_area(shape: Shape) -> float:
             return shape.area()
 
