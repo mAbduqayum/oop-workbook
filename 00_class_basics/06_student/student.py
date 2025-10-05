@@ -13,6 +13,7 @@ class Student:
             return 0
         return sum(self.grades) / len(self.grades)
 
+
 if __name__ == "__main__":
     student = Student("Alice", "S123")
     student.add_grade(85)

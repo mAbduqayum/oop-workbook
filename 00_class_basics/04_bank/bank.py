@@ -14,6 +14,7 @@ class BankAccount:
         else:
             print(f"Insufficient funds! Balance: ${self.balance}")
 
+
 if __name__ == "__main__":
     account = BankAccount("Alice")
     account.deposit(100)

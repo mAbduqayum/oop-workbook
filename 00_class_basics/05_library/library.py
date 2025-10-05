@@ -7,6 +7,7 @@ class Book:
     def __repr__(self):
         return f"{self.title} by {self.author}"
 
+
 class Library:
     def __init__(self, name):
         self.name = name
@@ -25,6 +26,7 @@ class Library:
     def list_books(self):
         for book in self.books:
             print(book)
+
 
 if __name__ == "__main__":
     library = Library("City Library")

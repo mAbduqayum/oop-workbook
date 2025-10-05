@@ -16,6 +16,7 @@ class Car:
             self.fuel -= 1
             print(f"Fuel: {self.fuel}")
 
+
 if __name__ == "__main__":
     car1 = Car("Toyota", "Camry")
     car1.start_engine()

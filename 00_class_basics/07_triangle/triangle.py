@@ -4,7 +4,9 @@ import math
 class Triangle:
     def __init__(self, a, b, c):
         if not abs(a - c) < b < a + c:
-            raise ValueError("Invalid triangle: sides do not satisfy triangle inequality")
+            raise ValueError(
+                "Invalid triangle: sides do not satisfy triangle inequality"
+            )
         self.a = a
         self.b = b
         self.c = c
