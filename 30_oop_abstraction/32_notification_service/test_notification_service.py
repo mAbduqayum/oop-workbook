@@ -9,7 +9,6 @@ from notification_service import (
 
 class TestNotificationService:
     def test_cannot_instantiate_abstract_service(self):
-        """Test that abstract NotificationService cannot be instantiated"""
         with pytest.raises(TypeError):
             NotificationService("Generic Service")
 
@@ -151,7 +150,6 @@ class TestPushNotification:
 
 class TestPolymorphism:
     def test_all_services_have_required_methods(self):
-        """Test that all services implement required abstract methods"""
         services = [
             EmailNotification(),
             SMSNotification(),
@@ -167,8 +165,6 @@ class TestPolymorphism:
             assert callable(service.get_cost)
 
     def test_polymorphic_function(self):
-        """Test that a function can work with any notification service"""
-
         def get_total_cost(
             service: NotificationService, num_notifications: int
         ) -> float:
@@ -183,7 +179,6 @@ class TestPolymorphism:
         assert get_total_cost(push, 500) == 5.0
 
     def test_sent_count_tracking(self):
-        """Test that sent_count increments correctly for all services"""
         services = [
             EmailNotification(),
             SMSNotification(),
@@ -206,7 +201,6 @@ class TestPolymorphism:
 
 class TestLogNotification:
     def test_log_increments_count_on_success(self):
-        """Test that log_notification increments sent_count on SUCCESS"""
         email = EmailNotification()
         assert email.sent_count == 0
 
@@ -217,7 +211,6 @@ class TestLogNotification:
         assert email.sent_count == 2
 
     def test_log_does_not_increment_on_failure(self):
-        """Test that log_notification doesn't increment sent_count on FAILED"""
         email = EmailNotification()
         assert email.sent_count == 0
 
@@ -228,7 +221,6 @@ class TestLogNotification:
         assert email.sent_count == 0
 
     def test_log_prints_message(self, capsys):
-        """Test that log_notification prints correct format"""
         email = EmailNotification()
         email.log_notification("user@example.com", "SUCCESS")
 

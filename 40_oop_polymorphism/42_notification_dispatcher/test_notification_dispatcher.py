@@ -1,40 +1,27 @@
-"""
-Tests for Notification Dispatcher - Polymorphism Exercise
-
-Run tests with: pytest test_notification_dispatcher.py -v
-"""
-
 from abc import ABC, abstractmethod
 from datetime import datetime
 
 import pytest
 
 
-# Students should implement these classes (or import from abstraction chapter)
 class NotificationService(ABC):
-    """Abstract base class for all notification services"""
-
     def __init__(self, service_name) -> None:
         self.service_name = service_name
         self.sent_count = 0
 
     @abstractmethod
     def validate_recipient(self, recipient):
-        """Validate recipient format"""
         pass
 
     @abstractmethod
     def send(self, recipient, message):
-        """Send notification"""
         pass
 
     @abstractmethod
     def get_cost(self):
-        """Return cost per notification"""
         pass
 
     def log_notification(self, recipient, status):
-        """Log notification attempt"""
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"[{timestamp}] {self.service_name}: {recipient} - {status}")
         if status == "SUCCESS":
@@ -42,8 +29,6 @@ class NotificationService(ABC):
 
 
 class EmailNotification(NotificationService):
-    """Email notification service"""
-
     def __init__(self) -> None:
         super().__init__("Email Service")
 
@@ -63,8 +48,6 @@ class EmailNotification(NotificationService):
 
 
 class SMSNotification(NotificationService):
-    """SMS notification service"""
-
     def __init__(self) -> None:
         super().__init__("SMS Service")
 
@@ -84,8 +67,6 @@ class SMSNotification(NotificationService):
 
 
 class PushNotification(NotificationService):
-    """Push notification service"""
-
     def __init__(self) -> None:
         super().__init__("Push Notification Service")
 
@@ -104,7 +85,6 @@ class PushNotification(NotificationService):
         return True
 
 
-# Import student's solution
 try:
     from notification_dispatcher import (
         NotificationDispatcher,
@@ -113,7 +93,7 @@ try:
         send_multi_channel,
     )
 except ImportError:
-    # Placeholder if student hasn't implemented yet
+
     class NotificationDispatcher:
         def __init__(self, services) -> None:
             raise NotImplementedError("Implement NotificationDispatcher class")
@@ -130,19 +110,15 @@ except ImportError:
 
 @pytest.fixture
 def notification_services():
-    """Create sample notification services"""
     return [EmailNotification(), SMSNotification(), PushNotification()]
 
 
 @pytest.fixture
 def dispatcher(notification_services):
-    """Create dispatcher with sample services"""
     return NotificationDispatcher(notification_services)
 
 
 class TestNotificationDispatcher:
-    """Test NotificationDispatcher class"""
-
     def test_dispatcher_initialization(self, notification_services):
         dispatcher = NotificationDispatcher(notification_services)
         assert hasattr(dispatcher, "services") or hasattr(dispatcher, "_services")
@@ -153,7 +129,6 @@ class TestNotificationDispatcher:
         )
         new_service = EmailNotification()
         dispatcher.add_service(new_service)
-        # Check service was added (implementation dependent)
         assert hasattr(dispatcher, "add_service")
 
     def test_remove_service(self, dispatcher, notification_services):
@@ -165,14 +140,11 @@ class TestNotificationDispatcher:
         recipients = ["user@test.com", "+1234567890", "device_abc123"]
         dispatcher.broadcast(recipients, "Test message")
         captured = capsys.readouterr()
-        # Should attempt to send through all services
         assert "email" in captured.out.lower() or "Email" in captured.out
 
     def test_send_to_valid_only(self, dispatcher):
-        # Mix of valid and invalid recipients
         recipients = ["valid@test.com", "invalid-email", "+1234567890", "short"]
         dispatcher.send_to_valid(recipients, "Test message")
-        # Should only send to valid recipients for each service
 
     def test_total_sent_property(self, dispatcher):
         dispatcher.broadcast(["user@test.com", "+1234567890", "device_abc123"], "Test")
@@ -188,8 +160,6 @@ class TestNotificationDispatcher:
 
 
 class TestSendMultiChannel:
-    """Test send_multi_channel function"""
-
     def test_send_to_specific_channels(self, notification_services):
         email, sms, push = notification_services
         recipient_map = {
@@ -207,7 +177,7 @@ class TestSendMultiChannel:
         email, sms, push = notification_services
         recipient_map = {
             email: "invalid-email",
-            sms: "1234567890",  # missing +
+            sms: "1234567890",
             push: "short",
         }
         success_count = send_multi_channel(notification_services, recipient_map, "Test")
@@ -225,12 +195,9 @@ class TestSendMultiChannel:
 
 
 class TestFindCheapestService:
-    """Test find_cheapest_service function"""
-
     def test_find_cheapest_among_services(self, notification_services):
         cheapest = find_cheapest_service(notification_services)
         assert isinstance(cheapest, NotificationService)
-        # Email should be cheapest at 0.001
         assert cheapest.get_cost() == 0.001
         assert isinstance(cheapest, EmailNotification)
 
@@ -240,26 +207,21 @@ class TestFindCheapestService:
         assert cheapest.get_cost() == 0.05
 
     def test_find_cheapest_same_cost(self):
-        # Create multiple services with same cost
         services = [EmailNotification(), EmailNotification()]
         cheapest = find_cheapest_service(services)
         assert cheapest.get_cost() == 0.001
 
 
 class TestBatchSend:
-    """Test batch_send function"""
-
     def test_batch_send_all_valid(self, notification_services):
         recipients = ["test@example.com", "+1111111111", "device_test123"]
         results = batch_send(notification_services, recipients, "Batch test")
         assert isinstance(results, dict)
-        # Should have some success
         assert "success" in results or results.get("success", 0) >= 0
 
     def test_batch_send_all_invalid(self, notification_services):
         recipients = ["invalid", "invalid", "inv"]
         results = batch_send(notification_services, recipients, "Test")
-        # Most should fail
         if "failed" in results:
             assert results["failed"] >= 0
 
@@ -271,16 +233,11 @@ class TestBatchSend:
     def test_batch_send_includes_cost(self, notification_services):
         recipients = ["test@example.com"]
         results = batch_send(notification_services, recipients, "Test")
-        # Should include cost information
         assert "total_cost" in results or "cost" in results
 
 
 class TestPolymorphism:
-    """Test polymorphic behavior"""
-
     def test_dispatcher_works_with_any_service(self):
-        """Dispatcher should work with any NotificationService subclass"""
-
         class SlackNotification(NotificationService):
             def __init__(self) -> None:
                 super().__init__("Slack Service")
@@ -305,15 +262,11 @@ class TestPolymorphism:
         assert dispatcher.total_sent > 0
 
     def test_no_type_checking_needed(self, notification_services):
-        """Functions should work polymorphically without type checks"""
-        # All functions should work without knowing specific types
         cheapest = find_cheapest_service(notification_services)
         assert hasattr(cheapest, "send")
         assert hasattr(cheapest, "get_cost")
 
     def test_extensible_design(self, notification_services):
-        """Adding new service types shouldn't break existing code"""
-
         class CustomNotification(NotificationService):
             def __init__(self) -> None:
                 super().__init__("Custom Service")
@@ -328,10 +281,8 @@ class TestPolymorphism:
                 self.log_notification(recipient, "SUCCESS")
                 return True
 
-        # Add custom service to existing services
         all_services = notification_services + [CustomNotification()]
 
-        # All existing functions should still work
         dispatcher = NotificationDispatcher(all_services)
         cheapest = find_cheapest_service(all_services)
         results = batch_send(all_services, ["test"], "Message")

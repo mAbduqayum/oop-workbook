@@ -1,36 +1,23 @@
-"""
-Tests for Shape Calculator - Polymorphism Exercise
-
-Run tests with: pytest test_shape_calculator.py -v
-"""
-
 import math
 from abc import ABC, abstractmethod
 
 import pytest
 
 
-# Students should implement these classes (or import from abstraction chapter)
 class Shape(ABC):
-    """Abstract base class for all shapes"""
-
     def __init__(self, color) -> None:
         self.color = color
 
     @abstractmethod
     def area(self):
-        """Calculate and return the area"""
         pass
 
     @abstractmethod
     def perimeter(self):
-        """Calculate and return the perimeter"""
         pass
 
 
 class Rectangle(Shape):
-    """Rectangle shape"""
-
     def __init__(self, color, width, height) -> None:
         super().__init__(color)
         self.width = width
@@ -44,8 +31,6 @@ class Rectangle(Shape):
 
 
 class Circle(Shape):
-    """Circle shape"""
-
     def __init__(self, color, radius) -> None:
         super().__init__(color)
         self.radius = radius
@@ -58,8 +43,6 @@ class Circle(Shape):
 
 
 class Triangle(Shape):
-    """Triangle shape"""
-
     def __init__(self, color, side1, side2, side3) -> None:
         super().__init__(color)
         self.side1 = side1
@@ -67,7 +50,6 @@ class Triangle(Shape):
         self.side3 = side3
 
     def area(self):
-        # Use Heron's formula
         s = (self.side1 + self.side2 + self.side3) / 2
         return math.sqrt(s * (s - self.side1) * (s - self.side2) * (s - self.side3))
 
@@ -75,7 +57,6 @@ class Triangle(Shape):
         return self.side1 + self.side2 + self.side3
 
 
-# Import student's solution
 try:
     from shape_calculator import (
         calculate_total_area,
@@ -85,7 +66,7 @@ try:
         sort_shapes_by_area,
     )
 except ImportError:
-    # Placeholder functions if student hasn't implemented yet
+
     def calculate_total_area(shapes):
         raise NotImplementedError("Implement calculate_total_area()")
 
@@ -104,7 +85,6 @@ except ImportError:
 
 @pytest.fixture
 def sample_shapes():
-    """Create a collection of different shapes for testing"""
     return [
         Rectangle("red", 10, 5),  # area = 50
         Circle("blue", 5),  # area = 78.54
@@ -115,8 +95,6 @@ def sample_shapes():
 
 
 class TestCalculateTotalArea:
-    """Test calculate_total_area function"""
-
     def test_total_area_multiple_shapes(self, sample_shapes):
         total = calculate_total_area(sample_shapes)
         expected = 50 + 78.54 + 12 + 9 + 12.57
@@ -137,8 +115,6 @@ class TestCalculateTotalArea:
 
 
 class TestFindLargestShape:
-    """Test find_largest_shape function"""
-
     def test_find_largest_in_mixed_shapes(self, sample_shapes):
         largest = find_largest_shape(sample_shapes)
         assert isinstance(largest, Circle)
@@ -157,19 +133,17 @@ class TestFindLargestShape:
 
     def test_find_largest_with_triangle(self):
         shapes = [
-            Triangle("green", 15, 15, 20),  # area ≈ 109.54 (Heron's formula)
-            Rectangle("red", 8, 8),  # area = 64
+            Triangle("green", 15, 15, 20),
+            Rectangle("red", 8, 8),
         ]
         largest = find_largest_shape(shapes)
         assert isinstance(largest, Triangle)
 
 
 class TestFilterByArea:
-    """Test filter_by_area function"""
-
     def test_filter_above_threshold(self, sample_shapes):
         filtered = filter_by_area(sample_shapes, 20)
-        assert len(filtered) == 2  # Rectangle(50) and Circle(78.54)
+        assert len(filtered) == 2
         assert all(shape.area() >= 20 for shape in filtered)
 
     def test_filter_no_matches(self, sample_shapes):
@@ -188,18 +162,16 @@ class TestFilterByArea:
 
 
 class TestSortShapesByArea:
-    """Test sort_shapes_by_area function"""
-
     def test_sort_mixed_shapes(self, sample_shapes):
         sorted_shapes = sort_shapes_by_area(sample_shapes)
         areas = [shape.area() for shape in sorted_shapes]
-        assert areas == sorted(areas), "Shapes not sorted by area"
+        assert areas == sorted(areas)
 
     def test_sort_already_sorted(self):
         shapes = [
-            Rectangle("red", 2, 2),  # 4
-            Rectangle("blue", 3, 3),  # 9
-            Rectangle("green", 4, 4),  # 16
+            Rectangle("red", 2, 2),
+            Rectangle("blue", 3, 3),
+            Rectangle("green", 4, 4),
         ]
         sorted_shapes = sort_shapes_by_area(shapes)
         assert sorted_shapes[0].color == "red"
@@ -208,9 +180,9 @@ class TestSortShapesByArea:
 
     def test_sort_reverse_order(self):
         shapes = [
-            Rectangle("red", 4, 4),  # 16
-            Rectangle("blue", 3, 3),  # 9
-            Rectangle("green", 2, 2),  # 4
+            Rectangle("red", 4, 4),
+            Rectangle("blue", 3, 3),
+            Rectangle("green", 2, 2),
         ]
         sorted_shapes = sort_shapes_by_area(shapes)
         assert sorted_shapes[0].color == "green"
@@ -223,12 +195,9 @@ class TestSortShapesByArea:
 
 
 class TestPrintShapeReport:
-    """Test print_shape_report function"""
-
     def test_report_output(self, sample_shapes, capsys):
         print_shape_report(sample_shapes)
         captured = capsys.readouterr()
-        # Check that all colors appear in output
         assert "red" in captured.out.lower()
         assert "blue" in captured.out.lower()
         assert "green" in captured.out.lower()
@@ -240,11 +209,7 @@ class TestPrintShapeReport:
 
 
 class TestPolymorphism:
-    """Test that functions work polymorphically without type checking"""
-
     def test_works_with_new_shape_type(self):
-        """Functions should work with any shape that implements the interface"""
-
         class Square(Shape):
             def __init__(self, color, side) -> None:
                 super().__init__(color)
@@ -257,8 +222,8 @@ class TestPolymorphism:
                 return 4 * self.side
 
         shapes = [
-            Square("red", 5),  # area = 25
-            Rectangle("blue", 4, 6),  # area = 24
+            Square("red", 5),
+            Rectangle("blue", 4, 6),
         ]
 
         total = calculate_total_area(shapes)
@@ -268,8 +233,6 @@ class TestPolymorphism:
         assert isinstance(largest, Square)
 
     def test_no_isinstance_checks_needed(self, sample_shapes):
-        """Polymorphism means we don't need to check types"""
-        # All these functions should work without knowing specific types
         total = calculate_total_area(sample_shapes)
         assert total > 0
 
