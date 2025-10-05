@@ -2,7 +2,7 @@ import math
 
 
 class Triangle:
-    def __init__(self, a, b, c):
+    def __init__(self, a, b, c) -> None:
         if not abs(a - c) < b < a + c:
             raise ValueError(
                 "Invalid triangle: sides do not satisfy triangle inequality"

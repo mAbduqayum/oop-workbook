@@ -1,5 +1,5 @@
 class Student:
-    def __init__(self, name, student_id):
+    def __init__(self, name, student_id) -> None:
         self.name = name
         self.student_id = student_id
         self.grades = []

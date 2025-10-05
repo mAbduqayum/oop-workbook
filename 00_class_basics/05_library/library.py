@@ -1,15 +1,15 @@
 class Book:
-    def __init__(self, title, author, isbn):
+    def __init__(self, title, author, isbn) -> None:
         self.title = title
         self.author = author
         self.isbn = isbn
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.title} by {self.author}"
 
 
 class Library:
-    def __init__(self, name):
+    def __init__(self, name) -> None:
         self.name = name
         self.books = []
 

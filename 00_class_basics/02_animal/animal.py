@@ -1,12 +1,12 @@
 class Animal:
-    def __init__(self, name, species):
+    def __init__(self, name, species) -> None:
         self.name = name
         self.species = species
 
     def make_sound(self):
         print(f"{self.name} makes a sound!")
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Animal(name='{self.name}', species='{self.species}')"
 
 

@@ -1,5 +1,5 @@
 class Person:
-    def __init__(self, name):
+    def __init__(self, name) -> None:
         self.name = name
 
     def say_hello(self):
