@@ -53,24 +53,23 @@ class TestCircle:
 
 class TestTriangle:
     def test_triangle_creation(self):
-        triangle = Triangle("green", 6, 4, 5, 5, 6)
+        triangle = Triangle("green", 5, 5, 6)
         assert triangle.color == "green"
-        assert triangle.base == 6
-        assert triangle.height == 4
         assert triangle.side1 == 5
         assert triangle.side2 == 5
         assert triangle.side3 == 6
 
     def test_triangle_area(self):
-        triangle = Triangle("red", 6, 4, 5, 5, 6)
-        assert triangle.area() == 12.0
+        triangle = Triangle("red", 5, 5, 6)
+        expected_area = 12.0
+        assert abs(triangle.area() - expected_area) < 0.01
 
     def test_triangle_perimeter(self):
-        triangle = Triangle("blue", 6, 4, 5, 5, 6)
+        triangle = Triangle("blue", 5, 5, 6)
         assert triangle.perimeter() == 16
 
     def test_triangle_is_shape(self):
-        triangle = Triangle("orange", 3, 4, 3, 4, 5)
+        triangle = Triangle("orange", 3, 4, 5)
         assert isinstance(triangle, Shape)
 
 
@@ -79,7 +78,7 @@ class TestPolymorphism:
         shapes = [
             Rectangle("red", 10, 5),
             Circle("blue", 7),
-            Triangle("green", 6, 4, 5, 5, 6),
+            Triangle("green", 5, 5, 6),
         ]
         for shape in shapes:
             assert hasattr(shape, "area")
@@ -90,7 +89,7 @@ class TestPolymorphism:
         shapes = [
             Rectangle("red", 10, 5),
             Circle("blue", 7),
-            Triangle("green", 6, 4, 5, 5, 6),
+            Triangle("green", 5, 5, 6),
         ]
         for shape in shapes:
             assert hasattr(shape, "perimeter")
@@ -103,8 +102,8 @@ class TestPolymorphism:
 
         rect = Rectangle("red", 10, 5)
         circle = Circle("blue", 7)
-        triangle = Triangle("green", 6, 4, 5, 5, 6)
+        triangle = Triangle("green", 5, 5, 6)
 
         assert get_area(rect) == 50
         assert abs(get_area(circle) - (math.pi * 49)) < 0.01
-        assert get_area(triangle) == 12.0
+        assert abs(get_area(triangle) - 12.0) < 0.01
