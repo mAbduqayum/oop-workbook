@@ -3,29 +3,23 @@ from datetime import datetime
 
 
 class NotificationService(ABC):
-    """Abstract base class for all notification services"""
-
-    def __init__(self, service_name):
+    def __init__(self, service_name) -> None:
         self.service_name = service_name
         self.sent_count = 0
 
     @abstractmethod
     def validate_recipient(self, recipient):
-        """Validate recipient format - must be implemented by child classes"""
         pass
 
     @abstractmethod
     def send(self, recipient, message):
-        """Send notification - must be implemented by child classes"""
         pass
 
     @abstractmethod
     def get_cost(self):
-        """Get cost per notification - must be implemented by child classes"""
         pass
 
     def log_notification(self, recipient, status):
-        """Concrete method - shared logging for all notification types"""
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"[{timestamp}] {self.service_name}: {recipient} - {status}")
         if status == "SUCCESS":
@@ -33,9 +27,7 @@ class NotificationService(ABC):
 
 
 class EmailNotification(NotificationService):
-    """Email implementation of NotificationService"""
-
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("Email Service")
 
     def validate_recipient(self, recipient):
@@ -55,9 +47,7 @@ class EmailNotification(NotificationService):
 
 
 class SMSNotification(NotificationService):
-    """SMS implementation of NotificationService"""
-
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("SMS Service")
 
     def validate_recipient(self, recipient):
@@ -77,9 +67,7 @@ class SMSNotification(NotificationService):
 
 
 class PushNotification(NotificationService):
-    """Push notification implementation (Bonus)"""
-
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("Push Notification Service")
 
     def validate_recipient(self, recipient):
@@ -99,7 +87,6 @@ class PushNotification(NotificationService):
 
 
 if __name__ == "__main__":
-    # Demonstrate that abstract class cannot be instantiated
     print("Attempting to create abstract NotificationService:")
     try:
         service = NotificationService("Generic")
@@ -108,7 +95,6 @@ if __name__ == "__main__":
         print(f"Error: {e}")
         print("✓ Cannot instantiate abstract class - as expected!\n")
 
-    # Create concrete services
     print("=" * 70)
     print("Creating concrete notification services")
     print("=" * 70)
@@ -118,25 +104,21 @@ if __name__ == "__main__":
     sms = SMSNotification()
     push = PushNotification()
 
-    # Test email notifications
     print("--- Email Notifications ---")
     email.send("user@example.com", "Hello from email!")
     email.send("invalid-email", "This should fail")
     print()
 
-    # Test SMS notifications
     print("--- SMS Notifications ---")
     sms.send("+1234567890", "Hello from SMS!")
     sms.send("1234567890", "This should fail (missing +)")
     print()
 
-    # Test push notifications
     print("--- Push Notifications ---")
     push.send("device_abc123", "Hello from push!")
     push.send("dev1", "This should fail (too short)")
     print()
 
-    # Check costs
     print("=" * 70)
     print("Cost Information")
     print("=" * 70)
@@ -145,7 +127,6 @@ if __name__ == "__main__":
     print(f"Push cost per notification: ${push.get_cost():.3f}")
     print()
 
-    # Track sent counts
     print("=" * 70)
     print("Statistics")
     print("=" * 70)
@@ -154,20 +135,17 @@ if __name__ == "__main__":
     print(f"Push notifications sent: {push.sent_count}")
     print()
 
-    # Demonstrate polymorphism with batch sending
     print("=" * 70)
     print("Polymorphic Batch Sending")
     print("=" * 70)
 
     def send_batch(service: NotificationService, recipients, message):
-        """Function that works with ANY notification service"""
         print(f"\nUsing: {service.service_name}")
         for recipient in recipients:
             service.send(recipient, message)
         total_cost = service.sent_count * service.get_cost()
         print(f"Total sent: {service.sent_count}, Total cost: ${total_cost:.2f}\n")
 
-    # Works with any service type
     email2 = EmailNotification()
     send_batch(email2, ["alice@test.com", "bob@test.com"], "Batch email")
 

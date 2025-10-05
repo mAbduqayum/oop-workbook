@@ -1,28 +1,22 @@
-from abc import ABC, abstractmethod
 import math
+from abc import ABC, abstractmethod
 
 
 class Shape(ABC):
-    """Abstract base class for all shapes"""
-
-    def __init__(self, color):
+    def __init__(self, color) -> None:
         self.color = color
 
     @abstractmethod
     def area(self):
-        """Calculate area - must be implemented by all shapes"""
         pass
 
     @abstractmethod
     def perimeter(self):
-        """Calculate perimeter - must be implemented by all shapes"""
         pass
 
 
 class Rectangle(Shape):
-    """Concrete implementation of Shape for rectangles"""
-
-    def __init__(self, color, width, height):
+    def __init__(self, color, width, height) -> None:
         super().__init__(color)
         self.width = width
         self.height = height
@@ -35,9 +29,7 @@ class Rectangle(Shape):
 
 
 class Circle(Shape):
-    """Concrete implementation of Shape for circles"""
-
-    def __init__(self, color, radius):
+    def __init__(self, color, radius) -> None:
         super().__init__(color)
         self.radius = radius
 
@@ -49,9 +41,7 @@ class Circle(Shape):
 
 
 class Triangle(Shape):
-    """Concrete implementation of Shape for triangles"""
-
-    def __init__(self, color, base, height, side1, side2, side3):
+    def __init__(self, color, base, height, side1, side2, side3) -> None:
         super().__init__(color)
         self.base = base
         self.height = height
@@ -67,7 +57,6 @@ class Triangle(Shape):
 
 
 if __name__ == "__main__":
-    # Demonstrate that abstract class cannot be instantiated
     print("Attempting to create abstract Shape:")
     try:
         shape = Shape("red")
@@ -76,13 +65,11 @@ if __name__ == "__main__":
         print(f"Error: {e}")
         print("✓ Cannot instantiate abstract class - as expected!\n")
 
-    # Create concrete shapes
     print("Creating concrete shapes:")
     rectangle = Rectangle("red", 10, 5)
     circle = Circle("blue", 7)
     triangle = Triangle("green", 6, 4, 5, 5, 6)
 
-    # Test area and perimeter
     print(f"\nRectangle ({rectangle.color}):")
     print(f"  Area: {rectangle.area():.2f}")
     print(f"  Perimeter: {rectangle.perimeter():.2f}")
@@ -95,7 +82,6 @@ if __name__ == "__main__":
     print(f"  Area: {triangle.area():.2f}")
     print(f"  Perimeter: {triangle.perimeter():.2f}")
 
-    # Demonstrate polymorphism
     print("\n" + "=" * 50)
     print("Polymorphic function working with all shapes:")
     print("=" * 50)
