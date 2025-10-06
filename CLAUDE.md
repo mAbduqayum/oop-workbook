@@ -31,6 +31,7 @@ designed for learning and practice.
 2. Create `*.py` and solve the question 
 3. Create `test_*.py` and unit test the solution
 4. Don't write comments/docs in solutions/tests.
+5. Don't create python files and tests for docs or appendix sections
 
 ## Commands
 - `uv run`
