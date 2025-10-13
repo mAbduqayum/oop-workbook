@@ -816,7 +816,7 @@ async def fetch_data(url: str, timeout: int = 30) -> dict:
 ### Generic Builder
 
 ```python
-from typing import Generic, TypeVar, Self
+from typing import Generic, TypeVar, Self, Any
 
 T = TypeVar('T')
 
