@@ -82,54 +82,41 @@ str_stack.push("hello")
 - **Maintainability:** Fix bugs in one place
 - **Flexibility:** Works with any type without losing type information
 
-## Python 3.12+ Modern Syntax (PEP 695)
+## Generic Syntax
 
-Python 3.12 introduced a revolutionary new syntax for generics that makes them much simpler and cleaner.
+Python provides a clean, intuitive syntax for generics that makes them simple to use.
 
 ### Generic Classes
 
-**Modern Syntax (Python 3.12+):**
+Define type parameters directly in square brackets after the class name:
+
 ```python
-class Box[T]:
-    def __init__(self, value: T):
-        self.value = value
+class Cache[T]:
+    def __init__(self):
+        self._data: dict[str, T] = {}
 
-    def get(self) -> T:
-        return self.value
+    def get(self, key: str) -> T | None:
+        return self._data.get(key)
 
-    def set(self, value: T) -> None:
-        self.value = value
+    def set(self, key: str, value: T) -> None:
+        self._data[key] = value
 
-int_box = Box[int](42)
-str_box = Box[str]("hello")
+user_cache = Cache[User]()
+user_cache.set("user_1", User("Alice"))
+
+config_cache = Cache[dict]()
+config_cache.set("settings", {"theme": "dark"})
 ```
 
-**Legacy Syntax (Python 3.11 and earlier):**
-```python
-from typing import TypeVar, Generic
-
-T = TypeVar('T')
-
-class Box(Generic[T]):
-    def __init__(self, value: T):
-        self.value = value
-
-    def get(self) -> T:
-        return self.value
-
-    def set(self, value: T) -> None:
-        self.value = value
-```
-
-**Key Differences:**
-- **Modern:** Type parameters defined directly in class declaration `[T]`
-- **Modern:** No need to import `TypeVar` or `Generic`
-- **Modern:** Cleaner, more intuitive syntax
-- **Legacy:** Explicit `TypeVar` creation and `Generic` inheritance
+**Key features:**
+- Type parameters defined directly in class declaration `[T]`
+- No need to import `TypeVar` or `Generic`
+- Clean, readable syntax
 
 ### Generic Functions
 
-**Modern Syntax:**
+Functions can also have type parameters:
+
 ```python
 def first[T](items: list[T]) -> T:
     return items[0]
@@ -145,19 +132,10 @@ result2 = last[str](["a", "b", "c"])
 x, y = swap[float](3.14, 2.71)
 ```
 
-**Legacy Syntax:**
-```python
-from typing import TypeVar
-
-T = TypeVar('T')
-
-def first(items: list[T]) -> T:
-    return items[0]
-```
-
 ### Type Aliases
 
-**Modern Syntax:**
+Use the `type` statement to create generic type aliases:
+
 ```python
 type Point2D = tuple[float, float]
 type Point3D = tuple[float, float, float]
@@ -168,121 +146,13 @@ type Nested[T] = list[list[T]]
 type JSON = dict[str, "JSON"] | list["JSON"] | str | int | float | bool | None
 ```
 
-**Legacy Syntax:**
-```python
-from typing import TypeAlias, TypeVar
-
-T = TypeVar('T')
-
-Point2D: TypeAlias = tuple[float, float]
-ListOrSet: TypeAlias = list[T] | set[T]
-```
-
 **Key advantage:** The `type` statement enables self-referential type aliases without quotes (forward references).
 
-## Type Parameters: The Building Blocks
+## Working with Type Parameters
 
-### 1. Basic Type Parameters
+### Multiple Type Parameters
 
-A simple placeholder that can be any type:
-
-```python
-class Container[T]:
-    def __init__(self):
-        self._items: list[T] = []
-
-    def add(self, item: T) -> None:
-        self._items.append(item)
-
-    def get_all(self) -> list[T]:
-        return self._items.copy()
-
-numbers = Container[int]()
-numbers.add(42)
-
-words = Container[str]()
-words.add("hello")
-```
-
-### 2. Bounded Type Parameters
-
-Restrict a type parameter to subclasses of a specific type using `:` (colon):
-
-**Modern Syntax:**
-```python
-class AnimalShelter[T: Animal]:
-    def __init__(self):
-        self._animals: list[T] = []
-
-    def add_animal(self, animal: T) -> None:
-        self._animals.append(animal)
-
-    def feed_all(self) -> None:
-        for animal in self._animals:
-            animal.eat()
-
-class Animal:
-    def eat(self):
-        print("Eating...")
-
-class Dog(Animal):
-    def bark(self):
-        print("Woof!")
-
-class Cat(Animal):
-    def meow(self):
-        print("Meow!")
-
-dog_shelter = AnimalShelter[Dog]()
-dog_shelter.add_animal(Dog())
-```
-
-**Legacy Syntax:**
-```python
-from typing import TypeVar, Generic
-
-T = TypeVar('T', bound=Animal)
-
-class AnimalShelter(Generic[T]):
-    ...
-```
-
-**Why use bounds?**
-- Ensures type parameter has specific methods/attributes
-- Type checker knows `T` supports methods from the bound class
-- Provides compile-time safety
-
-### 3. Constrained Type Parameters
-
-Limit a type parameter to a specific set of types:
-
-**Modern Syntax:**
-```python
-class Adder[T: (int, float)]:
-    def add(self, a: T, b: T) -> T:
-        return a + b
-
-int_adder = Adder[int]()
-print(int_adder.add(5, 10))
-
-float_adder = Adder[float]()
-print(float_adder.add(3.14, 2.71))
-```
-
-**Legacy Syntax:**
-```python
-from typing import TypeVar
-
-T = TypeVar('T', int, float)
-```
-
-**Difference from bounds:**
-- **Bounds:** Allow any subclass (flexible)
-- **Constraints:** Only exact types listed (restrictive)
-
-### 4. Multiple Type Parameters
-
-You can use multiple type parameters in a single class or function:
+Classes and functions can use multiple type parameters:
 
 ```python
 class KeyValueStore[K, V]:
@@ -305,11 +175,65 @@ def pair[T, U](first: T, second: U) -> tuple[T, U]:
 result = pair[str, int]("answer", 42)
 ```
 
-### 5. TypeVarTuple: Variadic Generics
+### Bounded Type Parameters
 
-For types that need an arbitrary number of type parameters:
+Restrict a type parameter to subclasses of a specific type using `:` (colon):
 
-**Modern Syntax:**
+```python
+class ConnectionPool[T: DatabaseConnection]:
+    def __init__(self, max_connections: int):
+        self._connections: list[T] = []
+        self._max_connections = max_connections
+
+    def add_connection(self, conn: T) -> None:
+        if len(self._connections) < self._max_connections:
+            self._connections.append(conn)
+
+    def close_all(self) -> None:
+        for conn in self._connections:
+            conn.close()
+
+class DatabaseConnection:
+    def close(self):
+        print("Closing connection...")
+
+class PostgresConnection(DatabaseConnection):
+    def execute_query(self, sql: str):
+        print(f"Executing: {sql}")
+
+pg_pool = ConnectionPool[PostgresConnection](max_connections=10)
+pg_pool.add_connection(PostgresConnection())
+```
+
+**Why use bounds?**
+- Ensures type parameter has specific methods/attributes
+- Type checker knows `T` supports methods from the bound class
+- Provides compile-time safety
+
+### Constrained Type Parameters
+
+Limit a type parameter to a specific set of types:
+
+```python
+class Adder[T: (int, float)]:
+    def add(self, a: T, b: T) -> T:
+        return a + b
+
+int_adder = Adder[int]()
+print(int_adder.add(5, 10))
+
+float_adder = Adder[float]()
+print(float_adder.add(3.14, 2.71))
+```
+
+**Difference from bounds:**
+- **Bounds:** Allow any subclass (flexible)
+- **Constraints:** Only exact types listed (restrictive)
+
+### Variadic Type Parameters
+
+For types that need an arbitrary number of type parameters, use `*`:
+
 ```python
 class Array[*Shape]:
     def __init__(self, data):
@@ -321,26 +245,15 @@ class Tensor[DType, *Shape]:
 tensor1 = Tensor[float, 10, 20, 30]()
 ```
 
-**Legacy Syntax:**
-```python
-from typing import TypeVarTuple, Generic
-
-Shape = TypeVarTuple('Shape')
-
-class Array(Generic[*Shape]):
-    ...
-```
-
 **Use cases:**
 - Tensor/array dimensions (NumPy, PyTorch)
 - Tuple types with unknown length
 - Function signatures with variable arguments
 
-### 6. ParamSpec: Callable Signatures
+### ParamSpec for Callables
 
-For preserving function parameter signatures in decorators:
+Preserve function parameter signatures in decorators using `**P`:
 
-**Modern Syntax:**
 ```python
 from collections.abc import Callable
 
@@ -355,34 +268,24 @@ def greet(name: str, age: int) -> str:
     return f"Hello {name}, you are {age}"
 ```
 
-**Legacy Syntax:**
-```python
-from typing import ParamSpec, TypeVar, Callable
+## Type Defaults
 
-P = ParamSpec('P')
-R = TypeVar('R')
-
-def log_call(func: Callable[P, R]) -> Callable[P, R]:
-    ...
-```
-
-## Type Defaults (PEP 696 - Python 3.13+)
-
-Python 3.13 introduced default values for type parameters, similar to default function arguments.
+Python supports default values for type parameters, similar to default function arguments.
 
 ### Basic Type Defaults
 
 ```python
-class Box[T = int]:
-    def __init__(self, value: T):
-        self.value = value
+class Response[T = dict]:
+    def __init__(self, data: T, status_code: int):
+        self.data = data
+        self.status_code = status_code
 
-box1 = Box(42)
-box2 = Box[str]("hello")
+response1 = Response({"message": "OK"}, 200)
+response2 = Response[str]("Success", 200)
 ```
 
-**Without type argument:** `Box(42)` -> `Box[int]` (uses default)
-**With type argument:** `Box[str]("hello")` -> `Box[str]` (overrides default)
+**Without type argument:** `Response({...}, 200)` -> `Response[dict]` (uses default)
+**With type argument:** `Response[str]("Success", 200)` -> `Response[str]` (overrides default)
 
 ### Default Rules
 
@@ -408,7 +311,7 @@ r2 = Range[float]()
 **Bound Compatibility:** Default must be a subtype of the bound:
 
 ```python
-class Container[T: Animal = Dog]:
+class Serializer[T: BaseModel = User]:
     pass
 ```
 
@@ -439,54 +342,48 @@ Variance describes how type parameters behave in subtyping relationships.
 ### Variance Types
 
 **Invariant (default):**
-- `Box[Dog]` is NOT a subtype of `Box[Animal]`
-- Cannot substitute even if `Dog` is a subtype of `Animal`
+- `Cache[User]` is NOT a subtype of `Cache[Person]`
+- Cannot substitute even if `User` is a subtype of `Person`
 - Used for mutable containers
 
 **Covariant:**
-- `ReadOnlyBox[Dog]` IS a subtype of `ReadOnlyBox[Animal]`
+- `Reader[User]` IS a subtype of `Reader[Person]`
 - Subtypes are preserved
 - Used for read-only containers
 
 **Contravariant:**
-- `Comparator[Animal]` IS a subtype of `Comparator[Dog]`
+- `Validator[Person]` IS a subtype of `Validator[User]`
 - Subtypes are reversed
 - Used for consumers/callbacks
 
-### Automatic Variance Inference (Python 3.12+)
+### Automatic Variance Inference
 
-**Major benefit:** Python 3.12+ infers variance automatically based on usage.
+Python infers variance automatically based on how you use type parameters:
 
 ```python
-class ReadOnlyBox[T]:
-    def __init__(self, value: T):
-        self._value = value
+class Reader[T]:
+    def __init__(self, items: list[T]):
+        self._items = items
+
+    def read(self) -> T:
+        return self._items[0]
+
+class Store[T]:
+    def __init__(self):
+        self._items: list[T] = []
 
     def get(self) -> T:
-        return self._value
+        return self._items[0]
 
-class MutableBox[T]:
-    def __init__(self, value: T):
-        self._value = value
-
-    def get(self) -> T:
-        return self._value
-
-    def set(self, value: T) -> None:
-        self._value = value
+    def add(self, item: T) -> None:
+        self._items.append(item)
 ```
 
 Type checkers analyze:
-- **ReadOnlyBox:** Only returns `T` -> **covariant**
-- **MutableBox:** Both reads and writes `T` -> **invariant**
+- **Reader:** Only returns `T` -> **covariant**
+- **Store:** Both reads and writes `T` -> **invariant**
 
-**Legacy approach required manual annotation:**
-```python
-from typing import TypeVar, Generic
-
-T_co = TypeVar('T_co', covariant=True)
-T_contra = TypeVar('T_contra', contravariant=True)
-```
+No manual variance annotation needed.
 
 ## Real-World Examples
 
@@ -631,75 +528,6 @@ errors = string_validator.validate("Hello")
 print(errors)
 ```
 
-## Visualizing Generics
-
-### Generic Class Hierarchy
-
-```mermaid
-classDiagram
-    class Container~T~ {
-        -items: list[T]
-        +add(item: T)
-        +get_all() list[T]
-    }
-
-    class Stack~T~ {
-        -items: list[T]
-        +push(item: T)
-        +pop() T
-        +peek() T
-    }
-
-    class Queue~T~ {
-        -items: list[T]
-        +enqueue(item: T)
-        +dequeue() T
-    }
-
-    Container~T~ <|-- Stack~T~
-    Container~T~ <|-- Queue~T~
-```
-
-### Type Parameter Flow
-
-```mermaid
-graph LR
-    A[Generic Class Definition<br/>class Box T ] --> B[Type Specialization<br/>Box int ]
-    B --> C[Instance Creation<br/>box = Box int 42]
-    C --> D[Type Safety<br/>box.get  returns int]
-
-    style A fill:#2196F3
-    style B fill:#4CAF50
-    style C fill:#FF9800
-    style D fill:#9C27B0
-```
-
-### Variance Relationships
-
-```mermaid
-graph TB
-    subgraph Covariant
-        A[Container Animal ] --> B[Container Dog ]
-        A --> C[Container Cat ]
-    end
-
-    subgraph Invariant
-        D[MutableBox Animal ] -.not related.-> E[MutableBox Dog ]
-    end
-
-    subgraph Contravariant
-        F[Comparator Dog ] --> G[Comparator Animal ]
-    end
-
-    style A fill:#4CAF50
-    style B fill:#8BC34A
-    style C fill:#8BC34A
-    style D fill:#FF9800
-    style E fill:#FF9800
-    style F fill:#9C27B0
-    style G fill:#BA68C8
-```
-
 ## Best Practices
 
 ### 1. Use Generics When You Have Type-Agnostic Logic
@@ -753,7 +581,7 @@ class Person[T]:
 
 Not everything needs to be generic. Use generics when you genuinely need type flexibility.
 
-### 5. Provide Sensible Defaults (Python 3.13+)
+### 5. Provide Sensible Defaults
 
 ```python
 class Response[T = dict]:
@@ -856,26 +684,12 @@ class SimpleList[T, U, V]:
 ### Pitfall 4: Ignoring Variance
 
 ```python
-def add_dog(animals: list[Animal]) -> None:
-    animals.append(Dog())
+def add_admin(users: list[User]) -> None:
+    users.append(Admin())
 
-dogs: list[Dog] = [Dog()]
-add_dog(dogs)
+admins: list[Admin] = [Admin()]
+add_admin(admins)
 ```
-
-## Comparison: Legacy vs Modern Syntax
-
-| Feature | Legacy (<=3.11) | Modern (>=3.12) |
-|---------|----------------|----------------|
-| **Class** | `class Box(Generic[T]):` | `class Box[T]:` |
-| **Function** | `def first(items: list[T]) -> T:` | `def first[T](items: list[T]) -> T:` |
-| **Type Alias** | `ListOrSet: TypeAlias = list[T] | set[T]` | `type ListOrSet[T] = list[T] | set[T]` |
-| **Bounds** | `T = TypeVar('T', bound=str)` | `class Box[T: str]:` |
-| **Constraints** | `T = TypeVar('T', int, str)` | `class Box[T: (int, str)]:` |
-| **Variadic** | `Shape = TypeVarTuple('Shape')` | `class Array[*Shape]:` |
-| **ParamSpec** | `P = ParamSpec('P')` | `def log[**P, R](f: Callable[P, R]):` |
-| **Defaults** | Not available | `class Box[T = int]:` |
-| **Variance** | `T_co = TypeVar('T_co', covariant=True)` | Automatic inference |
 
 ## When to Use Generics
 
@@ -914,11 +728,11 @@ add_dog(dogs)
 
 - Write once, use with many types
 - Type safety without code duplication
-- Python 3.12+ syntax is dramatically simpler
+- Clean syntax with `[T]` notation
 - Use bounds when you need specific methods/attributes
 - Use constraints when you need exact types
-- Variance is inferred automatically in modern Python
-- Type defaults (3.13+) provide sensible fallbacks
+- Variance is inferred automatically
+- Type defaults provide sensible fallbacks
 - Prefer generics over `Any` for type safety
 
-**Remember:** Generics make your code more flexible and maintainable while preserving type information. The new syntax in Python 3.12+ makes them easier to use than ever before. Use them when you have logic that truly works across multiple types, but don't over-complicate simple code.
+**Remember:** Generics make your code more flexible and maintainable while preserving type information. Use them when you have logic that truly works across multiple types, but don't over-complicate simple code.
