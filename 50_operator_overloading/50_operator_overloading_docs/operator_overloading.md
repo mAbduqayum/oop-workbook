@@ -71,32 +71,25 @@ Python uses special "magic methods" (also called "dunder methods" for double und
 When implementing operator overloading, you typically need:
 
 ```python
-from typing import Self
+from __future__ import annotations
 
 
 class MyClass:
     def __init__(self, value: int) -> None:
         self.value = value
     
-    def __add__(self, other: Self) -> Self:
-        """Define addition behavior"""
-        if isinstance(other, MyClass):
-            # Implement addition logic
-            return MyClass(self.value + other.value)
-        return NotImplemented
+    def __add__(self, other: MyClass) -> MyClass:
+        return MyClass(self.value + other.value)
     
     def __eq__(self, other: object) -> bool:
-        """Define equality behavior"""
         if isinstance(other, MyClass):
             return self.value == other.value
         return False
     
     def __str__(self) -> str:
-        """Human-readable representation"""
         return f"MyClass({self.value})"
     
     def __repr__(self) -> str:
-        """Developer representation"""
         return f"MyClass({self.value})"
 ```
 
@@ -142,11 +135,11 @@ Operators should do what users expect:
 
 ```python
 from typing import Self
-
+from __future__ import annotations
 
 # ✅ GOOD - Intuitive behavior
 class Point:
-    def __add__(self, other: Self) -> Self:
+    def __add__(self, other: Point) -> Point:
         """Adding points makes sense"""
         return Point(self.x + other.x, self.y + other.y)
 
@@ -162,14 +155,11 @@ class Person:
 Let Python try alternative approaches:
 
 ```python
-from typing import Self
+from __future__ import annotations
 
 
-def __add__(self, other: Self) -> Self:
-    if isinstance(other, Vector2D):
-        return Vector2D(self.x + other.x, self.y + other.y)
-    # Don't raise TypeError! Return NotImplemented
-    return NotImplemented
+def __add__(self, other: Vector2D) -> Vector2D:
+    return Vector2D(self.x + other.x, self.y + other.y)
 ```
 
 ### 3. **Be Consistent Across Related Operators**
@@ -177,17 +167,17 @@ def __add__(self, other: Self) -> Self:
 If you implement `__eq__`, consider implementing other comparisons:
 
 ```python
-from typing import Self
+from __future__ import annotations
 
 
 class Money:
     def __eq__(self, other: object) -> bool:
         return self.amount == other.amount
     
-    def __lt__(self, other: Self) -> bool:
+    def __lt__(self, other: Money) -> bool:
         return self.amount < other.amount
     
-    def __le__(self, other: Self) -> bool:
+    def __le__(self, other: Money) -> bool:
         return self.amount <= other.amount
     
     # __gt__ and __ge__ are automatically derived
@@ -212,16 +202,14 @@ def __repr__(self) -> str:
 Check types and return `NotImplemented`:
 
 ```python
-from typing import Self
+from __future__ import annotations
 
 
-def __add__(self, other: Self | int | float) -> Self:
-    if isinstance(other, Vector2D):
-        return Vector2D(self.x + other.x, self.y + other.y)
-    elif isinstance(other, (int, float)):
+def __add__(self, other: Vector2D | int | float) -> Vector2D:
+    if isinstance(other, (int, float)):
         # Maybe allow adding a scalar
         return Vector2D(self.x + other, self.y + other)
-    return NotImplemented  # Let Python handle the error
+    return Vector2D(self.x + other.x, self.y + other.y)
 ```
 
 
@@ -230,17 +218,17 @@ def __add__(self, other: Self | int | float) -> Self:
 ### ❌ Pitfall 1: Not Returning the Correct Type
 
 ```python
-from typing import Self
+from __future__ import annotations
 
 
 # BAD - Returns wrong type
 class Vector2D:
-    def __add__(self, other: Self) -> tuple:  # Wrong return type!
+    def __add__(self, other: Vector2D) -> tuple:  # Wrong return type!
         return (self.x + other.x, self.y + other.y)  # Returns tuple!
 
 # GOOD - Returns the same type
 class Vector2D:
-    def __add__(self, other: Self) -> Self:
+    def __add__(self, other: Vector2D) -> Vector2D:
         return Vector2D(self.x + other.x, self.y + other.y)
 ```
 
@@ -248,6 +236,7 @@ class Vector2D:
 
 ```python
 from typing import Self
+from __future__ import annotations
 
 
 # BAD - Modifies self
@@ -256,29 +245,27 @@ class Point:
         self.x += other.x  # Don't modify self!
         return self
 
+
 # GOOD - Creates a new object
 class Point:
-    def __add__(self, other: Self) -> Self:
+    def __add__(self, other: Self) -> Point:
         return Point(self.x + other.x, self.y + other.y)
 ```
 
 ### ❌ Pitfall 3: Raising TypeError Instead of Returning NotImplemented
 
 ```python
-from typing import Self
+from __future__ import annotations
 
 
 # BAD - Raises error immediately
 class Vector2D:
-    def __add__(self, other: Self) -> Self:
-        if not isinstance(other, Vector2D):
-            raise TypeError("Can only add Vector2D")
+    def __add__(self, other: Vector2D) -> Vector2D:
         return Vector2D(self.x + other.x, self.y + other.y)
+
 
 # GOOD - Returns NotImplemented
 class Vector2D:
-    def __add__(self, other: Self) -> Self:
-        if isinstance(other, Vector2D):
-            return Vector2D(self.x + other.x, self.y + other.y)
-        return NotImplemented  # Let Python try __radd__
+    def __add__(self, other: Vector2D) -> Vector2D:
+        return Vector2D(self.x + other.x, self.y + other.y)
 ```
