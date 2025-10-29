@@ -1,4 +1,4 @@
-from typing import Self
+from __future__ import annotations
 
 
 class Time:
@@ -12,64 +12,38 @@ class Time:
         self.minutes = remaining // 60
         self.seconds = remaining % 60
 
-    def __add__(self, other: Self | int) -> Self:
-        """Add time durations"""
-        if isinstance(other, Time):
-            return Time(
-                self.hours + other.hours,
-                self.minutes + other.minutes,
-                self.seconds + other.seconds,
-            )
-        elif isinstance(other, int):
-            return Time(self.hours, self.minutes, self.seconds + other)
-        return NotImplemented
+    def __add__(self, other: Time | int) -> Time:
+        if isinstance(other, int):
+            other = Time(seconds=other)
+        return Time(
+            self.hours + other.hours,
+            self.minutes + other.minutes,
+            self.seconds + other.seconds,
+        )
 
-    def __sub__(self, other: Self | int) -> Self:
-        """Subtract time durations"""
-        if isinstance(other, Time):
-            return Time(
-                self.hours - other.hours,
-                self.minutes - other.minutes,
-                self.seconds - other.seconds,
-            )
-        elif isinstance(other, int):
-            return Time(self.hours, self.minutes, self.seconds - other)
-        return NotImplemented
+    def __sub__(self, other: Time | int) -> Time:
+        if isinstance(other, int):
+            other = Time(seconds=other)
+        return Time(
+            self.hours - other.hours,
+            self.minutes - other.minutes,
+            self.seconds - other.seconds,
+        )
 
-    def __mul__(self, scalar: int | float) -> Self:
-        """Multiply time by a scalar"""
+    def __mul__(self, scalar: int | float) -> Time:
         if isinstance(scalar, (int, float)):
             total_sec = self.total_seconds() * scalar
             return Time(0, 0, int(total_sec))
-        return NotImplemented
 
-    def __rmul__(self, scalar: int | float) -> Self:
-        """Right multiplication"""
+    def __rmul__(self, scalar: int | float) -> Time:
         return self.__mul__(scalar)
 
-    def __truediv__(self, scalar: int | float) -> Self:
-        """Divide time by a scalar"""
+    def __truediv__(self, scalar: int | float) -> Time:
         if isinstance(scalar, (int, float)):
             if scalar == 0:
                 raise ZeroDivisionError("Cannot divide by zero")
             total_sec = self.total_seconds() / scalar
             return Time(0, 0, int(total_sec))
-        return NotImplemented
-
-    def __floordiv__(self, other: Self | int) -> int:
-        """Floor division"""
-        if isinstance(other, Time):
-            return self.total_seconds() // other.total_seconds()
-        elif isinstance(other, int):
-            return self.total_seconds() // other
-        return NotImplemented
-
-    def __mod__(self, other: Self) -> Self:
-        """Modulo operation"""
-        if isinstance(other, Time):
-            remainder = self.total_seconds() % other.total_seconds()
-            return Time(0, 0, remainder)
-        return NotImplemented
 
     def __eq__(self, other: object) -> bool:
         """Equality comparison"""
@@ -77,31 +51,28 @@ class Time:
             return self.total_seconds() == other.total_seconds()
         return False
 
-    def __lt__(self, other: Self) -> bool:
-        """Less than comparison"""
-        if isinstance(other, Time):
-            return self.total_seconds() < other.total_seconds()
-        return NotImplemented
+    def __lt__(self, other: Time) -> bool:
+        return self.total_seconds() < other.total_seconds()
 
-    def __le__(self, other: Self) -> bool:
+    def __le__(self, other: Time) -> bool:
         """Less than or equal"""
         return self < other or self == other
 
-    def __gt__(self, other: Self) -> bool:
+    def __gt__(self, other: Time) -> bool:
         """Greater than comparison"""
         if isinstance(other, Time):
             return self.total_seconds() > other.total_seconds()
         return NotImplemented
 
-    def __ge__(self, other: Self) -> bool:
+    def __ge__(self, other: Time) -> bool:
         """Greater than or equal"""
         return self > other or self == other
 
-    def __neg__(self) -> Self:
+    def __neg__(self) -> Time:
         """Negation"""
         return Time(-self.hours, -self.minutes, -self.seconds)
 
-    def __abs__(self) -> Self:
+    def __abs__(self) -> Time:
         """Absolute value"""
         total_sec = abs(self.total_seconds())
         return Time(0, 0, total_sec)

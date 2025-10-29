@@ -1,5 +1,6 @@
+from __future__ import annotations
+
 import math
-from typing import Self
 
 
 class Fraction:
@@ -17,7 +18,7 @@ class Fraction:
             self.numerator = -self.numerator
             self.denominator = -self.denominator
 
-    def __add__(self, other: Self | int) -> Self:
+    def __add__(self, other: Fraction | int) -> Fraction:
         """Add two fractions: a/b + c/d = (ad + bc)/bd"""
         if isinstance(other, Fraction):
             num = (
@@ -27,10 +28,8 @@ class Fraction:
             return Fraction(num, den)
         elif isinstance(other, int):
             return self + Fraction(other)
-        return NotImplemented
 
-    def __sub__(self, other: Self | int) -> Self:
-        """Subtract fractions"""
+    def __sub__(self, other: Fraction | int) -> Fraction:
         if isinstance(other, Fraction):
             num = (
                 self.numerator * other.denominator - other.numerator * self.denominator
@@ -39,9 +38,8 @@ class Fraction:
             return Fraction(num, den)
         elif isinstance(other, int):
             return self - Fraction(other)
-        return NotImplemented
 
-    def __mul__(self, other: Self | int) -> Self:
+    def __mul__(self, other: Fraction | int) -> Fraction:
         """Multiply fractions: (a/b) * (c/d) = (ac)/(bd)"""
         if isinstance(other, Fraction):
             return Fraction(
@@ -49,9 +47,8 @@ class Fraction:
             )
         elif isinstance(other, int):
             return Fraction(self.numerator * other, self.denominator)
-        return NotImplemented
 
-    def __truediv__(self, other: Self | int) -> Self:
+    def __truediv__(self, other: Fraction | int) -> Fraction:
         """Divide fractions: (a/b) / (c/d) = (ad)/(bc)"""
         if isinstance(other, Fraction):
             if other.numerator == 0:
@@ -63,10 +60,8 @@ class Fraction:
             if other == 0:
                 raise ZeroDivisionError("Cannot divide by zero")
             return Fraction(self.numerator, self.denominator * other)
-        return NotImplemented
 
     def __eq__(self, other: object) -> bool:
-        """Check equality"""
         if isinstance(other, Fraction):
             return (
                 self.numerator == other.numerator
@@ -76,58 +71,40 @@ class Fraction:
             return self.numerator == other and self.denominator == 1
         return False
 
-    def __lt__(self, other: Self) -> bool:
-        """Less than comparison"""
-        if isinstance(other, Fraction):
-            return (
-                self.numerator * other.denominator < other.numerator * self.denominator
-            )
-        return NotImplemented
+    def __lt__(self, other: Fraction) -> bool:
+        return self.numerator * other.denominator < other.numerator * self.denominator
 
-    def __le__(self, other: Self) -> bool:
-        """Less than or equal comparison"""
+    def __le__(self, other: Fraction) -> bool:
         return self < other or self == other
 
-    def __gt__(self, other: Self) -> bool:
-        """Greater than comparison"""
-        if isinstance(other, Fraction):
-            return (
-                self.numerator * other.denominator > other.numerator * self.denominator
-            )
-        return NotImplemented
+    def __gt__(self, other: Fraction) -> bool:
+        return self.numerator * other.denominator > other.numerator * self.denominator
 
-    def __ge__(self, other: Self) -> bool:
-        """Greater than or equal comparison"""
+    def __ge__(self, other: Fraction) -> bool:
         return self > other or self == other
 
-    def __neg__(self) -> Self:
-        """Negation: -a/b = (-a)/b"""
+    def __neg__(self) -> Fraction:
         return Fraction(-self.numerator, self.denominator)
 
-    def __abs__(self) -> Self:
-        """Absolute value: |a/b| = |a|/b"""
-        return Fraction(abs(self.numerator), self.denominator)
+    def __abs__(self) -> Fraction:
+        """Absolute value: |a/b| = |a|/|b|"""
+        return Fraction(abs(self.numerator), abs(self.denominator))
 
     def __float__(self) -> float:
-        """Convert to float"""
         return self.numerator / self.denominator
 
     def __int__(self) -> int:
-        """Convert to int (truncate)"""
         return self.numerator // self.denominator
 
     def __str__(self) -> str:
-        """Human-readable representation"""
         if self.denominator == 1:
             return str(self.numerator)
         return f"{self.numerator}/{self.denominator}"
 
     def __repr__(self) -> str:
-        """Developer representation"""
         return f"Fraction({self.numerator}, {self.denominator})"
 
-    def reciprocal(self) -> Self:
-        """Return the reciprocal: b/a"""
+    def reciprocal(self) -> Fraction:
         if self.numerator == 0:
             raise ZeroDivisionError("Cannot get reciprocal of zero")
         return Fraction(self.denominator, self.numerator)

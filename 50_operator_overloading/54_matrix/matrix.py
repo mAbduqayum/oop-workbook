@@ -1,4 +1,4 @@
-from typing import Self
+from __future__ import annotations
 
 
 class Matrix:
@@ -12,65 +12,51 @@ class Matrix:
 
     @property
     def rows(self) -> int:
-        """Return number of rows"""
         return self._rows
 
     @property
     def cols(self) -> int:
-        """Return number of columns"""
         return self._cols
 
     @property
     def shape(self) -> tuple[int, int]:
-        """Return (rows, cols) tuple"""
         return (self._rows, self._cols)
 
     def is_square(self) -> bool:
-        """Check if matrix is square"""
         return self._rows == self._cols
 
     def __getitem__(self, index: int) -> list:
-        """Access elements via matrix[i][j]"""
         return self._data[index]
 
     def __setitem__(self, index, value) -> None:
-        """Set elements via matrix[i][j] = value"""
         self._data[index] = value
 
-    def __add__(self, other: Self) -> Self:
-        """Matrix addition"""
+    def __add__(self, other: Matrix) -> Matrix:
+        if self.shape != other.shape:
+            raise ValueError("Matrices must have same dimensions for addition")
+
+        result = []
+        for i in range(self._rows):
+            row = []
+            for j in range(self._cols):
+                row.append(self[i][j] + other[i][j])
+            result.append(row)
+        return Matrix(result)
+
+    def __sub__(self, other: Matrix) -> Matrix:
+        if self.shape != other.shape:
+            raise ValueError("Matrices must have same dimensions for subtraction")
+
+        result = []
+        for i in range(self._rows):
+            row = []
+            for j in range(self._cols):
+                row.append(self[i][j] - other[i][j])
+            result.append(row)
+        return Matrix(result)
+
+    def __mul__(self, other: "Matrix | int | float") -> Matrix:
         if isinstance(other, Matrix):
-            if self.shape != other.shape:
-                raise ValueError("Matrices must have same dimensions for addition")
-
-            result = []
-            for i in range(self._rows):
-                row = []
-                for j in range(self._cols):
-                    row.append(self[i][j] + other[i][j])
-                result.append(row)
-            return Matrix(result)
-        return NotImplemented
-
-    def __sub__(self, other: Self) -> Self:
-        """Matrix subtraction"""
-        if isinstance(other, Matrix):
-            if self.shape != other.shape:
-                raise ValueError("Matrices must have same dimensions for subtraction")
-
-            result = []
-            for i in range(self._rows):
-                row = []
-                for j in range(self._cols):
-                    row.append(self[i][j] - other[i][j])
-                result.append(row)
-            return Matrix(result)
-        return NotImplemented
-
-    def __mul__(self, other: Self | int | float) -> Self:
-        """Matrix multiplication or scalar multiplication"""
-        if isinstance(other, Matrix):
-            # Matrix multiplication
             if self._cols != other._rows:
                 raise ValueError(
                     f"Incompatible dimensions: ({self._rows}x{self._cols}) * ({other._rows}x{other._cols})"
@@ -95,34 +81,25 @@ class Matrix:
                 result.append(row)
             return Matrix(result)
 
-        return NotImplemented
+    def __rmul__(self, scalar: int | float) -> Matrix:
+        return self * scalar
 
-    def __rmul__(self, scalar: int | float) -> Self:
-        """Right multiplication (scalar * matrix)"""
-        if isinstance(scalar, (int, float)):
-            return self * scalar
-        return NotImplemented
+    def __truediv__(self, scalar: int | float) -> Matrix:
+        if scalar == 0:
+            raise ZeroDivisionError("Cannot divide matrix by zero")
 
-    def __truediv__(self, scalar: int | float) -> Self:
-        """Scalar division"""
-        if isinstance(scalar, (int, float)):
-            if scalar == 0:
-                raise ZeroDivisionError("Cannot divide matrix by zero")
+        result = []
+        for i in range(self._rows):
+            row = []
+            for j in range(self._cols):
+                row.append(self[i][j] / scalar)
+            result.append(row)
+        return Matrix(result)
 
-            result = []
-            for i in range(self._rows):
-                row = []
-                for j in range(self._cols):
-                    row.append(self[i][j] / scalar)
-                result.append(row)
-            return Matrix(result)
-        return NotImplemented
-
-    def __pow__(self, exponent: int) -> Self:
-        """Matrix exponentiation"""
+    def __pow__(self, exponent: int) -> Matrix:
         if not self.is_square():
             raise ValueError("Matrix must be square for exponentiation")
-        if not isinstance(exponent, int) or exponent < 0:
+        if exponent < 0:
             raise ValueError("Exponent must be a non-negative integer")
 
         if exponent == 0:
@@ -134,19 +111,17 @@ class Matrix:
         return result
 
     def __eq__(self, other: object) -> bool:
-        """Equality comparison"""
-        if isinstance(other, Matrix):
-            if self.shape != other.shape:
-                return False
-            for i in range(self._rows):
-                for j in range(self._cols):
-                    if self[i][j] != other[i][j]:
-                        return False
-            return True
-        return False
+        if not isinstance(other, Matrix):
+            return False
+        if self.shape != other.shape:
+            return False
+        for i in range(self._rows):
+            for j in range(self._cols):
+                if self[i][j] != other[i][j]:
+                    return False
+        return True
 
-    def __neg__(self) -> Self:
-        """Negation"""
+    def __neg__(self) -> Matrix:
         result = []
         for i in range(self._rows):
             row = []
@@ -155,8 +130,7 @@ class Matrix:
             result.append(row)
         return Matrix(result)
 
-    def transpose(self) -> Self:
-        """Return transposed matrix"""
+    def transpose(self) -> Matrix:
         result = []
         for j in range(self._cols):
             row = []
@@ -166,8 +140,7 @@ class Matrix:
         return Matrix(result)
 
     @classmethod
-    def identity(cls, size: int) -> Self:
-        """Create an identity matrix of given size"""
+    def identity(cls, size: int) -> Matrix:
         data = []
         for i in range(size):
             row = []
@@ -177,9 +150,7 @@ class Matrix:
         return cls(data)
 
     def __str__(self) -> str:
-        """Human-readable string"""
         return str(self._data)
 
     def __repr__(self) -> str:
-        """Developer representation"""
         return f"Matrix({self._data})"
