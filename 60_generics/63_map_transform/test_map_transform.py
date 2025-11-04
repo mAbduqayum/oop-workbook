@@ -34,3 +34,10 @@ def test_map_transform_float_to_int():
 def test_map_transform_tuple_to_sum():
     result = map_transform([(1, 2), (3, 4), (5, 6)], lambda t: t[0] + t[1])
     assert result == [3, 7, 11]
+
+
+def test_map_transform_uses_generics():
+    assert hasattr(map_transform, "__type_params__")
+    assert len(map_transform.__type_params__) == 2
+    type_param_names = {tp.__name__ for tp in map_transform.__type_params__}
+    assert type_param_names == {"T", "U"}

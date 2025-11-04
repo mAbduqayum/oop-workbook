@@ -30,3 +30,9 @@ def test_identity_none():
 def test_identity_bool():
     assert identity(True) is True
     assert identity(False) is False
+
+
+def test_identity_uses_generics():
+    assert hasattr(identity, "__type_params__")
+    assert len(identity.__type_params__) == 1
+    assert identity.__type_params__[0].__name__ == "T"

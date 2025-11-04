@@ -185,3 +185,15 @@ def test_list_conversion():
     lst.append(2)
     lst.append(3)
     assert list(lst) == [1, 2, 3]
+
+
+def test_node_uses_generics():
+    assert hasattr(Node, "__type_params__")
+    assert len(Node.__type_params__) == 1
+    assert Node.__type_params__[0].__name__ == "T"
+
+
+def test_linked_list_uses_generics():
+    assert hasattr(LinkedList, "__type_params__")
+    assert len(LinkedList.__type_params__) == 1
+    assert LinkedList.__type_params__[0].__name__ == "T"

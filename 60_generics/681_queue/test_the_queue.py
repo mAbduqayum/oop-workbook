@@ -108,3 +108,9 @@ def test_fifo_ordering_strictly_maintained():
     assert queue.dequeue() == "A"
     assert queue.peek() == "B"
     assert queue.dequeue() == "B"
+
+
+def test_queue_uses_generics():
+    assert hasattr(Queue, "__type_params__")
+    assert len(Queue.__type_params__) == 1
+    assert Queue.__type_params__[0].__name__ == "T"

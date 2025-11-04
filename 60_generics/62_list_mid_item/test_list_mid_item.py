@@ -29,3 +29,9 @@ def test_get_mid_item_float_list():
 def test_get_mid_item_empty_list():
     with pytest.raises(ValueError, match="List is empty"):
         get_mid_item([])
+
+
+def test_get_mid_item_uses_generics():
+    assert hasattr(get_mid_item, "__type_params__")
+    assert len(get_mid_item.__type_params__) == 1
+    assert get_mid_item.__type_params__[0].__name__ == "T"

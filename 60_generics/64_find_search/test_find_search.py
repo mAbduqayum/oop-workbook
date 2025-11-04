@@ -40,3 +40,9 @@ def test_find_dict():
     dicts = [{"age": 10}, {"age": 20}, {"age": 30}]
     result = find(dicts, lambda d: d["age"] > 15)
     assert result == {"age": 20}
+
+
+def test_find_uses_generics():
+    assert hasattr(find, "__type_params__")
+    assert len(find.__type_params__) == 1
+    assert find.__type_params__[0].__name__ == "T"

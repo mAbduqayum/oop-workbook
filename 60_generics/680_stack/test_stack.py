@@ -98,3 +98,9 @@ def test_multiple_operations_maintain_order():
     assert stack.pop() == 5
     assert stack.pop() == 4
     assert stack.pop() == 2
+
+
+def test_stack_uses_generics():
+    assert hasattr(Stack, "__type_params__")
+    assert len(Stack.__type_params__) == 1
+    assert Stack.__type_params__[0].__name__ == "T"

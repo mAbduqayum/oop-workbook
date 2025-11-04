@@ -114,3 +114,10 @@ def test_custom_objects():
         orders, lambda acc, order: acc + f"{order.quantity}x {order.item}, ", "Order: "
     )
     assert summary == "Order: 2x Laptop, 5x Mouse, 3x Keyboard, "
+
+
+def test_reduce_uses_generics():
+    assert hasattr(reduce, "__type_params__")
+    assert len(reduce.__type_params__) == 2
+    type_param_names = {tp.__name__ for tp in reduce.__type_params__}
+    assert type_param_names == {"T", "U"}
