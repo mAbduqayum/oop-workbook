@@ -150,3 +150,10 @@ def test_function_with_exception():
 
     with pytest.raises(ValueError, match="test error"):
         failing_function()
+
+
+def test_timer_uses_generics():
+    assert hasattr(timer, "__type_params__")
+    assert len(timer.__type_params__) == 2
+    type_param_names = {tp.__name__ for tp in timer.__type_params__}
+    assert type_param_names == {"P", "T"}

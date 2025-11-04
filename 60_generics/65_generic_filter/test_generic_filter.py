@@ -41,3 +41,9 @@ def test_filter_items_all_match():
 def test_filter_items_empty_list():
     result = filter_items([], lambda x: True)
     assert result == []
+
+
+def test_filter_items_uses_generics():
+    assert hasattr(filter_items, "__type_params__")
+    assert len(filter_items.__type_params__) == 1
+    assert filter_items.__type_params__[0].__name__ == "T"

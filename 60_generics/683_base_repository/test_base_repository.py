@@ -172,3 +172,10 @@ def test_update_multiple_fields():
     assert updated.name == "Alicia"
     assert updated.age == 31
     assert updated.email == "alice@example.com"
+
+
+def test_base_repository_uses_generics():
+    assert hasattr(BaseRepository, "__type_params__")
+    assert len(BaseRepository.__type_params__) == 3
+    type_param_names = {tp.__name__ for tp in BaseRepository.__type_params__}
+    assert type_param_names == {"T", "TCreate", "TUpdate"}
