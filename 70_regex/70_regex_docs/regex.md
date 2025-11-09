@@ -71,6 +71,19 @@
 | `\2`            | Backreference to group 2     | `(\w+)-(\w+)-\2`           | "abc-def-def"  | Second capture reference |
 | `(?P=name)`     | Named backreference (Python) | `(?P<word>\w+)\s(?P=word)` | "test test"    | Python named reference   |
 
+## String Replacement
+
+| Pattern  | Description               | Input String    | Match Pattern   | Replacement | Result            |
+|----------|---------------------------|-----------------|-----------------|-------------|-------------------|
+| `$1`     | First captured group      | `"John Doe"`    | `(\w+) (\w+)`   | `$1`        | `"John"`          |
+| `$2`     | Second captured group     | `"John Doe"`    | `(\w+) (\w+)`   | `$2`        | `"Doe"`           |
+| `$1 $2`  | Multiple groups           | `"John Doe"`    | `(\w+) (\w+)`   | `$2, $1`    | `"Doe, John"`     |
+| `$&`     | Entire matched string     | `"Hello World"` | `World`         | `[$&]`      | `"Hello [World]"` |
+| `` $` `` | Before matched string     | `"Hello World"` | `World`         | `` $` ``    | `"Hello Hello "`  |
+| `$'`     | After matched string      | `"Hello World"` | `Hello`         | `$'`        | `" World World"`  |
+| `$+`     | Last matched group        | `"abc123def"`   | `([a-z]+)(\d+)` | `$+`        | `"abc123123def"`  |
+| `\1`     | Backreference (some impl) | `"hello world"` | `(\w+) (\w+)`   | `\2 \1`     | `"world hello"`   |
+
 ## Lookaround Assertions
 
 | Pattern               | Description         | Example                    | Matches                      | Notes                        |
