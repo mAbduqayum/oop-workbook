@@ -2,7 +2,8 @@
 
 ## What Are Dataclasses?
 
-Dataclasses are a Python feature (introduced in 3.7) that automatically generates special methods for classes that primarily store data. They significantly reduce boilerplate code.
+Dataclasses are a Python feature (introduced in 3.7) that automatically generates special methods for classes that
+primarily store data. They significantly reduce boilerplate code.
 
 ## Core Features
 
@@ -22,6 +23,7 @@ print(p)
 ```
 
 This automatically generates:
+
 - `__init__(self, x, y, label="origin")`
 - `__repr__()`
 - `__eq__()`
@@ -99,6 +101,7 @@ p = Point(1.0, 2.0)
 ```
 
 **Use Cases:**
+
 - Dictionary keys
 - Set elements
 - Thread-safe data structures
@@ -145,6 +148,7 @@ p = OptimizedPoint(1.0, 2.0)
 ```
 
 **Benefits:**
+
 - Faster attribute access
 - Reduced memory usage (20-30% savings)
 - Prevents dynamic attribute assignment
@@ -222,6 +226,7 @@ print(astuple(p))
 **Performance Note:** `asdict()` uses deep copy, which is slow for large structures.
 
 Fast alternative:
+
 ```python
 from dataclasses import fields
 
@@ -297,20 +302,21 @@ person = Person(
 
 ## Comparison with Alternatives
 
-| Feature | Dataclass | NamedTuple | Regular Class |
-|---------|-----------|------------|---------------|
-| Mutability | Mutable (default) | Immutable | Mutable |
-| Performance | Fast | Fastest | Medium |
-| Memory | Good | Best | Worst |
-| Type Hints | Yes | Yes | Optional |
-| Inheritance | Full support | Limited | Full support |
-| Default Values | Yes | Yes | Yes |
-| Post Init | Yes | No | Yes |
-| Slots | Yes (3.10+) | Automatic | Manual |
+| Feature        | Dataclass         | NamedTuple | Regular Class |
+|----------------|-------------------|------------|---------------|
+| Mutability     | Mutable (default) | Immutable  | Mutable       |
+| Performance    | Fast              | Fastest    | Medium        |
+| Memory         | Good              | Best       | Worst         |
+| Type Hints     | Yes               | Yes        | Optional      |
+| Inheritance    | Full support      | Limited    | Full support  |
+| Default Values | Yes               | Yes        | Yes           |
+| Post Init      | Yes               | No         | Yes           |
+| Slots          | Yes (3.10+)       | Automatic  | Manual        |
 
 ## When to Use Dataclasses
 
 ### Use Dataclasses When:
+
 - Creating simple data containers
 - Need automatic method generation
 - Type hints are important
@@ -320,6 +326,7 @@ person = Person(
 - Avoiding external dependencies
 
 ### Don't Use Dataclasses When:
+
 - Need data validation (use Pydantic)
 - Parsing untrusted external data (use Pydantic)
 - Need JSON schema generation (use Pydantic)
@@ -476,12 +483,14 @@ class UserCreatedEvent(Event):
 ## Performance Considerations
 
 **Creation Speed** (relative to dict = 1.0x):
+
 - Dict: 1.0x
 - Dataclass: 1.3x
 - Dataclass with slots: 1.2x
 - NamedTuple: 1.1x
 
 **Memory Usage** (per 1M instances):
+
 - Dict: ~320 MB
 - Dataclass: ~280 MB
 - Dataclass with slots: ~220 MB

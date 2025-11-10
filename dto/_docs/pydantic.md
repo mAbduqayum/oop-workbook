@@ -5,26 +5,26 @@
 - [What Is Pydantic?](#what-is-pydantic)
 - [Installation](#installation)
 - [Working With BaseModel](#working-with-basemodel)
-  - [Creating Your First Model](#creating-your-first-model)
-  - [Validation Errors](#validation-errors)
+    - [Creating Your First Model](#creating-your-first-model)
+    - [Validation Errors](#validation-errors)
 - [Serialization and Deserialization](#serialization-and-deserialization)
-  - [From/To Dictionaries](#creating-models-from-dictionaries)
-  - [From/To JSON](#creating-models-from-json)
-  - [JSON Schema Generation](#json-schema-generation)
+    - [From/To Dictionaries](#creating-models-from-dictionaries)
+    - [From/To JSON](#creating-models-from-json)
+    - [JSON Schema Generation](#json-schema-generation)
 - [Using Fields for Customization](#using-fields-for-customization)
-  - [Field Parameters](#enhanced-employee-model)
-  - [Common Constraints](#common-field-constraints)
+    - [Field Parameters](#enhanced-employee-model)
+    - [Common Constraints](#common-field-constraints)
 - [Custom Validators](#custom-validators)
-  - [Field Validators](#field-validators)
-  - [Model Validators](#model-validators)
-  - [Validation Modes](#validation-modes)
+    - [Field Validators](#field-validators)
+    - [Model Validators](#model-validators)
+    - [Validation Modes](#validation-modes)
 - [Validating Function Arguments](#validating-function-arguments)
 - [Model Configuration](#model-configuration)
 - [Advanced Features](#advanced-features)
-  - [Nested Models](#nested-models)
-  - [Computed Fields](#computed-fields)
-  - [Generic Models](#generic-models)
-  - [Union Types](#union-types)
+    - [Nested Models](#nested-models)
+    - [Computed Fields](#computed-fields)
+    - [Generic Models](#generic-models)
+    - [Union Types](#union-types)
 - [Settings Management](#managing-settings-with-pydantic-settings)
 - [Real-World Use Cases](#real-world-use-cases)
 - [Pydantic vs Dataclasses](#pydantic-vs-dataclasses)
@@ -37,9 +37,11 @@
 
 ## What Is Pydantic?
 
-Pydantic is a powerful data validation and settings management library for Python. It's the most widely used data validation library for Python, leveraging type hints to validate and serialize data schemas.
+Pydantic is a powerful data validation and settings management library for Python. It's the most widely used data
+validation library for Python, leveraging type hints to validate and serialize data schemas.
 
-**Why use Pydantic?** Python's dynamic typing is great for rapid development, but real-world applications need robust type checking and data validation.
+**Why use Pydantic?** Python's dynamic typing is great for rapid development, but real-world applications need robust
+type checking and data validation.
 
 **Key Features:**
 
@@ -63,7 +65,9 @@ uv add pydantic-settings
 
 ## Working With BaseModel
 
-Pydantic's primary way of defining data schemas is through models. A Pydantic model is an object, similar to a Python dataclass, that defines and stores data about an entity with annotated fields. Unlike dataclasses, Pydantic's focus is centered around **automatic data parsing, validation, and serialization**.
+Pydantic's primary way of defining data schemas is through models. A Pydantic model is an object, similar to a Python
+dataclass, that defines and stores data about an entity with annotated fields. Unlike dataclasses, Pydantic's focus is
+centered around **automatic data parsing, validation, and serialization**.
 
 ### Creating Your First Model
 
@@ -93,6 +97,7 @@ class Employee(BaseModel):
 ```
 
 **Key points:**
+
 - `employee_id`: Auto-generates UUID, validated format
 - `email`: Uses `EmailStr` for automatic email validation
 - `date_of_birth`: Auto-converts string dates to `date` objects
@@ -185,6 +190,7 @@ class Employee(BaseModel):
 ```
 
 **Common Field Parameters:**
+
 - `default_factory`: Callable for default values
 - `frozen`: Immutable after creation
 - `min_length` / `max_length`: String/list length
@@ -243,6 +249,7 @@ class Employee(BaseModel):
 ```
 
 **Validation modes:**
+
 - `mode='before'`: Run before Pydantic's validation
 - `mode='after'`: Run after Pydantic's validation (default)
 - `mode='wrap'`: Wrap around Pydantic's validation
@@ -454,23 +461,25 @@ def process(raw: InputData) -> ProcessedData:
 
 ## Pydantic vs Dataclasses
 
-| Feature | Pydantic | Dataclasses |
-|---------|----------|-------------|
-| **Validation** | Automatic | None |
-| **Type Coercion** | Yes | No |
-| **JSON Support** | Built-in | Manual |
-| **Performance** | Slower | ~6x faster |
-| **Use Case** | API boundaries, external data | Internal objects |
+| Feature           | Pydantic                      | Dataclasses      |
+|-------------------|-------------------------------|------------------|
+| **Validation**    | Automatic                     | None             |
+| **Type Coercion** | Yes                           | No               |
+| **JSON Support**  | Built-in                      | Manual           |
+| **Performance**   | Slower                        | ~6x faster       |
+| **Use Case**      | API boundaries, external data | Internal objects |
 
 ### When to Use Each
 
 **Use Pydantic for:**
+
 - API requests/responses
 - External data validation
 - Configuration management
 - JSON schema generation
 
 **Use Dataclasses for:**
+
 - Internal domain objects
 - Performance-critical code
 - Already-validated data
@@ -523,24 +532,28 @@ class CreateUserRequest(BaseModel):
 ## Common Pitfalls
 
 **❌ Over-validation** - Don't use Pydantic for internal objects
+
 ```python
 # Bad: BaseModel for internal objects
 # Good: Use dataclasses internally
 ```
 
 **❌ Missing constraints** - Don't rely on type hints alone
+
 ```python
 # Bad: email: str
 # Good: email: EmailStr
 ```
 
 **❌ Mutable defaults** - Use `default_factory`
+
 ```python
 # Bad: items: list[str] = []
 # Good: items: list[str] = Field(default_factory=list)
 ```
 
 **❌ Ignoring errors** - Always handle `ValidationError`
+
 ```python
 try:
     user = User(**data)
