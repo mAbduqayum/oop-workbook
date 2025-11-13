@@ -2,9 +2,11 @@
 
 ## What Are DTOs?
 
-Data Transfer Objects (DTOs) are objects designed to carry data between processes, layers, or services of an application. They focus on data structure with minimal or no behavior.
+Data Transfer Objects (DTOs) are objects designed to carry data between processes, layers, or services of an
+application. They focus on data structure with minimal or no behavior.
 
 **Key Characteristics:**
+
 - Primarily hold state (data)
 - Minimal or no business logic
 - Used for data transfer between boundaries
@@ -41,6 +43,7 @@ class UserDTO:
 ```
 
 **Advantages:**
+
 - Built into Python (no dependencies)
 - Clean, readable syntax
 - Supports immutability with `frozen=True`
@@ -58,6 +61,7 @@ class UserDTO(BaseModel):
 ```
 
 **Advantages:**
+
 - Built-in validation
 - Automatic type coercion
 - JSON serialization/deserialization
@@ -75,6 +79,7 @@ class UserDTO(NamedTuple):
 ```
 
 **Advantages:**
+
 - Guarantees immutability
 - Memory efficient
 - Lightweight and fast
@@ -163,11 +168,13 @@ def create_user(request: UserCreateRequest) -> User:
 ## DTO vs DAO Pattern
 
 ### DTO (Data Transfer Object)
+
 - Transfers data between layers
 - No database logic
 - Pure data structure
 
 ### DAO (Data Access Object)
+
 - Abstracts database access
 - Handles CRUD operations
 - Contains database logic
@@ -247,6 +254,7 @@ async def create_user(request: CreateUserRequest):
 ## Decision Guide
 
 ### Use Dataclasses When:
+
 - Internal domain objects
 - Trusted data
 - Performance is critical
@@ -254,6 +262,7 @@ async def create_user(request: CreateUserRequest):
 - No external dependencies desired
 
 ### Use Pydantic When:
+
 - API request/response models
 - Untrusted external data
 - Need validation and type coercion
@@ -261,6 +270,7 @@ async def create_user(request: CreateUserRequest):
 - Configuration parsing
 
 ### Use NamedTuples When:
+
 - Simple, immutable data structures
 - Need guaranteed immutability
 - Maximum performance and minimal memory

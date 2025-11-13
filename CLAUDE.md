@@ -34,5 +34,6 @@ designed for learning and practice.
 5. Don't create python files and tests for docs or appendix sections
 
 ## Commands
-- `uv run`
+- `uv run filename.py` to run python files
+- `uv run pytest dir/` to run pytest in specific directory
 - `git mv` to reorder files. don't use temp dirs, the dirs are unique even without enumeration
