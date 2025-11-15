@@ -14,7 +14,6 @@ Create an `Address` class using Pydantic's `BaseModel` with optional fields and 
     - `country: str` - Country code (default: "US", 2 uppercase letters)
     - `apartment: str | None` - Optional apartment/unit number (default: None)
 2. Add a `full_address` property that returns the formatted complete address
-3. Add a field validator for `zip_code` to ensure it matches US zip code format
 
 **Example:**
 

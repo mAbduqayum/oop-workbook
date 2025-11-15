@@ -12,8 +12,8 @@ Create a `SearchFilter` class using Pydantic's `BaseModel` with all optional fie
     - `max_price: float | None` - Maximum price filter (must be > 0, multiple of 0.01, default: None)
     - `categories: list[str] | None` - Category filters (default: None)
     - `in_stock: bool | None` - Filter by stock availability (default: None)
-    - `sort_by: Literal["price", "name", "date"] | None` - Sort field (default: None)
-    - `sort_order: Literal["asc", "desc"] | None` - Sort direction (default: None)
+    - `sort_by` - Sort field, must be one of: "price", "name", "date", or None (default: None)
+    - `sort_order` - Sort direction, must be either "asc", "desc", or None (default: None)
 2. Add a model validator to ensure `min_price` <= `max_price` when both are provided
 3. Add a `has_filters` property that returns True if any filter is set
 4. Add a `to_query_params()` method that returns a dict of non-None values

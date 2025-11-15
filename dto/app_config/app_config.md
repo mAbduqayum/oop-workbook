@@ -18,7 +18,7 @@ variables and `.env` files.
 
 2. Create an `AppConfig` class using `BaseSettings` with the following fields:
     - `app_name: str` - Application name (default: "MyApp")
-    - `environment: ["development", "production"]` - Environment (default: "development")
+    - `environment` - Environment mode, must be either "development" or "production" (default: "development")
     - `debug: bool` - Debug mode (default: False)
     - `host: str` - Server host (default: "localhost")
     - `port: int` - Server port (1024-65535, default: 8000)
@@ -27,7 +27,7 @@ variables and `.env` files.
     - `secret_key: str` - Secret key for encryption (min 32 chars, required)
     - `max_connections: int` - Maximum database connections (must be > 0, default: 10)
     - `timeout: float` - Request timeout in seconds (must be > 0, default: 30.0)
-    - `log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]` - Logging level (default: "INFO")
+    - `log_level` - Logging level, must be one of: "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL" (default: "INFO")
 3. Configure the model to:
     - Read from `.env` file
     - Be case-insensitive for environment variable names (allows uppercase convention)

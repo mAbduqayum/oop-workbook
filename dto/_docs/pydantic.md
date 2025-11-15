@@ -75,19 +75,19 @@ Let's build a model for managing employee information in an HR system:
 
 ```python
 from datetime import date
-from enum import Enum
+from enum import StrEnum
 from uuid import UUID, uuid4
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 
-class Department(Enum):
+class Department(StrEnum):
     HR = "HR"
     SALES = "SALES"
     IT = "IT"
     ENGINEERING = "ENGINEERING"
 
 class Employee(BaseModel):
-    employee_id: UUID = uuid4()
+    employee_id: UUID = Field(default_factory=uuid4)
     name: str
     email: EmailStr
     date_of_birth: date
@@ -165,6 +165,16 @@ employee.model_dump_json()  # Compact JSON
 employee.model_dump_json(indent=2)  # Pretty print
 ```
 
+**Serialization Methods:**
+
+| Method | Returns | Common Parameters | Use Case |
+|--------|---------|-------------------|----------|
+| `model_dump()` | `dict` | `exclude`, `include`, `exclude_unset`, `mode` | Python dict for internal use |
+| `model_dump_json()` | `str` | `exclude`, `include`, `indent` | JSON string for APIs |
+| `model_validate()` | Model | - | Create from dict with validation |
+| `model_validate_json()` | Model | - | Create from JSON string |
+| `model_json_schema()` | `dict` | `mode`, `ref_template` | Generate JSON schema for docs |
+
 ### JSON Schema Generation
 
 ```python
@@ -191,14 +201,18 @@ class Employee(BaseModel):
 
 **Common Field Parameters:**
 
-- `default_factory`: Callable for default values
-- `frozen`: Immutable after creation
-- `min_length` / `max_length`: String/list length
-- `pattern`: Regex validation
-- `alias`: Alternative field name
-- `gt` / `ge` / `lt` / `le`: Numeric constraints
-- `repr`: Show in representation
-- `description`: Documentation
+| Parameter | Description | Example |
+|-----------|-------------|---------|
+| `default_factory` | Callable for default values | `Field(default_factory=list)` |
+| `frozen` | Immutable after creation | `Field(frozen=True)` |
+| `min_length` / `max_length` | String/list length constraints | `Field(min_length=1, max_length=100)` |
+| `pattern` | Regex validation | `Field(pattern=r'^[A-Z]{3}$')` |
+| `alias` | Alternative field name for input | `Field(alias='birth_date')` |
+| `gt` / `ge` / `lt` / `le` | Numeric constraints (greater/less than) | `Field(gt=0, le=100)` |
+| `repr` | Show in string representation | `Field(repr=False)` |
+| `description` | Documentation for field | `Field(description='User email')` |
+| `examples` | Example values for docs | `Field(examples=['user@example.com'])` |
+| `exclude` | Exclude from serialization | `Field(exclude=True)` |
 
 ### Using Aliases and Frozen Fields
 
@@ -216,16 +230,52 @@ employee.name = "New Name"  # Error: Field is frozen
 
 ```python
 class Product(BaseModel):
+    sku: str = Field(pattern=r'^[A-Z]{3}-\d{4}$')
     name: str = Field(min_length=1, max_length=100)
     price: float = Field(gt=0, multiple_of=0.01)
-    sku: str = Field(pattern=r'^[A-Z]{3}-\d{4}$')
-    
+
 class Contact(BaseModel):
     email: EmailStr  # Auto-validates email
     website: HttpUrl  # Auto-validates URL
     created_at: datetime  # Parses datetime strings
     score: PositiveFloat  # Must be > 0
 ```
+
+**Pydantic Special Types:**
+
+| Type | Validates | Example Usage | Requires |
+|------|-----------|---------------|----------|
+| `EmailStr` | Valid email format | `email: EmailStr` | `pydantic[email]` |
+| `HttpUrl` | Valid HTTP/HTTPS URL | `website: HttpUrl` | Built-in |
+| `AnyUrl` | Any valid URL | `link: AnyUrl` | Built-in |
+| `FilePath` | Existing file path | `config: FilePath` | Built-in |
+| `DirectoryPath` | Existing directory | `data_dir: DirectoryPath` | Built-in |
+| `PositiveInt` | Integer > 0 | `count: PositiveInt` | Built-in |
+| `NegativeInt` | Integer < 0 | `deficit: NegativeInt` | Built-in |
+| `PositiveFloat` | Float > 0 | `price: PositiveFloat` | Built-in |
+| `NegativeFloat` | Float < 0 | `loss: NegativeFloat` | Built-in |
+| `UUID` | Valid UUID | `id: UUID` | Built-in |
+| `Json` | JSON string | `data: Json` | Built-in |
+| `SecretStr` | String hidden in repr | `password: SecretStr` | Built-in |
+| `IPvAnyAddress` | IPv4 or IPv6 address | `ip: IPvAnyAddress` | Built-in |
+
+**Field Constraint Types:**
+
+| Constraint | Applies To | Description | Example |
+|------------|------------|-------------|---------|
+| `gt` | Numbers | Greater than | `Field(gt=0)` |
+| `ge` | Numbers | Greater than or equal | `Field(ge=0)` |
+| `lt` | Numbers | Less than | `Field(lt=100)` |
+| `le` | Numbers | Less than or equal | `Field(le=100)` |
+| `multiple_of` | Numbers | Must be multiple of value | `Field(multiple_of=0.01)` |
+| `min_length` | Strings, Lists | Minimum length | `Field(min_length=1)` |
+| `max_length` | Strings, Lists | Maximum length | `Field(max_length=100)` |
+| `pattern` | Strings | Regex pattern match | `Field(pattern=r'^\d{3}$')` |
+| `allow_inf_nan` | Floats | Allow infinity/NaN | `Field(allow_inf_nan=True)` |
+| `max_digits` | Decimals | Maximum digits | `Field(max_digits=5)` |
+| `decimal_places` | Decimals | Decimal places | `Field(decimal_places=2)` |
+| `strict` | All | Disable type coercion | `Field(strict=True)` |
+| `discriminator` | Unions | Field for union discrimination | `Field(discriminator='type')` |
 
 ## Custom Validators
 
@@ -248,11 +298,13 @@ class Employee(BaseModel):
         return v
 ```
 
-**Validation modes:**
+**Validation Modes:**
 
-- `mode='before'`: Run before Pydantic's validation
-- `mode='after'`: Run after Pydantic's validation (default)
-- `mode='wrap'`: Wrap around Pydantic's validation
+| Mode | Timing | Use Case | Input Type |
+|------|--------|----------|------------|
+| `'before'` | Before Pydantic's validation | Pre-process raw input data | Raw input (any type) |
+| `'after'` | After Pydantic's validation (default) | Validate already-parsed data | Parsed type (e.g., `date`) |
+| `'wrap'` | Wraps Pydantic's validation | Control validation flow, conditional logic | Requires validator handler |
 
 ### Model Validators
 
@@ -310,7 +362,20 @@ class StrictUser(BaseModel):
     name: str
 ```
 
-**Common options:** `strict`, `extra`, `frozen`, `validate_assignment`, `from_attributes`, `populate_by_name`
+**Common Configuration Options:**
+
+| Option | Description | Values | Default |
+|--------|-------------|--------|---------|
+| `strict` | Disable type coercion | `True` / `False` | `False` |
+| `extra` | Handle extra fields | `'allow'`, `'forbid'`, `'ignore'` | `'ignore'` |
+| `frozen` | Make model immutable | `True` / `False` | `False` |
+| `validate_assignment` | Validate on field updates | `True` / `False` | `False` |
+| `from_attributes` | Enable ORM mode | `True` / `False` | `False` |
+| `populate_by_name` | Accept alias or field name | `True` / `False` | `False` |
+| `str_strip_whitespace` | Strip strings | `True` / `False` | `False` |
+| `str_to_lower` | Convert strings to lowercase | `True` / `False` | `False` |
+| `str_to_upper` | Convert strings to uppercase | `True` / `False` | `False` |
+| `use_enum_values` | Use enum values in serialization | `True` / `False` | `False` |
 
 ## Custom Serialization
 
