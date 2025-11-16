@@ -1,5 +1,5 @@
 import pytest
-from geo_location import GeoLocation
+from geo_location import GeoLocation, distance_to
 from pydantic import ValidationError
 
 
@@ -12,29 +12,29 @@ def test_geo_location_basic():
 
 def test_distance_to_same_location():
     location = GeoLocation(latitude=40.7128, longitude=-74.0060, name="New York City")
-    distance = location.distance_to(location)
+    distance = distance_to(location, location)
     assert distance == 0.0
 
 
 def test_distance_new_york_to_los_angeles():
     new_york = GeoLocation(latitude=40.7128, longitude=-74.0060, name="New York City")
     los_angeles = GeoLocation(latitude=34.0522, longitude=-118.2437, name="Los Angeles")
-    distance = new_york.distance_to(los_angeles)
+    distance = distance_to(new_york, los_angeles)
     assert 3900 < distance < 4000
 
 
 def test_distance_is_symmetric():
     new_york = GeoLocation(latitude=40.7128, longitude=-74.0060, name="New York City")
     los_angeles = GeoLocation(latitude=34.0522, longitude=-118.2437, name="Los Angeles")
-    distance1 = new_york.distance_to(los_angeles)
-    distance2 = los_angeles.distance_to(new_york)
+    distance1 = distance_to(new_york, los_angeles)
+    distance2 = distance_to(los_angeles, new_york)
     assert distance1 == distance2
 
 
 def test_distance_london_to_paris():
     london = GeoLocation(latitude=51.5074, longitude=-0.1278, name="London")
     paris = GeoLocation(latitude=48.8566, longitude=2.3522, name="Paris")
-    distance = london.distance_to(paris)
+    distance = distance_to(london, paris)
     assert 330 < distance < 350
 
 

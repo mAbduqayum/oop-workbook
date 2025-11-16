@@ -18,7 +18,6 @@ def test_valid_paginated_response():
     products = [
         Product(
             id=uuid4(),
-            sku="LAP-1001",
             name="Laptop",
             price=999.99,
             quantity=10,
@@ -26,7 +25,6 @@ def test_valid_paginated_response():
         ),
         Product(
             id=uuid4(),
-            sku="MOU-2001",
             name="Mouse",
             price=29.99,
             quantity=50,
@@ -103,7 +101,6 @@ def test_serialization():
     products = [
         Product(
             id=uuid4(),
-            sku="LAP-1001",
             name="Laptop",
             price=999.99,
             quantity=10,

@@ -1,16 +1,16 @@
 # GeoLocation - Coordinate Validation and Distance Calculation
 
-## Exercise: GeoLocation Model with Distance Methods
+## Exercise: GeoLocation Model with Distance Function
 
-Create a `GeoLocation` class using Pydantic's `BaseModel` with coordinate validation and distance calculations.
+Create a `GeoLocation` class using Pydantic's `BaseModel` with coordinate validation and a separate distance calculation function.
 
 **Task:**
 
 1. Create a `GeoLocation` class using `BaseModel` with the following fields:
     - `latitude: float` - Latitude coordinate (-90 to 90)
     - `longitude: float` - Longitude coordinate (-180 to 180)
-1    - `name: str` - Location name (1-50 characters)
-2. Add a `distance_to(other: GeoLocation)` method that calculates distance in kilometers using the Haversine formula
+    - `name: str` - Location name (1-50 characters)
+2. Create a `distance_to(location1: GeoLocation, location2: GeoLocation)` function that calculates distance in kilometers using the Haversine formula
 3. Round the distance to 2 decimal places
 
 **Example:**
@@ -31,7 +31,7 @@ los_angeles = GeoLocation(
 )
 
 print(new_york.name)  # New York City
-distance = new_york.distance_to(los_angeles)
+distance = distance_to(new_york, los_angeles)
 print(distance)  # ~3935.75 km
 
 # Invalid latitude raises ValidationError

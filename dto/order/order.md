@@ -14,7 +14,7 @@ Create `OrderItem` and `Order` classes using Pydantic's `BaseModel` with compute
     - `id: UUID` - Order ID (UUID v4)
     - `customer: User` - Customer from the User exercise
     - `items: list[OrderItem]` - List of order items (must have at least 1 item)
-    - `status: Literal["pending", "processing", "shipped", "delivered"]` - Order status (default: "pending")
+    - `status` - Order status, must be one of: "pending", "processing", "shipped", "delivered" (default: "pending")
 4. Add a `total` property that sums all item subtotals
 5. Add an `item_count` property that returns total number of items
 
@@ -32,7 +32,6 @@ class Category(BaseModel):
 
 class Product(BaseModel):
     id: UUID
-    sku: str
     name: str
     price: float
     quantity: int
@@ -48,7 +47,6 @@ class User(BaseModel):
 # Create products
 laptop = Product(
     id=uuid4(),
-    sku="LAP-1001",
     name="Laptop",
     price=999.99,
     quantity=10,
@@ -57,7 +55,6 @@ laptop = Product(
 
 mouse = Product(
     id=uuid4(),
-    sku="MOU-2001",
     name="Mouse",
     price=29.99,
     quantity=50,

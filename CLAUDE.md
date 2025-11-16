@@ -5,35 +5,31 @@ designed for learning and practice.
 
 ## Project Structure
 
-- Each exercise is in a numbered directory
-  - `0**` class basics
-  - `1**` oop inheritance
-  - `2**` oop encapsulation
-- Exercise directories contain:
-  - `*.md` file with problem description, examples, and formulas.
-- Reference materials are in `x0_*/` directories
+```txt
+│oop-workbook
+├── chapter
+│ ├── chapter_docs
+│ ├── chapter_question
+│ │ ├── chapter_question.md
+│ │ ├── chapter_question.py
+│ │ └── test_chapter_question.py
+│ ├── ...
+│ ├── chapter_question
+```
 
-## Exercise Categories
+## Question Creation
 
-- **Basic I/O**: Hello world, user input/output
-- **Computer Science**: Arithmetic, geometry, area/perimeter calculations
-- **Mathematics**: Arithmetic, geometry, area/perimeter calculations
-- **Physics**: Free fall, ideal gas law, pressure conversions
-- **Chemistry**: Free fall, ideal gas law, pressure conversions
-- **Biology**: Free fall, ideal gas law, pressure conversions
-- **Finance**: Interest calculations, tip calculators, banking
-- **Time/Date**: Time conversions, date calculations
-- **Utilities**: Sorting, string manipulation, unit conversions
+- First create the question in `*.md` format
+- Then create the test file - `test_*.py` file
+- Then solve it in `*.py` file
+- Use `uv run pytest` command to run pytest for the question
+- make sure the examples section in the Markdown question has the right outputs shown.  
 
-## Exercise Workflow
+### Question Refactoring
 
-1. Read the `.md` file to understand requirements
-2. Create `*.py` and solve the question 
-3. Create `test_*.py` and unit test the solution
-4. Don't write comments/docs in solutions/tests.
-5. Don't create python files and tests for docs or appendix sections
+- update all three files if necessary
 
 ## Commands
+
 - `uv run filename.py` to run python files
-- `uv run pytest dir/` to run pytest in specific directory
-- `git mv` to reorder files. don't use temp dirs, the dirs are unique even without enumeration
+- `git mv` to move files around
