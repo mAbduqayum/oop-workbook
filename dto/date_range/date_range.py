@@ -21,7 +21,13 @@ class DateRange(BaseModel):
 
 
 if __name__ == "__main__":
+    from datetime import date
+
     date_range = DateRange(start_date=date(2024, 1, 1), end_date=date(2024, 12, 31))
-    print(f"Start: {date_range.start_date}")
-    print(f"End: {date_range.end_date}")
-    print(f"Duration: {date_range.duration} days")
+    print(date_range.start_date)  # 2024-01-01
+    print(date_range.duration)  # 366
+
+    # Invalid range raises ValidationError
+    DateRange(
+        start_date=date(2024, 12, 31), end_date=date(2024, 1, 1)
+    )  # ValidationError
