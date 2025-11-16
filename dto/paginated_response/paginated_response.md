@@ -20,10 +20,12 @@ paginated API responses.
 ```python
 from pydantic import BaseModel
 
+
 class Product(BaseModel):
     id: int
     name: str
     price: float
+
 
 products = [
     Product(id=1, name="Laptop", price=999.99),
