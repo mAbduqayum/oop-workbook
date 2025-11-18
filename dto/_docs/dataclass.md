@@ -12,11 +12,13 @@ primarily store data. They significantly reduce boilerplate code.
 ```python
 from dataclasses import dataclass
 
+
 @dataclass
 class Point:
     x: float
     y: float
     label: str = "origin"
+
 
 p = Point(1.5, 2.5)
 print(p)
@@ -36,6 +38,7 @@ class Product:
     name: str
     price: float
 
+
 p1 = Product("Laptop", 999.99)
 p2 = Product("Laptop", 999.99)
 
@@ -50,6 +53,7 @@ print(p1 == p2)
 ```python
 from dataclasses import dataclass
 
+
 @dataclass
 class Student:
     name: str
@@ -63,11 +67,13 @@ class Student:
 ```python
 from dataclasses import dataclass, field
 
+
 @dataclass
 class Config:
     name: str
     tags: list[str] = field(default_factory=list)
     metadata: dict[str, str] = field(default_factory=dict)
+
 
 @dataclass
 class Secret:
@@ -97,6 +103,7 @@ class Point:
     x: float
     y: float
 
+
 p = Point(1.0, 2.0)
 ```
 
@@ -113,6 +120,7 @@ class Coordinate:
     lat: float
     lon: float
 
+
 locations = {
     Coordinate(40.7128, -74.0060): "New York",
     Coordinate(51.5074, -0.1278): "London",
@@ -126,6 +134,7 @@ locations = {
 class Task:
     priority: int
     name: str = field(compare=False)
+
 
 tasks = [
     Task(3, "Low priority"),
@@ -144,6 +153,7 @@ class OptimizedPoint:
     x: float
     y: float
 
+
 p = OptimizedPoint(1.0, 2.0)
 ```
 
@@ -160,6 +170,7 @@ p = OptimizedPoint(1.0, 2.0)
 ```python
 from dataclasses import dataclass, field
 
+
 @dataclass
 class Rectangle:
     width: float
@@ -169,6 +180,7 @@ class Rectangle:
     def __post_init__(self):
         self.area = self.width * self.height
 
+
 r = Rectangle(5.0, 3.0)
 print(r.area)
 ```
@@ -177,6 +189,7 @@ print(r.area)
 
 ```python
 from dataclasses import dataclass, InitVar, field
+
 
 @dataclass
 class DatabaseRecord:
@@ -201,6 +214,7 @@ class ProcessedData:
     def __post_init__(self):
         object.__setattr__(self, 'processed', self.raw_value.upper())
 
+
 data = ProcessedData("hello")
 print(data.processed)
 ```
@@ -212,11 +226,13 @@ print(data.processed)
 ```python
 from dataclasses import dataclass, asdict, astuple
 
+
 @dataclass
 class Person:
     name: str
     age: int
     city: str
+
 
 p = Person("Alice", 30, "NYC")
 print(asdict(p))
@@ -260,9 +276,11 @@ class Animal:
     name: str
     age: int
 
+
 @dataclass
 class Dog(Animal):
     breed: str
+
 
 dog = Dog("Buddy", 5, "Golden Retriever")
 ```
@@ -272,9 +290,11 @@ dog = Dog("Buddy", 5, "Golden Retriever")
 ```python
 from dataclasses import dataclass
 
+
 @dataclass
 class Box[T]:
     value: T
+
 
 int_box = Box[int](42)
 str_box = Box[str]("hello")
@@ -289,10 +309,12 @@ class Address:
     city: str
     country: str
 
+
 @dataclass
 class Person:
     name: str
     address: Address
+
 
 person = Person(
     name="Alice",
@@ -392,6 +414,7 @@ class User:
 class Bad:
     items: list[str] = []
 
+
 @dataclass
 class Good:
     items: list[str] = field(default_factory=list)
@@ -404,6 +427,7 @@ class Good:
 class Point:
     x: float
     y: float
+
 
 p = Point(1.0, 2.0)
 
@@ -433,6 +457,7 @@ class Order:
     total: float
     status: str = "pending"
 
+
 @dataclass(frozen=True)
 class OrderItem:
     product_id: int
@@ -452,6 +477,7 @@ class DatabaseConfig:
     password: str = field(repr=False)
     pool_size: int = 10
 
+
 config = DatabaseConfig(
     host="localhost",
     port=5432,
@@ -467,12 +493,14 @@ config = DatabaseConfig(
 from dataclasses import dataclass
 from datetime import datetime
 
+
 @dataclass(frozen=True, slots=True)
 class Event:
     event_id: int
     event_type: str
     timestamp: datetime
     payload: dict[str, str]
+
 
 @dataclass(frozen=True, slots=True)
 class UserCreatedEvent(Event):

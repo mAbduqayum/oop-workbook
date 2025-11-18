@@ -25,10 +25,12 @@ from pydantic import BaseModel
 from typing import Literal
 from uuid import UUID, uuid4
 
+
 # From previous exercises
 class Category(BaseModel):
     id: int
     name: str
+
 
 class Product(BaseModel):
     id: UUID
@@ -37,12 +39,14 @@ class Product(BaseModel):
     quantity: int
     categories: list[Category]
 
+
 class User(BaseModel):
     id: UUID
     username: str
     email: str
     age: int
     is_active: bool = True
+
 
 # Create products
 laptop = Product(

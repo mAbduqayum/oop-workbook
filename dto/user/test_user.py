@@ -70,7 +70,12 @@ def test_json_serialization():
 
 def test_model_validate():
     user_id = uuid4()
-    data = {"id": str(user_id), "username": "john_doe", "email": "john@example.com", "age": 25}
+    data = {
+        "id": str(user_id),
+        "username": "john_doe",
+        "email": "john@example.com",
+        "age": 25,
+    }
     user = User.model_validate(data)
     assert user.id == user_id
     assert user.username == "john_doe"

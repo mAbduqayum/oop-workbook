@@ -2,7 +2,8 @@
 
 ## Exercise: GeoLocation Model with Distance Function
 
-Create a `GeoLocation` class using Pydantic's `BaseModel` with coordinate validation and a separate distance calculation function.
+Create a `GeoLocation` class using Pydantic's `BaseModel` with coordinate validation and a separate distance calculation
+function.
 
 **Task:**
 
@@ -10,7 +11,8 @@ Create a `GeoLocation` class using Pydantic's `BaseModel` with coordinate valida
     - `latitude: float` - Latitude coordinate (-90 to 90)
     - `longitude: float` - Longitude coordinate (-180 to 180)
     - `name: str` - Location name (1-50 characters)
-2. Create a `distance_to(location1: GeoLocation, location2: GeoLocation)` function that calculates distance in kilometers using the Haversine formula
+2. Create a `distance_to(location1: GeoLocation, location2: GeoLocation)` function that calculates distance in
+   kilometers using the Haversine formula
 3. Round the distance to 2 decimal places
 
 **Example:**
